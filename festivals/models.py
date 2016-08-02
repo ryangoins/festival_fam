@@ -8,6 +8,12 @@ class Event(models.Model):
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     location = models.CharField(max_length=255)
+    logo = models.ImageField(default='', blank=True)
+    twitter = models.URLField(default='', blank=True)
+    facebook = models.URLField(default='', blank=True)
+    snapchat = models.URLField(default='', blank=True)
+    faq_site = models.URLField(default='', blank=True)
+    homepage = models.URLField(default='', blank=True)
     registration_site = models.URLField()
 
     def __str__(self):
