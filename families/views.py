@@ -16,11 +16,10 @@ def group_detail(request, pk):
 
 def group_list(request, username):
     username = get_object_or_404(models.User, username=username)
-    user_pk = username.pk
-    authd_pk = request.user.pk
+    authd_user = request.user
     groups = models.Group.objects.filter(user=username)
     #compares the users pk to the pk of the user requested
-    if user_pk == authd_pk:
+    if username == authd_user:
         return render(request, 'families/group_list.html', {'username': username,
                                                             'groups': groups})
     else:
