@@ -7,4 +7,5 @@ from . import models
 
 urlpatterns = [
     url(r'(?P<pk>\d+)/$', views.group_detail, name='detail'),
+    url(r'^user/(?P<username>[\w.@+-]+)/$', views.group_list, name='group_list')
 ]

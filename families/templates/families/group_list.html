@@ -1,1 +1,10 @@
+<!--this template displays a list of groups that the user belongs to -->
 {% extends "base.html" %}
+{% block content %}
+<h1>Your Festival Fams</h1>
+<ul>
+    {% for group in groups %}
+        <li>{{ group.title }}</li>
+    {% endfor %}
+</ul>
+{% endblock content %}
