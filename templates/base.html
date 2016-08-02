@@ -5,6 +5,13 @@
     <head>
         <title>{% block title %}{% endblock %}</title>
         <link rel="stytlesheet" href="{% static 'css/layout.css' %}">
+        <nav>
+            {% if user.is_authenticated %}
+                <p>Hi, {{ user.first_name }}. <a href="{% url 'accounts:logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'accounts:login' %}">Login</a>
+            {% endif %}
+        </nav>
     </head>
     <body>
         <div class="site-container">

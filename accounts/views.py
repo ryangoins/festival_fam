@@ -17,6 +17,3 @@ class AddUser(CreateView):
         profile.userName = User.objects.get(username= user.username)
         profile.save()
         return HttpResponseRedirect(reverse('home'))
-
-def login(request, template_name='accounts/login.html'):
-    pass
