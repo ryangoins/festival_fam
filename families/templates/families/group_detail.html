@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ group.title }}</h1>
+<h2>Description</h2>
+{{ group.description }}
+<h2>Members</h2>
+<ul>
+    {% for member in members %}
+        <li>{{ member.user.first_name }} {{ member.user.last_name }}</li>
+    {% endfor %}
+</ul>
+<h2>Event Details</h2>
+<p><strong>Festival: </strong>{{ group.event.name }}
+<p><strong>Location: </strong>{{ group.event.location }}</p>
+<a href="{{ group.event.registration_site }}">Buy Tickets</a>
+{% endblock content %}
