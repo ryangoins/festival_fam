@@ -1,8 +1,9 @@
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import views
 from .models import *
 from .forms import *
 
@@ -16,3 +17,6 @@ class AddUser(CreateView):
         profile.userName = User.objects.get(username= user.username)
         profile.save()
         return HttpResponseRedirect(reverse('home'))
+
+def login(request, template_name='accounts/login.html'):
+    pass
