@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Events {{ username|title }} is attenting</h1>
+<ul>
+    {% for group in groups %}
+        <li>{{ group.event.name }}</li>
+    {% endfor %}
+</ul>
+
+{% endblock content %}

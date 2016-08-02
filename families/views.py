@@ -1,4 +1,5 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 from . import models
 # Create your views here.
@@ -11,9 +12,21 @@ def group_detail(request, pk):
     #else:
     #    return render(request, 'families/public_group_detail.html', {'group': group})
 
+#check the username in an url slug and ensure it's the same as the logged in user
+
 def group_list(request, username):
     username = get_object_or_404(models.User, username=username)
+    user_pk = username.pk
+    authd_pk = request.user.pk
     groups = models.Group.objects.filter(user=username)
+    #compares the users pk to the pk of the user requested
+    if user_pk == authd_pk:
+        return render(request, 'families/group_list.html', {'username': username,
+                                                            'groups': groups})
+    else:
+        return render(request, 'families/event_list.html', {'username': username,
+                                                           'groups': groups})
 
-    return render(request, 'families/group_list.html', {'username': username,
-                                                        'groups': groups})
+def private_groups(request):
+    username = request.user.get_username()
+    return render(request, 'families/private_groups.html', {'username': username} )
