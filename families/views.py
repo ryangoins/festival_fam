@@ -27,17 +27,17 @@ def group_list(request, username):
                                                            'groups': groups})
 @login_required
 def create_group(request):
-    
+
     if request.method == "POST":
         form = CreateGroupForm(request.POST)
         if form.is_valid():
             # commit=False means the form doesn't save at this time.
             # commit defaults to True which means it normally saves.
-            model_instance = form.save(commit=False)
-            model_instance.timestamp = timezone.now()
-            model_instance.save()
+            new_group = form.save(commit=False)
+            new_group.created_at = timezone.now()
+            new_group.save()
             form.save_m2m()
-            return redirect('home')
+            return HttpResponseRedirect(reverse('families:detail', args=(new_group.pk,)))
     else:
         form = CreateGroupForm()
 
