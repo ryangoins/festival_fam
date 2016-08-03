@@ -1,0 +1,26 @@
+.hero-unit {
+    background-image:url('../media/carousel/field.jpg');
+    background-size:cover;
+    background-color: #EEEEEE;
+    height:400px;
+    text-align: center;
+    margin-bottom: 30px;
+
+  }
+.hero-unit h1 {
+    color: white;
+    font-size: 60px;
+    letter-spacing: -1px;
+    line-height: 1;
+    margin-bottom: 0;
+    padding: 80px 0 20px 0;
+}
+.hero-unit h2 {
+    font-size: 25px;
+    color: white;
+
+}
+
+.hero-unit p {
+    color: white;
+}
