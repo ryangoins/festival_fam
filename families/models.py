@@ -18,4 +18,4 @@ class Membership(models.Model):
     user = models.ForeignKey(User)
     group = models.ForeignKey(Group)
     date_joined = models.DateField()
-    invite_reason = models.CharField(max_length=64)
+    invite_reason = models.CharField(default='', blank=True, max_length=64)

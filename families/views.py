@@ -30,6 +30,7 @@ def create_group(request):
 
     if request.method == "POST":
         form = CreateGroupForm(request.POST)
+        user = request.user
         if form.is_valid():
             # commit=False means the form doesn't save at this time.
             # commit defaults to True which means it normally saves.
@@ -37,6 +38,8 @@ def create_group(request):
             new_group.created_at = timezone.now()
             new_group.save()
             form.save_m2m()
+            new_membership = models.Membership.objects.create(user=user, group=new_group, date_joined=timezone.now(), )
+            new_membership.save()
             return HttpResponseRedirect(reverse('families:detail', args=(new_group.pk,)))
     else:
         form = CreateGroupForm()
