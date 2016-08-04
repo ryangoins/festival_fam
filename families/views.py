@@ -13,12 +13,14 @@ from families.forms import CreateGroupForm
 @login_required
 def group_detail(request, pk):
     group = get_object_or_404(models.Group, pk=pk)
-    members = models.Membership.objects.filter(group_id=pk)
-    user_list = models.User.objects.filter(group=pk)
+    #members = models.Membership.objects.filter(group_id=pk)
+    members = models.User.objects.filter(group=pk)
     #if request.user.id in members.user.id:
-    if request.user in user_list:
+    if request.user in members:
         return render(request, 'families/group_detail.html', {'group': group,
                                                             'members': members})
+    elif request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('home',))
     else:
         messages.add_message(request, messages.ERROR,
                                 'Please login')
