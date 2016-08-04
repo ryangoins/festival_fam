@@ -4,16 +4,27 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils import timezone
+from django.contrib.auth.decorators import user_passes_test
 
 from . import models
 from families.forms import CreateGroupForm
 # Create your views here.
+
+@login_required
 def group_detail(request, pk):
     group = get_object_or_404(models.Group, pk=pk)
     members = models.Membership.objects.filter(group_id=pk)
+    user_list = models.User.objects.filter(group=pk)
     #if request.user.id in members.user.id:
-    return render(request, 'families/group_detail.html', {'group': group,
-                                                          'members': members})
+    if request.user in user_list:
+        return render(request, 'families/group_detail.html', {'group': group,
+                                                            'members': members})
+    else:
+        messages.add_message(request, messages.ERROR,
+                                'Please login')
+        return HttpResponseRedirect(reverse('accounts:login',))
+
+
 def group_list(request, username):
     username = get_object_or_404(models.User, username=username)
     authd_user = request.user
