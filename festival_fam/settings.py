@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'fluent_comments',
+    'crispy_forms',
     'threadedcomments',
     'django.contrib.sites',
     'django_comments',
@@ -48,7 +50,7 @@ INSTALLED_APPS = [
 
 ]
 
-COMMENTS_APP = 'threadedcomments'
+COMMENTS_APP = 'fluent_comments'
 
 #SOCIAL AUTH SETTINGS
 

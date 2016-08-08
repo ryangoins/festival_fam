@@ -1,5 +1,8 @@
 {% extends "base.html" %}
-{% load threadedcomments_tags %}
+{% load staticfiles %}
+{% load comments %}
+<link rel="stylesheet" type="text/css" href="{% static 'fluent_comments/css/ajaxcomments.css' %}" />
+<script type="text/javascript" src="{% static 'fluent_comments/js/ajaxcomments.js' %}"></script>
 {% block content %}
 <h1>{{ group.title }}</h1>
 <h2>Description</h2>
