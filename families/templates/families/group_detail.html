@@ -1,8 +1,25 @@
 {% extends "base.html" %}
+{% load comments %}
 {% block content %}
 <h1>{{ group.title }}</h1>
 <h2>Description</h2>
 {{ group.description }}
+<h2>Post Comment</h2>
+{% render_comment_form for group%}
+<table>
+  <form action="{% comment_form_target %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <tr>
+      <td colspan="2">
+        <input type="submit" name="submit" value="Post">
+        <input type="submit" name="preview" value="Preview">
+      </td>
+    </tr>
+  </form>
+</table>
+<h2>All Comments</h2>
+{% render_comment_list for group %}
 <h2>Members</h2>
 <ul>
     {% for member in members %}
