@@ -13,10 +13,10 @@ from families.forms import CreateGroupForm
 @login_required
 def group_detail(request, pk):
     group = get_object_or_404(models.Group, pk=pk)
-    #members = models.Membership.objects.filter(group_id=pk)
     members = models.User.objects.filter(group=pk)
+    user = request.user
     #if request.user.id in members.user.id:
-    if request.user in members:
+    if user.is_authenticated() and user in members:
         return render(request, 'families/group_detail.html', {'group': group,
                                                             'members': members})
     elif request.user.is_authenticated():
@@ -28,11 +28,11 @@ def group_detail(request, pk):
 
 
 def group_list(request, username):
+    #for some reason if I change the username variable this doesn't work. can't figure it out. 
     username = get_object_or_404(models.User, username=username)
-    authd_user = request.user
     groups = models.Group.objects.filter(user=username)
     #compares the users pk to the pk of the user requested
-    if username == authd_user:
+    if username == request.user:
         return render(request, 'families/group_list.html', {'username': username,
                                                             'groups': groups})
     else:

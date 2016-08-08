@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django_comments',
     #'social.apps.django_app.default',
     'betterforms',
     'accounts',
@@ -186,6 +188,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
+
+SITE_ID = 1
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
