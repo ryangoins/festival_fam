@@ -49,7 +49,7 @@ def list_lists(request):
     if request.user.is_superuser:
         list_list = List.objects.all().order_by('group', 'name')
     else:
-        list_list = List.objects.filter(group__in=request.user.groups.all()).order_by('group', 'name')
+            list_list = List.objects.filter(groups__in=request.user.groups.all()).order_by('group', 'name')
 
     list_count = list_list.count()
 
@@ -57,7 +57,7 @@ def list_lists(request):
     if request.user.is_superuser:
         item_count = Item.objects.filter(completed=0).count()
     else:
-        item_count = Item.objects.filter(completed=0).filter(list__group__in=request.user.groups.all()).count()
+        item_count = Item.objects.filter(completed=0).filter(list__groups__in=request.user.groups.all()).count()
 
     return render(request, 'todo/list_lists.html', locals())
 
@@ -115,13 +115,13 @@ def view_list(request, list_id=0, list_slug=None, view_completed=False):
         # Only show items in lists that are in groups that the current user is also in.
         # Assume this only includes uncompleted items.
         task_list = Item.objects.filter(
-            list__group__in=(request.user.groups.all()),
+            list__groups__in=(request.user.groups.all()),
             completed=False).order_by('-created_date')[:50]
 
     elif list_slug == "recent-complete":
         # Only show items in lists that are in groups that the current user is also in.
         task_list = Item.objects.filter(
-            list__group__in=request.user.groups.all(),
+            list__groups__in=request.user.groups.all(),
             completed=True).order_by('-completed_date')[:50]
 
     else:
