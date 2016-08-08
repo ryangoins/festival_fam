@@ -12,8 +12,8 @@ from families.forms import CreateGroupForm
 
 @login_required
 def group_detail(request, pk):
-    group = get_object_or_404(models.Group, pk=pk)
-    members = models.User.objects.filter(group=pk)
+    group = get_object_or_404(models.FamilyGroup, pk=pk)
+    members = models.User.objects.filter(familygroup=pk)
     user = request.user
     #if request.user.id in members.user.id:
     if user.is_authenticated() and user in members:
@@ -28,9 +28,9 @@ def group_detail(request, pk):
 
 
 def group_list(request, username):
-    #for some reason if I change the username variable this doesn't work. can't figure it out. 
+    #for some reason if I change the username variable this doesn't work. can't figure it out.
     username = get_object_or_404(models.User, username=username)
-    groups = models.Group.objects.filter(user=username)
+    groups = models.FamilyGroup.objects.filter(user=username)
     #compares the users pk to the pk of the user requested
     if username == request.user:
         return render(request, 'families/group_list.html', {'username': username,
