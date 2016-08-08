@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'threadedcomments',
     'django.contrib.sites',
     'django_comments',
     #'social.apps.django_app.default',
@@ -46,6 +47,8 @@ INSTALLED_APPS = [
     'festivals',
 
 ]
+
+COMMENTS_APP = 'threadedcomments'
 
 #SOCIAL AUTH SETTINGS
 
