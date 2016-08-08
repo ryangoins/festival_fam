@@ -37,11 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'fluent_comments',
-    'crispy_forms',
-    'threadedcomments',
-    'django.contrib.sites',
-    'django_comments',
     #'social.apps.django_app.default',
     'betterforms',
     'accounts',
@@ -50,6 +45,15 @@ INSTALLED_APPS = [
 
 ]
 
+INSTALLED_APPS += (
+    'fluent_comments',
+    'crispy_forms',
+    'threadedcomments',
+    'django_comments',
+    'django.contrib.sites',
+)
+
+FLUENT_COMMENTS_EXCLUDE_FIELDS = ('name', 'email', 'url', 'title', 'honeypot')
 COMMENTS_APP = 'fluent_comments'
 
 #SOCIAL AUTH SETTINGS
