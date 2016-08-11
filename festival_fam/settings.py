@@ -19,6 +19,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
 SECRET_KEY = 'z!spc_d0*a+a3n65t0$qx3dod01!#&i=pji8kb1%3t_l)e#--h'
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -56,6 +59,7 @@ INSTALLED_APPS += (
 
 FLUENT_COMMENTS_EXCLUDE_FIELDS = ('name', 'email', 'url', 'title', 'honeypot')
 COMMENTS_APP = 'fluent_comments'
+CRISPY_CLASS_CONVERTERS = {'textarea': "form-control"}
 
 #SOCIAL AUTH SETTINGS
 
