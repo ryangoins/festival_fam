@@ -6,7 +6,7 @@ from django.db.models.signals import post_save
 
 # Create your models here.
 class UserProfile(models.Model):
-    userName = models.OneToOneField(User, related_name="user")
+    user = models.OneToOneField(User, related_name="userprofile")
     bio = models.TextField(default='', blank=True)
     profile_pic = models.ImageField(default='', blank=True)
     sex_choices = (('m', 'Male'), ('f', 'Female'))

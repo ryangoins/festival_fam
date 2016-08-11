@@ -7,6 +7,7 @@ from django.utils import timezone
 from django.contrib.auth.decorators import user_passes_test
 
 from . import models
+from accounts.models import UserProfile
 from families.forms import CreateGroupForm
 # Create your views here.
 
@@ -15,10 +16,13 @@ def group_detail(request, pk):
     group = get_object_or_404(models.FamilyGroup, pk=pk)
     members = models.User.objects.filter(familygroup=group)
     user = request.user
+    profile = user.userprofile
     #if request.user.id in members.user.id:
     if user.is_authenticated() and user in members:
         return render(request, 'families/group_detail.html', {'group': group,
-                                                            'members': members})
+                                                            'members': members,
+                                                            'user': user,
+                                                            'profile': profile,})
     elif request.user.is_authenticated():
         return HttpResponseRedirect(reverse('home',))
     else:
