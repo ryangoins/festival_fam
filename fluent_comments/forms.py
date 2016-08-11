@@ -1,6 +1,7 @@
 from django.core.exceptions import ImproperlyConfigured
 from crispy_forms.helper import FormHelper
 from fluent_comments import appsettings
+from crispy_forms.layout import Layout, Row, Field
 
 
 if appsettings.USE_THREADEDCOMMENTS:

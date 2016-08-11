@@ -55,11 +55,11 @@ INSTALLED_APPS += (
     'threadedcomments',
     'django_comments',
     'django.contrib.sites',
+    'widget_tweaks',
 )
 
 FLUENT_COMMENTS_EXCLUDE_FIELDS = ('name', 'email', 'url', 'title', 'honeypot')
 COMMENTS_APP = 'fluent_comments'
-CRISPY_CLASS_CONVERTERS = {'textarea': "form-control"}
 
 #SOCIAL AUTH SETTINGS
 
