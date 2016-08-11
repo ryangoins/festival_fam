@@ -22,6 +22,10 @@ class FluentCommentForm(base_class):
     helper.label_class = 'col-sm-2'
     helper.field_class = 'col-sm-10'
     helper.form_show_labels = False
+    helper.layout = Layout(
+        Field('comment',  rows="3", cols="80")
+
+    )
 
 
     def __init__(self, *args, **kwargs):
