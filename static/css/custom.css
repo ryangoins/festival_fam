@@ -29,8 +29,7 @@
     max-width: 40px;
 }
 
-.members-list li {
+.members-list span {
     float: left;
-    list-style: none;
-
+    padding: 1px;
 }

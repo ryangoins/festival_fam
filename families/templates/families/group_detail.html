@@ -67,11 +67,11 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <h2>Members</h2>
-                    <ul class="members-list">
+                    <div class="members-list">
                         {% for member in members %}
-                            <li><img class="small-avatar" src="{{ member.userprofile.profile_pic.url}}"><br/>{{ member.first_name }}</li>
+                            <span><img class="small-avatar" src="{{ member.userprofile.profile_pic.url}}"><br/>{{ member.first_name }}</span>
                         {% endfor %}
-                    </ul>
+                    </div>
                 </div>
             </div>
         </div>
