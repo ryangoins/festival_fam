@@ -8,7 +8,7 @@ from django.db.models.signals import post_save
 class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name="userprofile")
     bio = models.TextField(default='', blank=True)
-    profile_pic = models.ImageField(default='', blank=True)
+    profile_pic = models.ImageField(default='', blank=True, upload_to='media/')
     sex_choices = (('m', 'Male'), ('f', 'Female'))
     sex = models.CharField(default='', blank=True, max_length=10, choices=sex_choices,)
     phone_num = models.CharField(default='', blank=True, max_length=30)
