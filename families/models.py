@@ -6,7 +6,7 @@ from festivals.models import Event
 class FamilyGroup(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     user = models.ManyToManyField(User, through='Membership')
-    event = models.ForeignKey(Event)
+    event = models.ForeignKey(Event, related_name="event")
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, default='')
 
