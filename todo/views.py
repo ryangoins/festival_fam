@@ -19,6 +19,8 @@ from todo.forms import AddListForm, AddItemForm, EditItemForm, AddExternalItemFo
 from todo.models import Item, List, Comment
 from todo.utils import mark_done, undo_completed_task, del_tasks, send_notify_mail
 
+from families.models import FamilyGroup, Membership
+
 # Need for links in email templates
 current_site = Site.objects.get_current()
 
@@ -42,7 +44,7 @@ def list_lists(request):
     searchform = SearchForm(auto_id=False)
 
     # Make sure user belongs to at least one group.
-    if request.user.groups.all().count() == 0:
+    if request.user.membership.family_group.all().count() == 0:
         messages.error(request, "You do not yet belong to any groups. Ask your administrator to add you to one.")
 
     # Superusers see all lists
@@ -86,6 +88,7 @@ def view_list(request, list_id=0, list_slug=None, view_completed=False):
     """
     Display and manage items in a list.
     """
+    groups = FamilyGroup.objects.filter(user=request.user)
 
     # Make sure the accessing user has permission to view this list.
     # Always authorize the "mine" view. Admins can view/edit all lists.
@@ -93,7 +96,7 @@ def view_list(request, list_id=0, list_slug=None, view_completed=False):
         auth_ok = True
     else:
         list = get_object_or_404(List, id=list_id)
-        if list.group in request.user.groups.all() or request.user.is_staff or list_slug == "mine":
+        if list.group in groups or list_slug == "mine":
             auth_ok = True
         else:  # User does not belong to the group this list is attached to
             messages.error(request, "You do not have permission to view/edit this list.")
@@ -115,13 +118,13 @@ def view_list(request, list_id=0, list_slug=None, view_completed=False):
         # Only show items in lists that are in groups that the current user is also in.
         # Assume this only includes uncompleted items.
         task_list = Item.objects.filter(
-            list__groups__in=(request.user.groups.all()),
+            list__groups__in=(request.user.group.all()),
             completed=False).order_by('-created_date')[:50]
 
     elif list_slug == "recent-complete":
         # Only show items in lists that are in groups that the current user is also in.
         task_list = Item.objects.filter(
-            list__groups__in=request.user.groups.all(),
+            list__groups__in=request.user.group.all(),
             completed=True).order_by('-completed_date')[:50]
 
     else:

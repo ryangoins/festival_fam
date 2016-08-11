@@ -19,6 +19,6 @@ class FamilyGroup(models.Model):
 
 class Membership(models.Model):
     user = models.ForeignKey(User)
-    group = models.ForeignKey(FamilyGroup)
+    family_group = models.ForeignKey(FamilyGroup)
     date_joined = models.DateField()
     invite_reason = models.CharField(default='', blank=True, max_length=64)

@@ -12,7 +12,7 @@ class AddListForm(ModelForm):
     # to derive that list.
     def __init__(self, user, *args, **kwargs):
         super(AddListForm, self).__init__(*args, **kwargs)
-        self.fields['group'].queryset = Group.objects.filter(user=user)
+        self.fields['group'].queryset = FamilyGroup.objects.filter(user=user)
 
     class Meta:
         model = List
@@ -51,7 +51,7 @@ class EditItemForm(ModelForm):
     # must find other members of the groups the current list belongs to.
     def __init__(self, *args, **kwargs):
         super(EditItemForm, self).__init__(*args, **kwargs)
-        self.fields['assigned_to'].queryset = User.objects.filter(groups__in=[self.instance.list.group])
+        self.fields['assigned_to'].queryset = User.objects.filter(group__in=[self.instance.list.group])
 
     class Meta:
         model = Item

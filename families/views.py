@@ -13,7 +13,7 @@ from families.forms import CreateGroupForm
 @login_required
 def group_detail(request, pk):
     group = get_object_or_404(models.FamilyGroup, pk=pk)
-    members = models.User.objects.filter(familygroup=pk)
+    members = models.User.objects.filter(familygroup=group)
     user = request.user
     #if request.user.id in members.user.id:
     if user.is_authenticated() and user in members:
@@ -51,7 +51,7 @@ def create_group(request):
             new_group.created_at = timezone.now()
             new_group.save()
             form.save_m2m()
-            new_membership = models.Membership.objects.create(user=user, group=new_group, date_joined=timezone.now(), )
+            new_membership = models.Membership.objects.create(user=user, familygroup=new_group, date_joined=timezone.now(), )
             new_membership.save()
             return HttpResponseRedirect(reverse('families:detail', args=(new_group.pk,)))
     else:
