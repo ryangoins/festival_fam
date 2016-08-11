@@ -10,6 +10,7 @@
             <div class="row">
                 <div class="panel panel-default">
                     <div class="panel-body">
+                        <img class = "img-circle center-block" src="{{ user.userprofile.profile_pic.url }}"><br/>
                         <p><strong>Username: </strong>{{ user }}</p>
                         <p><strong>Bio: </strong>{{ profile.bio }}
                     </div>
@@ -26,8 +27,9 @@
         <div class="col-md-3">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <h2>Event Details</h2>
-                    <p><strong>Festival: </strong>{{ group.event.name }}
+                    <h2>{{ group.event.name }}</h2>
+                    <h4>{{ group.event.start_date }} - {{ group.event.end_date }}</h4>
+                    <p>{{ group.event.description }}</p>
                     <p><strong>Location: </strong>{{ group.event.location }}</p>
                     <a href="{{ group.event.registration_site }}">Buy Tickets</a>
                 </div>
@@ -45,16 +47,15 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <h1>{{ group.title }}</h1>
-                    <h2>Description</h2>
                     <p>{{ group.description }}</p>
                 </div>
             </div>
             <div class="panel panel-default">
                 <div class="panel-body">
                     <h2>Members</h2>
-                    <ul>
+                    <ul class="members-list">
                         {% for member in members %}
-                            <li>{{ member.first_name }} {{ member.last_name }}</li>
+                            <li><img class="small-avatar" src="{{ member.userprofile.profile_pic.url}}"><br/>{{ member.first_name }}</li>
                         {% endfor %}
                     </ul>
                 </div>

@@ -24,3 +24,13 @@
 .hero-unit p {
     color: white;
 }
+
+.small-avatar {
+    max-width: 40px;
+}
+
+.members-list li {
+    float: left;
+    list-style: none;
+
+}
