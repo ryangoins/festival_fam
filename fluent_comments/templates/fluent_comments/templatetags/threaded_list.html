@@ -11,10 +11,15 @@
 <div id="comments-{{ target_object_id }}" data-object-id="{{ target_object_id }}" class="comments {% if not comment_list %} empty{% endif %}">
     {% for comment in comment_list|fill_tree|annotate_tree %}
       {% ifchanged comment.parent_id %}{% else %}</li>{% endifchanged %}
+
       {% if not comment.open and not comment.close %}</li>{% endif %}
       {% if comment.open %}<ul class="comment-list-wrapper">{% endif %}
+      {% if comment.parent_id %}
+        <li class="comment-wrapper threaded-comment">
+      {% else %}
           <li class="comment-wrapper">
-              {% include "comments/comment.html" %}
+      {% endif %}
+                  {% include "comments/comment.html" %}
           {% for close in comment.close %}</li></ul>{% endfor %}
     {% endfor %}
 </div>

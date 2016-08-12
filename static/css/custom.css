@@ -50,3 +50,7 @@ textarea.form-control {
     border-bottom: 1px solid lightgrey;
     width: 95%;
 }
+
+.threaded-comment {
+    background-color: blue;
+}
