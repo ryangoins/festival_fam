@@ -33,3 +33,7 @@
     float: left;
     padding: 1px;
 }
+
+textarea.form-control {
+    height: 100px;
+}

@@ -2,6 +2,7 @@ from django.core.exceptions import ImproperlyConfigured
 from crispy_forms.helper import FormHelper
 from fluent_comments import appsettings
 from crispy_forms.layout import Layout, Row, Field
+from crispy_forms.bootstrap import InlineField
 
 
 if appsettings.USE_THREADEDCOMMENTS:
@@ -17,15 +18,13 @@ class FluentCommentForm(base_class):
 
     #: Helper for {% crispy %} template tag
     helper = FormHelper()
-    helper.form_class = 'js-comments-form comments-form form-horizontal'
+    helper.form_class = 'js-comments-form form-horizontal'
     helper.form_tag = False
-    helper.label_class = 'col-sm-2'
-    helper.field_class = 'col-sm-10'
+    helper.label_class = 'col-sm-0'
+    helper.field_class = 'col-sm-12'
+    helper.field_attrs = {'id': 'comment', 'rows': '3'}
     helper.form_show_labels = False
-    helper.layout = Layout(
-        Field('comment',  rows="3", cols="80")
 
-    )
 
 
     def __init__(self, *args, **kwargs):
