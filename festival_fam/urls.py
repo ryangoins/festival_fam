@@ -11,7 +11,6 @@ urlpatterns = [
     url(r'^accounts/', include('accounts.urls', namespace='accounts')),
     url(r'^blog/comments/', include('fluent_comments.urls')),
     url(r'^families/', include('families.urls', namespace='families')),
-    url(r'^todo/', include('todo.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.home, name='home'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
