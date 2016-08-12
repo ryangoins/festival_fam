@@ -5,7 +5,7 @@
 
 {% block nav %}
     <ul class="nav nav-sidebar">
-        <li class="active"><a href="{% url 'families:detail' pk=group.pk%}">Discussion</a></li>
+        <li class="active"><a href="#">Discussion</a></li>
         <li><a href="#">The Plan</a></li>
         <li><a href="#">Meals</a></li>
         <li><a href="#">Group Sh*t</a></li>
@@ -14,6 +14,6 @@
 {% endblock nav %}
 
 {% block primary_content %}
-    {% render_comment_form for group%}
-    {% render_comment_list for group %}
+{% render_comment_form for group %}
+{% render_comment_list for group %}
 {% endblock primary_content %}

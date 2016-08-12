@@ -1,3 +1,4 @@
+from django.views.generic.edit import CreateView
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
@@ -7,14 +8,16 @@ from django.utils import timezone
 from django.contrib.auth.decorators import user_passes_test
 
 from . import models
+from families.models import FamilyGroup
 from accounts.models import UserProfile
-from families.forms import CreateGroupForm
+from django.contrib.auth.models import Group
+from families.forms import AddGroupMultiForm
 # Create your views here.
 
 @login_required
 def group_detail(request, pk):
-    group = get_object_or_404(models.FamilyGroup, pk=pk)
-    members = models.User.objects.filter(familygroup=group)
+    group = get_object_or_404(models.Group, pk=pk)
+    members = models.User.objects.filter(groups=group)
     user = request.user
     profile = user.userprofile
     #if request.user.id in members.user.id:
@@ -42,23 +45,17 @@ def group_list(request, username):
     else:
         return render(request, 'families/event_list.html', {'username': username,
                                                            'groups': groups})
-@login_required
-def create_group(request):
 
-    if request.method == "POST":
-        form = CreateGroupForm(request.POST)
-        user = request.user
-        if form.is_valid():
-            # commit=False means the form doesn't save at this time.
-            # commit defaults to True which means it normally saves.
-            new_group = form.save(commit=False)
-            new_group.created_at = timezone.now()
-            new_group.save()
-            form.save_m2m()
-            new_membership = models.Membership.objects.create(user=user, familygroup=new_group, date_joined=timezone.now(), )
-            new_membership.save()
-            return HttpResponseRedirect(reverse('families:detail', args=(new_group.pk,)))
-    else:
-        form = CreateGroupForm()
+class CreateGroup(CreateView):
+    form_class = AddGroupMultiForm
+    template_name = 'families/create_group.html'
 
-    return render(request, 'families/create_group.html', {'form': form})
+    def form_valid(self, form):
+        group = form['group'].save()
+        #adds user to group
+        group.user_set.add(self.request.user)
+        group.save()
+        familygroup = form['familygroup'].save(commit=False)
+        familygroup.group = Group.objects.get(name= group.name)
+        familygroup.save()
+        return HttpResponseRedirect(reverse('families:detail', args=(group.pk,)))

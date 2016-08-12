@@ -1,24 +1,14 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from festivals.models import Event
 #This model represents a group of users that we call a "festival fam".
 
 class FamilyGroup(models.Model):
+    group = models.OneToOneField(Group, related_name="familygroup")
     created_at = models.DateTimeField(auto_now_add=True)
-    user = models.ManyToManyField(User, through='Membership')
     event = models.ForeignKey(Event, related_name="event")
-    title = models.CharField(max_length=255)
     description = models.TextField(blank=True, default='')
+    invite_reason = models.CharField(default='', blank=True, max_length=64)
 
     class Meta:
         verbose_name_plural = "groups"
-
-    def __str__(self):
-        return self.title
-
-
-class Membership(models.Model):
-    user = models.ForeignKey(User, related_name="membership")
-    family_group = models.ForeignKey(FamilyGroup, related_name="family_group")
-    date_joined = models.DateField()
-    invite_reason = models.CharField(default='', blank=True, max_length=64)

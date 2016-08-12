@@ -5,8 +5,8 @@
 {% block content %}
     <div class="row">
         <div class="text-center">
-            <h1>{{ group.event.name}} {{ group.event.start_date|date:"Y" }}</h1>
-            <h2>The <em>{{ group.title}}</em> Fam</h2>
+            <h1>{{ group.familygroup.event.name }} {{ group.familygroup.event.start_date|date:"Y" }}</h1>
+            <h2>The <em>{{ group.name }}</em> Fam</h2>
         </div>
     </div>
     <div class="row">
@@ -26,17 +26,17 @@
             </div>
         </div>
         <div class="col-md-7">
-            <img class="img-responsive " src="{{ group.event.cover_photo.url }}">
+            <img class="img-responsive " src="{{ group.familygroup.event.cover_photo.url }}">
         </div>
         <div class="col-md-3">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <h2>{{ group.event.start_date|date:"M d" }} - {{ group.event.end_date|date:"M d" }}</h2>
-                    <p><strong>Location: </strong>{{ group.event.location }}</p>
-                    <p><strong>About {{ group.event.name }}:</strong></p>
-                    <p>{{ group.event.description }}</p>
+                    <h2>{{ group.familygroup.event.start_date|date:"M d" }} - {{ group.familygroup.event.end_date|date:"M d" }}</h2>
+                    <p><strong>Location: </strong>{{ group.familygroup.event.location }}</p>
+                    <p><strong>About {{ group.familygroup.event.name }}:</strong></p>
+                    <p>{{ group.familygroup.event.description }}</p>
 
-                    <a href="{{ group.event.registration_site }}">Buy Tickets</a>
+                    <a href="{{ group.familygroup.event.registration_site }}">Buy Tickets</a>
                 </div>
             </div>
         </div>

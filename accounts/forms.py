@@ -10,7 +10,7 @@ class ProfileForm(forms.ModelForm):
 
     class Meta:
         model = UserProfile
-        exclude = ('userName','bio', 'profile_pic', 'sex', 'phone_num', 'twitter', 'facebook', 'snapchat')
+        exclude = ('user','bio', 'profile_pic', 'sex', 'phone_num', 'twitter', 'facebook', 'snapchat')
 
 
 class AddUserMultiForm(MultiModelForm):

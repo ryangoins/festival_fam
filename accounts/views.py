@@ -14,6 +14,6 @@ class AddUser(CreateView):
     def form_valid(self, form):
         user = form['user'].save()
         profile = form['profile'].save(commit=False)
-        profile.userName = User.objects.get(username= user.username)
+        profile.user = User.objects.get(username= user.username)
         profile.save()
         return HttpResponseRedirect(reverse('home'))
