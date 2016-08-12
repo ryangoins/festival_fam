@@ -44,5 +44,9 @@ textarea.form-control {
 
 .custom-comment-group {
     margin-bottom: 5px;
+}
+
+.custom-border {
     border-bottom: 1px solid lightgrey;
+    width: 95%;
 }
