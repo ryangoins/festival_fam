@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'accounts',
     'families',
     'festivals',
-    'todo',
 
 ]
 
