@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block content %}
+    <div class="row">
+        <div class="text-center">
+            <h1>{{ group.event.name}} {{ group.event.start_date|date:"Y" }}</h1>
+            <h2>The <em>{{ group.title}}</em> Fam</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <img class = "img-circle center-block" src="{{ user.userprofile.profile_pic.url }}"><br/>
+                        <p><strong>Username: </strong>{{ user }}</p>
+                        <p><strong>Bio: </strong>{{ profile.bio }}
+                    </div>
+                </div>
+            </div>
+            <div class ="row">
+            </div>
+            <div class ="row">
+            </div>
+        </div>
+        <div class="col-md-7">
+            <img class="img-responsive " src="{{ group.event.cover_photo.url }}">
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h2>{{ group.event.start_date|date:"M d" }} - {{ group.event.end_date|date:"M d" }}</h2>
+                    <p><strong>Location: </strong>{{ group.event.location }}</p>
+                    <p><strong>About {{ group.event.name }}:</strong></p>
+                    <p>{{ group.event.description }}</p>
+
+                    <a href="{{ group.event.registration_site }}">Buy Tickets</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 sidebar">
+            {% block nav %}
+            {% endblock nav %}
+        </div>
+        <div class="col-md-7">
+            {% block primary_content %}
+            {% endblock %}
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h2>Members</h2>
+                    <div class="members-list">
+                        {% for member in members %}
+                            <span><img class="small-avatar" src="{{ member.userprofile.profile_pic.url}}"><br/>{{ member.first_name }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h5>About:</h5>
+                    <p>{{ group.description }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock content %}
