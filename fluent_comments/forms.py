@@ -22,7 +22,6 @@ class FluentCommentForm(base_class):
     helper.form_tag = False
     helper.label_class = 'col-sm-0'
     helper.field_class = 'col-sm-12'
-    helper.field_attrs = {'id': 'comment', 'rows': '3'}
     helper.form_show_labels = False
 
 

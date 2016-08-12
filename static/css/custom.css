@@ -29,6 +29,10 @@
     max-width: 40px;
 }
 
+.medium-avatar {
+    max-width: 60px;
+}
+
 .members-list span {
     float: left;
     padding: 1px;
@@ -36,4 +40,9 @@
 
 textarea.form-control {
     height: 100px;
+}
+
+.custom-comment-group {
+    margin-bottom: 5px;
+    border-bottom: 1px solid lightgrey;
 }

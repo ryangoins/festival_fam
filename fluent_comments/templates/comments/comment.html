@@ -20,13 +20,27 @@
         <div{% if preview %} id="comment-preview"{% else %} id="c{{ comment.id }}"{% endif %} class="comment-item">
           {% if preview %}<h3>{% trans "Preview of your comment" %}</h3>{% endif %}
 
-              {% if comment.url %}<a href="{{ comment.url }}" rel="nofollow">{% endif %}
-              {% if comment.name %}{{ comment.name }}{% else %}{% trans "Anonymous" %}{% endif %}{% comment %}
-              {% endcomment %}{% if comment.url %}</a>{% endif %}
-
               {% if not comment.is_public %}<span class="comment-moderated-flag">({% trans "moderated" %})</span>{% endif %}
-              {% if USE_THREADEDCOMMENTS and not preview %}<a href="#c{{ comment.id }}" data-comment-id="{{ comment.id }}" class="comment-reply-link">{% trans "reply" %}</a>{% endif %}
 
-            <img class="small-avatar" src="{{ comment.user.userprofile.profile_pic.url }}"><div class="comment-text">{{ comment.comment|linebreaks }}</div>
-            <span>{% blocktrans with submit_date=comment.submit_date %}on {{ submit_date }}{% endblocktrans %}</span>
+              <div class="row custom-comment-group">
+                  <div class="col-sm-2">
+                      <img class="medium-avatar" src="{{ comment.user.userprofile.profile_pic.url }}"><br/>
+
+                  </div>
+                  <div class="col-sm-10">
+                      <div class="row">
+
+                          {% if comment.url %}<a href="{{ comment.url }}" rel="nofollow">{% endif %}
+                          {% if comment.name %}<strong>{{ comment.name }}</strong>{% else %}{% trans "Anonymous" %}{% endif %}{% comment %}
+                          {% endcomment %}{% if comment.url %}</a>{% endif %}
+                      </div>
+                      <div class="row">
+                          <div class="comment-text">{{ comment.comment|linebreaks }}</div>
+                      </div>
+                      <div class="row">
+                          {% if USE_THREADEDCOMMENTS and not preview %}<a href="#c{{ comment.id }}" data-comment-id="{{ comment.id }}" class="comment-reply-link">{% trans "reply" %}</a>{% endif %}
+                      </div>
+                      <!--<span class="pull-right">{% blocktrans with submit_date=comment.submit_date %}{{ submit_date }}{% endblocktrans %}</span>-->
+                  </div>
+              </div>
         </div>
