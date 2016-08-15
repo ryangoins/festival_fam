@@ -25,12 +25,17 @@
     color: white;
 }
 
+.primary-content {
+    margin-top: 10px;
+}
+
 .small-avatar {
     max-width: 40px;
 }
 
 .medium-avatar {
-    max-width: 60px;
+    max-width: 40px;
+    border-radius: 10%;
 }
 
 .members-list span {
@@ -39,21 +44,41 @@
 }
 
 textarea.form-control {
-    height: 100px;
+    height: 60px;
+    margin-top: 5px;
+
 }
 
-.custom-comment-group {
-    margin-bottom: 5px;
-    padding: 10px;
+.controls {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    float: none;
 }
 
-.custom-border {
-    border-bottom: 1px solid lightgrey;
-    width: 95%;
+.comments {
+    width: 82%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.comment-wrapper {
+    padding: 5px;
+    border: 1px solid lightgrey;
+    
+
+}
+
+.comment-wrapper ul {
+    list-style: none;
+}
+
+.comment-item {
+    padding: 5px;
 }
 
 .threaded-comment {
-    background-color: lightgrey;
-    margin-bottom: 10px;
-    padding: 5px;
+    background-color: #f4f4f4;
+
 }

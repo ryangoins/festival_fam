@@ -17,4 +17,4 @@ class UserProfile(models.Model):
     snapchat = models.URLField(default='', blank=True)
 
     def __unicode__(self):  # __str__
-        return unicode(self.userName)
+        return unicode(self.user)

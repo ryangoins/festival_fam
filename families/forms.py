@@ -1,12 +1,27 @@
 from django import forms
 from collections import OrderedDict
 from django.forms import ModelForm
-
+from betterforms.multiform import MultiModelForm
 from families.models import FamilyGroup
+from django.contrib.auth.models import Group
 
-class CreateGroupForm(forms.ModelForm):
+
+from .models import *
+
+class GroupForm(forms.ModelForm):
+
+    class Meta:
+        model = Group
+        exclude = ('permissions',)
+
+class FamilyGroupForm(forms.ModelForm):
 
     class Meta:
         model = FamilyGroup
-        fields = ['event', 'title', 'description']
-    #create membership object between logged in user and new group
+        exclude = ('created_at','date_joined', 'invite_reason', 'group',)
+
+class AddGroupMultiForm(MultiModelForm):
+    form_classes = OrderedDict((
+        ('group', GroupForm),
+        ('familygroup', FamilyGroupForm),
+    ))
