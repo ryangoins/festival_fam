@@ -36,7 +36,7 @@
                           {% endcomment %}{% if comment.url %}</a>{% endif %}
                       </div>
                       <div class="row">
-                          <div class="comment-text">{{ comment.comment|linebreaks }}</div>
+                          <div class="comment-text">{{ comment.comment|linebreaks|urlize }}</div>
                       </div>
                       <div class="row">
                           {% if USE_THREADEDCOMMENTS and not preview %}<a href="#c{{ comment.id }}" data-comment-id="{{ comment.id }}" class="comment-reply-link">{% trans "reply" %}</a>{% endif %}

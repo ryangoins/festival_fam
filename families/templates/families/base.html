@@ -3,10 +3,10 @@
 {% load staticfiles %}
 
 {% block content %}
+<div class="container-fluid">
     <div class="row">
         <div class="text-center">
-            <h1>{{ group.familygroup.event.name }} {{ group.familygroup.event.start_date|date:"Y" }}</h1>
-            <h2>The <em>{{ group.name }}</em> Fam</h2>
+            <h1>{{ group.familygroup.event.name }} {{ group.familygroup.event.start_date|date:"Y" }} | The <em>{{ group.name }}</em> Fam </h1>
         </div>
     </div>
     <div class="row">
@@ -31,7 +31,7 @@
         <div class="col-md-3">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <h2>{{ group.familygroup.event.start_date|date:"M d" }} - {{ group.familygroup.event.end_date|date:"M d" }}</h2>
+                    <h3>{{ group.familygroup.event.start_date|date:"M d" }} - {{ group.familygroup.event.end_date|date:"M d" }}</h3>
                     <p><strong>Location: </strong>{{ group.familygroup.event.location }}</p>
                     <p><strong>About {{ group.familygroup.event.name }}:</strong></p>
                     <p>{{ group.familygroup.event.description }}</p>
@@ -54,10 +54,10 @@
         <div class="col-md-3">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <h2>Members</h2>
+                    <h3>Members</h3>
                     <div class="members-list">
                         {% for member in members %}
-                            <span><img class="small-avatar" src="{{ member.userprofile.profile_pic.url}}"><br/>{{ member.first_name }}</span>
+                            <span><img class="small-avatar" src="{{ member.userprofile.profile_pic.url}}"></span>
                         {% endfor %}
                     </div>
                 </div>
@@ -70,6 +70,6 @@
             </div>
         </div>
     </div>
-
+</div>
 
 {% endblock content %}

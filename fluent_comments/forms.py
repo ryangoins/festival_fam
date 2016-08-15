@@ -22,16 +22,13 @@ class FluentCommentForm(base_class):
     helper.form_tag = False
     helper.label_class = 'col-sm-0'
     helper.field_class = 'col-sm-10'
-    helper.layout = Layout(
-        Field('comment', placeholder="Add a comment")
-    )
     helper.form_show_labels = False
 
 
 
     def __init__(self, *args, **kwargs):
         super(FluentCommentForm, self).__init__(*args, **kwargs)
-
+        self.fields['comment'].widget.attrs['placeholder'] = "Add a comment"
         # Remove fields from the form.
         # This has to be done in the constructor, because the ThreadedCommentForm
         # inserts the title field in the __init__, instead of the static form definition.
