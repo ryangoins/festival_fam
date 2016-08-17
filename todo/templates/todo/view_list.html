@@ -24,7 +24,7 @@
             });
 
             // Initially hide the Add Task form
-            $('#AddTask').hide();
+            #$('#AddTask').hide();
 
             // toggle slide to show the Add Task form when link clicked
             $('#slideToggle').click(function(){
@@ -34,9 +34,9 @@
     </script>
 
     {% if list_slug == "mine" %}
-        <h1>Tasks assigned to {{ request.user }}</h1>
+        <h1>Items assigned to {{ request.user }}</h1>
     {% elif auth_ok %}
-       <h1>Tasks filed under "{{ list.name }}"</h1>
+       <h1>{{ list.name }}</h1>
        <p>This list belongs to group {{ list.group }}</p>
     {% endif %}
 
@@ -46,7 +46,7 @@
 
             {# Only show task adder if viewing a proper list #}
             {% if list_slug != "mine" %}
-                <h2 style="margin-bottom:0px;" id="slideToggle" >&rarr; Click to add task &larr;</h2>
+                <!-- <h2 style="margin-bottom:0px;" id="slideToggle" >&rarr; Click to add task &larr;</h2> -->
 
                  <div id="AddTask">
             	    <table class="nocolor" border="0" cellspacing="5" cellpadding="5">
@@ -60,11 +60,13 @@
             	           <td><label for="id_assigned">Assign to:</label> {{ form.assigned_to }}</td>
             	           <td><label for="id_notify">Notify*:</label> <input type="checkbox" checked="checked" name="notify" value="1" id="notify"></td>
              	       </tr>
+                       <!-- remove note field
             	       <tr>
             	           <td><label for="id_note">Note:</label>
                                 {{ form.note }}
             	               <p class="minor">*Email notifications will only be sent if task is assigned to someone besides yourself.</p>
             	           </td>
+                       -->
              	       </tr>
             	    </table>
 
@@ -72,7 +74,7 @@
                     <input type="hidden" name="created_by" value="{{ request.user.id }}" id="id_created_by">
                     <input type="hidden" name="list" value="{{ list.id }}" id="id_list">
                     <input type="hidden" name="created_date" value="{{ created_date }}" id="id_created_date">
-            	    <p><input type="submit" name="add_task" value="Add Item" class="todo-button"></p>
+            	    <p><input type="submit" name="add_task" value="Add Item" class="btn btn-default"></p>
                 </div>
             {% endif %}
 
@@ -117,7 +119,7 @@
             	    {% endfor %}
             	</table>
 
-                <p><input type="submit" name="mark_tasks_done" value="Continue..."  class="todo-button"></p>
+                <p><input type="submit" name="mark_tasks_done" value="Update"  class="btn btn-default"></p>
                 <p><a  class="todo" href="{% url 'todo-completed_tasks' list.id list_slug %}">View completed tasks</a></p>
 
             {% else %}
