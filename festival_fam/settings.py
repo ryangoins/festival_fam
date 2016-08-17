@@ -205,6 +205,23 @@ USE_TZ = True
 
 SITE_ID = 1
 
+# Restrict access to todo lists/views to `is_staff()` users.
+# False here falls back to `is_authenticated()` users.
+TODO_STAFF_ONLY = False
+
+# If you use the "public" ticket filing option, to whom should these tickets be assigned?
+# Must be a valid username in your system. If unset, unassigned tickets go to "Anyone."
+TODO_DEFAULT_ASSIGNEE = 'johndoe'
+
+# If you use the "public" ticket filing option, to which list should these tickets be saved?
+# Defaults to first list found, which is probably not what you want!
+TODO_DEFAULT_LIST_ID = 23
+
+# If you use the "public" ticket filing option, to which *named URL* should the user be
+# redirected after submitting? (since they can't see the rest of the ticket system).
+# Defaults to "/"
+TODO_PUBLIC_SUBMIT_REDIRECT = 'dashboard'
+
 MEDIA_ROOT = (
     os.path.join(BASE_DIR, 'media')
 )

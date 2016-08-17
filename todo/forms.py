@@ -41,7 +41,7 @@ class AddItemForm(ModelForm):
 
     class Meta:
         model = Item
-        exclude = []
+        exclude = ['note']
 
 
 class EditItemForm(ModelForm):

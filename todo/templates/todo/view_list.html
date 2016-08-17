@@ -48,14 +48,14 @@
             {% if list_slug != "mine" %}
                 <h2 style="margin-bottom:0px;" id="slideToggle" >&rarr; Click to add task &larr;</h2>
 
-                <div id="AddTask">
+                 <div id="AddTask">
             	    <table class="nocolor" border="0" cellspacing="5" cellpadding="5">
             	       <tr>
             	           <td>{{ form.title.errors }}</td>
             	           <td>{{ form.due_date.errors }}</td>
             	       </tr>
             	       <tr>
-            	           <td><label for="id_title">Task:</label> {{ form.title }}</td>
+            	           <td><label for="id_title">Item:</label> {{ form.title }}</td>
             	           <td><label for="id_due_date">Due date:</label> {{ form.due_date }}</td>
             	           <td><label for="id_assigned">Assign to:</label> {{ form.assigned_to }}</td>
             	           <td><label for="id_notify">Notify*:</label> <input type="checkbox" checked="checked" name="notify" value="1" id="notify"></td>
@@ -70,9 +70,9 @@
 
                     <input type="hidden" name="priority" value="999" id="id_priority">
                     <input type="hidden" name="created_by" value="{{ request.user.id }}" id="id_created_by">
-                    <input type="hidden" name="list" value="{{ listid }}" id="id_list">
+                    <input type="hidden" name="list" value="{{ list.id }}" id="id_list">
                     <input type="hidden" name="created_date" value="{{ created_date }}" id="id_created_date">
-            	    <p><input type="submit" name="add_task" value="Add task" class="todo-button"></p>
+            	    <p><input type="submit" name="add_task" value="Add Item" class="todo-button"></p>
                 </div>
             {% endif %}
 
@@ -80,7 +80,7 @@
 
             	<h3>Incomplete tasks :: Drag rows to set priorities</h3>
 
-            	<table border="0" id="tasktable">
+            	<table border="0" id="tasktable" class="table table-striped">
                     <tr>
                         <th>Done</th>
                         <th>Task</th>

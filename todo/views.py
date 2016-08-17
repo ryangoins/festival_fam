@@ -81,7 +81,7 @@ def del_list(request, list_id, list_slug):
     return render(request, 'todo/del_list.html', locals())
 
 
-@user_passes_test(check_user_allowed)
+#@user_passes_test(check_user_allowed)
 def view_list(request, list_id=0, list_slug=None, view_completed=False):
     """
     Display and manage items in a list.
@@ -127,14 +127,21 @@ def view_list(request, list_id=0, list_slug=None, view_completed=False):
     else:
         task_list = Item.objects.filter(list=list.id, completed=0)
         completed_list = Item.objects.filter(list=list.id, completed=1)
-
+        
     if request.POST.getlist('add_task'):
+        print('got request')
+
         form = AddItemForm(list, request.POST, initial={
             'assigned_to': request.user.id,
             'priority': 999,
         })
+        print('set form variable')
+        print(form.errors)
+        print(form.is_valid)
 
         if form.is_valid():
+            form.save()
+            print('saved')
             new_task = form.save()
 
             # Send email alert only if Notify checkbox is checked AND assignee is not same as the submitter
