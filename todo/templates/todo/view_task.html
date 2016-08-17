@@ -1,5 +1,5 @@
 {% extends "todo/base.html" %}
-
+{% load comments %}
 {% block title %}Task: {{ task.title }}{% endblock %}
 
 {% block content %}
@@ -77,15 +77,18 @@
 
             <hr />
 
-            <h3>Add comment</h3>
-            <textarea name="comment-body"></textarea>
-            <p><input class="todo-button"type="submit" value="Submit"></p>
+
+            <!-- <textarea name="comment-body"></textarea>
+            <p><input class="todo-button"type="submit" value="Submit"></p> -->
 
         </form>
+        <h3>Add comment</h3>
+        {% render_comment_form for task %}
 
         <h3>Comments on this task</h3>
 
-        <div class="task_comments">
+        {% render_comment_list for task %}
+        <!-- <div class="task_comments">
             {% for comment in comment_list %}
                 <p>
                     <strong>{{ comment.author.first_name }} {{ comment.author.last_name }},
@@ -96,7 +99,7 @@
             {% empty %}
                 <p>No Comments</p>
             {% endfor %}
-        </div>
+        </div> -->
 
     {% endif %}
 
