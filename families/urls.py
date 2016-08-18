@@ -3,6 +3,7 @@ from django.contrib import admin
 
 from . import views
 from families.views import CreateGroup
+from todo.views import view_list
 from . import models
 
 urlpatterns = [

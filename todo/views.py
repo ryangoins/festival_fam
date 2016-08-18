@@ -1,7 +1,7 @@
 import datetime
 
 from django.contrib.auth.decorators import user_passes_test, login_required
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
@@ -18,7 +18,7 @@ from todo import settings
 from todo.forms import AddListForm, AddItemForm, EditItemForm, AddExternalItemForm, SearchForm
 from todo.models import Item, List, Comment
 from todo.utils import mark_done, undo_completed_task, del_tasks, send_notify_mail
-
+from . import models
 # Need for links in email templates
 current_site = Site.objects.get_current()
 
@@ -86,7 +86,7 @@ def view_list(request, list_id=0, list_slug=None, view_completed=False):
     """
     Display and manage items in a list.
     """
-
+    group = models.Group.objects.filter(list=list_id)
     # Make sure the accessing user has permission to view this list.
     # Always authorize the "mine" view. Admins can view/edit all lists.
     if list_slug == "mine" or list_slug == "recent-add" or list_slug == "recent-complete":
@@ -127,7 +127,7 @@ def view_list(request, list_id=0, list_slug=None, view_completed=False):
     else:
         task_list = Item.objects.filter(list=list.id, completed=0)
         completed_list = Item.objects.filter(list=list.id, completed=1)
-        
+
     if request.POST.getlist('add_task'):
         print('got request')
 
@@ -158,7 +158,7 @@ def view_list(request, list_id=0, list_slug=None, view_completed=False):
                 'priority': 999,
             })
 
-    return render(request, 'todo/view_list.html', locals())
+    return render(request, 'families/group_todo.html', locals())
 
 
 @user_passes_test(check_user_allowed)

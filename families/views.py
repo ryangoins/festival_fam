@@ -8,6 +8,7 @@ from django.utils import timezone
 from django.contrib.auth.decorators import user_passes_test
 
 from . import models
+from todo.models import List
 from families.models import FamilyGroup
 from accounts.models import UserProfile
 from django.contrib.auth.models import Group
@@ -17,15 +18,13 @@ from families.forms import AddGroupMultiForm
 @login_required
 def group_detail(request, pk):
     group = get_object_or_404(models.Group, pk=pk)
+    list = get_object_or_404(List, group_id=pk)
     members = models.User.objects.filter(groups=group)
     user = request.user
     profile = user.userprofile
     #if request.user.id in members.user.id:
     if user.is_authenticated() and user in members:
-        return render(request, 'families/group_detail.html', {'group': group,
-                                                            'members': members,
-                                                            'user': user,
-                                                            'profile': profile,})
+        return render(request, 'families/group_detail.html', locals())
     elif request.user.is_authenticated():
         return HttpResponseRedirect(reverse('home',))
     else:

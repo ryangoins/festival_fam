@@ -13,7 +13,7 @@ urlpatterns = [
     url(r'^families/', include('families.urls', namespace='families')),
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.home, name='home'),
-    url(r'^todo/', include('todo.urls'),
+    url(r'^todo/', include('todo.urls', namespace='todo'),
 )
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += staticfiles_urlpatterns()
