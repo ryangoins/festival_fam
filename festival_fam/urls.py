@@ -11,7 +11,7 @@ urlpatterns = [
     url(r'^accounts/', include('accounts.urls', namespace='accounts')),
     url(r'^blog/comments/', include('fluent_comments.urls')),
     url(r'^families/', include('families.urls', namespace='families')),
-    url(r'^todo/', include('todo.urls', namespace='todo')),
+    #url(r'^todo/', include('todo.urls', namespace='todo')),
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.home, name='home'),
 

@@ -38,7 +38,7 @@ class List(models.Model):
 @python_2_unicode_compatible
 class Item(models.Model):
     title = models.CharField(max_length=140)
-    list = models.ForeignKey(List)
+    list = models.ForeignKey(List, related_name='the_items_list')
     created_date = models.DateField(auto_now=True)
     due_date = models.DateField(blank=True, null=True, )
     completed = models.BooleanField(default=None)

@@ -34,12 +34,13 @@ def check_user_allowed(user):
 
 
 @user_passes_test(check_user_allowed)
-def list_lists(request):
+def list_lists(request, group_pk=None):
     """
     Homepage view - list of lists a user can view, and ability to add a list.
     """
     thedate = datetime.datetime.now()
     searchform = SearchForm(auto_id=False)
+    group = get_object_or_404(models.Group, pk=group_pk)
 
     # Make sure user belongs to at least one group.
     if request.user.groups.all().count() == 0:
@@ -82,7 +83,7 @@ def del_list(request, list_id, list_slug):
 
 
 #@user_passes_test(check_user_allowed)
-def view_list(request, list_id=0, list_slug=None, view_completed=False):
+def view_list(request, group_pk=None, list_id=0, list_slug=None, view_completed=False):
     """
     Display and manage items in a list.
     """

@@ -16,11 +16,11 @@ from families.forms import AddGroupMultiForm
 # Create your views here.
 
 @login_required
-def group_detail(request, pk=None):
+def group_detail(request, group_pk=None):
 
     #turn this into a function of some sort
-    group = get_object_or_404(models.Group, pk=pk)
-    list = get_object_or_404(List, group_id=pk)
+    group = get_object_or_404(models.Group, pk=group_pk)
+    #list = get_object_or_404(List, group_id=pk)
     members = models.User.objects.filter(groups=group)
     user = request.user
     profile = user.userprofile
