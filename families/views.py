@@ -16,7 +16,7 @@ from families.forms import AddGroupMultiForm
 # Create your views here.
 
 @login_required
-def group_detail(request, pk):
+def group_detail(request, pk=None):
 
     #turn this into a function of some sort
     group = get_object_or_404(models.Group, pk=pk)
