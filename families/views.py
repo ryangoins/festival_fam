@@ -17,11 +17,14 @@ from families.forms import AddGroupMultiForm
 
 @login_required
 def group_detail(request, pk):
+
+    #turn this into a function of some sort
     group = get_object_or_404(models.Group, pk=pk)
     list = get_object_or_404(List, group_id=pk)
     members = models.User.objects.filter(groups=group)
     user = request.user
     profile = user.userprofile
+
     #if request.user.id in members.user.id:
     if user.is_authenticated() and user in members:
         return render(request, 'families/group_detail.html', locals())

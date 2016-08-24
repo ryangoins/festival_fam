@@ -10,7 +10,14 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-2">
+
+        <div class="col-md-12">
+            <img class="img-responsive" src="{{ list.group.familygroup.event.cover_photo.url }}">
+        </div>
+    </div>
+    <hr>
+    <div class="row primary-content">
+        <div class="col-md-2 sidebar">
             <div class="row">
                 <div class="panel panel-default">
                     <div class="panel-body">
@@ -20,15 +27,15 @@
                     </div>
                 </div>
             </div>
-            <div class ="row">
-            </div>
-            <div class ="row">
-            </div>
+            {% block nav %}
+            {% endblock nav %}
         </div>
         <div class="col-md-7">
-            <img class="img-responsive" src="{{ list.group.familygroup.event.cover_photo.url }}">
+            {% block primary_content %}
+            {% endblock %}
         </div>
         <div class="col-md-3">
+
             <div class="panel panel-default">
                 <div class="panel-body">
                     <h3>{{ list.group.familygroup.event.start_date|date:"M d" }} - {{ list.group.familygroup.event.end_date|date:"M d" }}</h3>
@@ -39,19 +46,7 @@
                     <a href="{{ list.group.familygroup.event.registration_site }}">Buy Tickets</a>
                 </div>
             </div>
-        </div>
-    </div>
-    <hr>
-    <div class="row primary-content">
-        <div class="col-md-2 sidebar">
-            {% block nav %}
-            {% endblock nav %}
-        </div>
-        <div class="col-md-7">
-            {% block primary_content %}
-            {% endblock %}
-        </div>
-        <div class="col-md-3">
+
             <div class="panel panel-default">
                 <div class="panel-body">
                     <h3>Members</h3>
