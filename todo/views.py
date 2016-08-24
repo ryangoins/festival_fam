@@ -41,7 +41,10 @@ def list_lists(request, group_pk=None):
     thedate = datetime.datetime.now()
     searchform = SearchForm(auto_id=False)
     group = get_object_or_404(models.Group, pk=group_pk)
-    
+    members = models.User.objects.filter(groups=group)
+    user = request.user
+    profile = user.userprofile
+
     # Make sure user belongs to at least one group.
     if request.user.groups.all().count() == 0:
         messages.error(request, "You do not yet belong to any groups. Ask your administrator to add you to one.")
@@ -87,7 +90,7 @@ def view_list(request, group_pk=None, list_id=0, list_slug=None, view_completed=
     """
     Display and manage items in a list.
     """
-    group = models.Group.objects.filter(list=list_id)
+    group = get_object_or_404(models.Group, pk=group_pk)
     members = models.User.objects.filter(groups=group)
     profile = request.user.userprofile
     # Make sure the accessing user has permission to view this list.
