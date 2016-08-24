@@ -87,6 +87,8 @@ def view_list(request, list_id=0, list_slug=None, view_completed=False):
     Display and manage items in a list.
     """
     group = models.Group.objects.filter(list=list_id)
+    members = models.User.objects.filter(groups=group)
+    profile = request.user.userprofile
     # Make sure the accessing user has permission to view this list.
     # Always authorize the "mine" view. Admins can view/edit all lists.
     if list_slug == "mine" or list_slug == "recent-add" or list_slug == "recent-complete":
@@ -158,7 +160,7 @@ def view_list(request, list_id=0, list_slug=None, view_completed=False):
                 'priority': 999,
             })
 
-    return render(request, 'families/group_todo.html', locals())
+    return render(request, 'todo/view_list.html', locals())
 
 
 @user_passes_test(check_user_allowed)
@@ -229,7 +231,7 @@ def view_task(request, task_id):
 
 @csrf_exempt
 @user_passes_test(check_user_allowed)
-def reorder_tasks(request):
+def reorder_tasks(request, group_pk=None):
     """
     Handle task re-ordering (priorities) from JQuery drag/drop in view_list.html
     """
