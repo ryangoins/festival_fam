@@ -41,7 +41,7 @@ def list_lists(request, group_pk=None):
     thedate = datetime.datetime.now()
     searchform = SearchForm(auto_id=False)
     group = get_object_or_404(models.Group, pk=group_pk)
-
+    
     # Make sure user belongs to at least one group.
     if request.user.groups.all().count() == 0:
         messages.error(request, "You do not yet belong to any groups. Ask your administrator to add you to one.")
