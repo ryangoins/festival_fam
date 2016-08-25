@@ -1,3 +1,19 @@
+body {
+    padding-top: 30px;
+}
+
+.event-title {
+    background-color: black;
+    padding: 10px;
+    margin-top: -90px;
+    opacity: 0.4;
+}
+
+.event-title h1 {
+    color: white;
+    opacity: 1;
+}
+
 .hero-unit {
     background-image:url('../media/carousel/field.jpg');
     background-size:cover;
@@ -29,8 +45,9 @@
     margin-top: 10px;
 }
 
-.small-avatar {
-    max-width: 40px;
+.top-avatar {
+    max-width: 80px;
+    border-radius: 50%;
 }
 
 .medium-avatar {
@@ -66,7 +83,7 @@ textarea.form-control {
 .comment-wrapper {
     padding: 5px;
     border: 1px solid lightgrey;
-    
+
 
 }
 

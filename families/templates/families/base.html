@@ -8,13 +8,23 @@
 
         <div class="col-md-12">
             <img class="img-responsive" src="{{ group.familygroup.event.cover_photo.url }}">
-            <div class="text-center">
+            <div class="event-title text-center">
                 <h1>{{ group.familygroup.event.name }} {{ group.familygroup.event.start_date|date:"Y" }} | The <em>{{ group.name }}</em> Fam </h1>
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="navbar navbar-default navbar-static-top">
+        <div class="members-list text-center">
+            <h2>This is the Fam</h2>
+            <div class="center-block">
+                {% for member in members %}
+                    <span><img class="top-avatar" src="{{ member.userprofile.profile_pic.url}}"></span>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="navbar navbar-default navbar-fixed-top">
             <div class="container-fluid">
                 <ul class="nav navbar-nav">
                     {% block nav %}
@@ -23,6 +33,7 @@
             </div>
         </div>
     </div>
+
     <hr>
     <div class="row primary-content">
         <div class="col-md-2 sidebar">
@@ -54,16 +65,6 @@
                 </div>
             </div>
 
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <h3>Members</h3>
-                    <div class="members-list">
-                        {% for member in members %}
-                            <span><img class="small-avatar" src="{{ member.userprofile.profile_pic.url}}"></span>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
             <div class="panel panel-default">
                 <div class="panel-body">
                     <h5>About:</h5>

@@ -50,10 +50,10 @@ def list_lists(request, group_pk=None):
         messages.error(request, "You do not yet belong to any groups. Ask your administrator to add you to one.")
 
     # Superusers see all lists
-    if request.user.is_superuser:
-        list_list = List.objects.all().order_by('group', 'name')
-    else:
-        list_list = List.objects.filter(group__in=request.user.groups.all()).order_by('group', 'name')
+    #if request.user.is_superuser:
+    #    list_list = List.objects.all().order_by('group', 'name')
+    #else:
+    list_list = List.objects.filter(group__in=group_pk)#request.user.groups.groupall()).order_by('group', 'name')
 
     list_count = list_list.count()
 
