@@ -4,13 +4,13 @@
 {% load comments %}
 
 {% block nav %}
-    <ul class="nav nav-sidebar">
-        <li class="active"><a href="{% url 'families:detail' group_pk %}">Discussion</a></li>
-        <li><a href="#">The Plan</a></li>
-        <li><a href="#">Meals</a></li>
-        <li><a href="{% url 'families:todo:todo-lists' group_pk %}">Group Sh*t</a></li>
-        <li><a href="#">Personal Sh*t</a></li>
-    </ul>
+
+<li class="active"><a href="{% url 'families:detail' group_pk %}">Discussion</a></li>
+<li><a href="#">The Plan</a></li>
+<li><a href="#">Meals</a></li>
+<li><a href="{% url 'families:todo:todo-lists' group_pk %}">Group Sh*t</a></li>
+<li><a href="#">Personal Sh*t</a></li>
+
 {% endblock nav %}
 
 {% block primary_content %}

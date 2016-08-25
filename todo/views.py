@@ -90,6 +90,7 @@ def view_list(request, group_pk=None, list_id=0, list_slug=None, view_completed=
     """
     Display and manage items in a list.
     """
+    #this list is repeated a lot. lets re-factor somehow
     group = get_object_or_404(models.Group, pk=group_pk)
     members = models.User.objects.filter(groups=group)
     profile = request.user.userprofile
