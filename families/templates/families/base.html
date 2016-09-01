@@ -17,10 +17,9 @@
         <div class="members-list text-center">
             <h2>This is the Fam</h2>
             <div class="center-block">
-                {% for member in members %}
-                    <span><img class="top-avatar" src="{{ member.userprofile.profile_pic.url}}"></span>
-                {% endfor %}
-            </div>
+            {% for member in members %}
+                <span><img class="top-avatar" src="{{ member.userprofile.profile_pic.url}}"></span>
+            {% endfor %}
         </div>
     </div>
     <div class="row">

@@ -12,3 +12,17 @@ class FamilyGroup(models.Model):
 
     class Meta:
         verbose_name_plural = "groups"
+
+class Meal(models.Model):
+    name = models.CharField(blank=True, default='', max_length=255)
+    group = models.OneToOneField(Group, related_name="meal_group")
+    serving_size = models.IntegerField(blank=True, default='')
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.CharField(max_length=255, default='')
+
+class Ingredient(models.Model):
+    name = models.CharField(blank=True, default='', max_length=255)
+    meal = models.ForeignKey(Meal, default='', related_name="ingredient_meal")
+    amount = models.IntegerField(blank=True, default='')
+    unit_choices = (('g', 'Grams'), ('oz', 'Ounces'))
+    unit = models.CharField(default='', blank=True, max_length=10, choices=unit_choices,)
