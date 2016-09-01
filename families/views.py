@@ -48,6 +48,23 @@ def group_list(request, username):
         return render(request, 'families/event_list.html', {'username': username,
                                                            'groups': groups})
 
+def meal_list(request, group_pk=None):
+    #turn this into a function of some sort
+    group = get_object_or_404(models.Group, pk=group_pk)
+    #list = get_object_or_404(List, group_id=group_pk)
+    members = models.User.objects.filter(groups=group)
+    user = request.user
+    profile = user.userprofile
+
+    if user.is_authenticated() and user in members:
+        return render(request, 'families/meal_list.html', locals())
+    elif request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('home',))
+    else:
+        messages.add_message(request, messages.ERROR,
+                                'Please login')
+        return HttpResponseRedirect(reverse('accounts:login',))
+
 class CreateGroup(CreateView):
     form_class = AddGroupMultiForm
     template_name = 'families/create_group.html'
