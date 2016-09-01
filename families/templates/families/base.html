@@ -14,13 +14,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="members-list text-center">
-            <h2>This is the Fam</h2>
-            <div class="center-block">
-            {% for member in members %}
-                <span><img class="top-avatar" src="{{ member.userprofile.profile_pic.url}}"></span>
-            {% endfor %}
-        </div>
+
     </div>
     <div class="row">
         <div class="navbar navbar-default navbar-fixed-top">
@@ -39,35 +33,41 @@
             <div class="row">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <img class = "img-circle center-block" src="{{ user.userprofile.profile_pic.url }}"><br/>
-                        <p><strong>Username: </strong>{{ user }}</p>
-                        <p><strong>Bio: </strong>{{ profile.bio }}
+                        <img class = "top-avatar float-left" src="{{ user.userprofile.profile_pic.url }}">
+                        <span>{{ user.first_name }} {{ user.last_name }}</span>
                     </div>
                 </div>
             </div>
 
         </div>
-        <div class="col-md-7">
+        <div class="col-md-8">
             {% block primary_content %}
             {% endblock %}
         </div>
-        <div class="col-md-3">
-
+        <div class="col-md-2">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <h3>{{ group.familygroup.event.start_date|date:"M d" }} - {{ group.familygroup.event.end_date|date:"M d" }}</h3>
-                    <p><strong>Location: </strong>{{ group.familygroup.event.location }}</p>
-                    <p><strong>About {{ group.familygroup.event.name }}:</strong></p>
-                    <p>{{ group.familygroup.event.description }}</p>
+                    <p><strong>The Fam</strong></p>
 
-                    <a href="{{ group.familygroup.event.registration_site }}">Buy Tickets</a>
+                    {% for member in members %}
+                        <span><img class="medium-avatar" src="{{ member.userprofile.profile_pic.url}}"></span>
+                    {% endfor %}
                 </div>
             </div>
-
             <div class="panel panel-default">
                 <div class="panel-body">
                     <h5>About:</h5>
                     <p>{{ group.description }}</p>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h4>{{ group.familygroup.event.start_date|date:"M d" }} - {{ group.familygroup.event.end_date|date:"M d" }}</h4>
+                    <p>{{ group.familygroup.event.location }}</p>
+
+                    <!--<p>{{ group.familygroup.event.description }}</p>-->
+
+                    <a href="{{ group.familygroup.event.registration_site }}">Buy Tickets</a>
                 </div>
             </div>
         </div>

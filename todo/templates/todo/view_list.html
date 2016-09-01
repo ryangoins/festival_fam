@@ -20,7 +20,7 @@
          data in a list. We pass that list as an object called "data" to a Django view
          to save the re-ordered data into the database.
 
-        $.post("{% url 'families:todo:todo-reorder_tasks' group_pk %}", data, "json");
+        $.post("{% url 'families:todo:todo-reorder_tasks' group_pk=group_pk %}", data, "json");
         return false;
     };
 
@@ -35,9 +35,9 @@
         });
 
         // Initially hide the Add Task form
-        //$('#AddTask').hide();
+        $('#AddTask').hide();
 
-        // toggle slide to show the Add Task form when link clicked
+         //toggle slide to show the Add Task form when link clicked
         $('#slideToggle').click(function(){
             $(this).siblings('#AddTask').slideToggle();
         });
