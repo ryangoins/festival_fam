@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
+
 {% load staticfiles %}
 
 {% block content %}
@@ -29,22 +30,20 @@
 
     <hr>
     <div class="row primary-content">
-        <div class="col-md-2 sidebar">
-            <div class="row">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <img class = "top-avatar float-left" src="{{ user.userprofile.profile_pic.url }}">
-                        <span>{{ user.first_name }} {{ user.last_name }}</span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div class="col-md-8">
+        
+        <div class="col-md-10">
             {% block primary_content %}
             {% endblock %}
         </div>
         <div class="col-md-2">
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <img class = "top-avatar float-left" src="{{ user.userprofile.profile_pic.url }}">
+                    <span>{{ user.first_name }} {{ user.last_name }}</span>
+                </div>
+            </div>
+
             <div class="panel panel-default">
                 <div class="panel-body">
                     <p><strong>The Fam</strong></p>
