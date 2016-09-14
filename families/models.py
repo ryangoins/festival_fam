@@ -15,7 +15,9 @@ class FamilyGroup(models.Model):
 
 class Meal(models.Model):
     name = models.CharField(blank=True, default='', max_length=255)
-    time_choices = (('Breakfast', 'Lunch', 'Dinner'))
+    time_choices = (('Breakfast', 'breakfast'),('Lunch', 'lunch'), ('Dinner', 'dinner'))
+    time = models.CharField(blank=True, max_length=255, default='', choices=time_choices,)
+    day = models.CharField(blank=True, max_length=255, default='')
     group = models.ForeignKey(Group, related_name="meal_group", null=True)
     serving_size = models.IntegerField(blank=True, default='')
     instructions = models.TextField(blank=True, default='')
