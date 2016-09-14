@@ -17,6 +17,13 @@
 {% block title %} Meals {% endblock %}
 
    <h1>Gettin' that Grub</h1>
+   <h2>Meals</h2>
+   <ul>
+       {% for meal in meals %}
+       <li><a href="{% url 'families:meal_detail' group_pk meal.pk %}">{{ meal }}</a></li>
+       {% endfor %}
+   </ul>
+
    <div class="table-responsive">
        <table class="table">
            <thead>

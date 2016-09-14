@@ -15,10 +15,15 @@ class FamilyGroup(models.Model):
 
 class Meal(models.Model):
     name = models.CharField(blank=True, default='', max_length=255)
-    group = models.OneToOneField(Group, related_name="meal_group")
+    time_choices = (('Breakfast', 'Lunch', 'Dinner'))
+    group = models.ForeignKey(Group, related_name="meal_group", null=True)
     serving_size = models.IntegerField(blank=True, default='')
+    instructions = models.TextField(blank=True, default='')
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.CharField(max_length=255, default='')
+
+    def __str__(self):
+        return self.name
 
 class Ingredient(models.Model):
     name = models.CharField(blank=True, default='', max_length=255)

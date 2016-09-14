@@ -9,10 +9,10 @@ from django.contrib.auth.decorators import user_passes_test
 
 from . import models
 from todo.models import List
-from families.models import FamilyGroup
+from families.models import FamilyGroup, Meal, Ingredient
 from accounts.models import UserProfile
 from django.contrib.auth.models import Group
-from families.forms import AddGroupMultiForm
+from families.forms import AddGroupMultiForm, CreateMealForm
 # Create your views here.
 
 @login_required
@@ -39,7 +39,7 @@ def group_detail(request, group_pk=None):
 def group_list(request, username):
     #for some reason if I change the username variable this doesn't work. can't figure it out.
     username = get_object_or_404(models.User, username=username)
-    groups = models.FamilyGroup.objects.filter(user=username)
+    groups = models.Group.objects.filter(user=username)
     #compares the users pk to the pk of the user requested
     if username == request.user:
         return render(request, 'families/group_list.html', {'username': username,
@@ -51,6 +51,7 @@ def group_list(request, username):
 def meal_list(request, group_pk=None):
     #turn this into a function of some sort
     group = get_object_or_404(models.Group, pk=group_pk)
+    meals = models.Meal.objects.filter(group_id=group_pk)
     #list = get_object_or_404(List, group_id=group_pk)
     members = models.User.objects.filter(groups=group)
     user = request.user
@@ -58,6 +59,25 @@ def meal_list(request, group_pk=None):
 
     if user.is_authenticated() and user in members:
         return render(request, 'families/meal_list.html', locals())
+    elif request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('home',))
+    else:
+        messages.add_message(request, messages.ERROR,
+                                'Please login')
+        return HttpResponseRedirect(reverse('accounts:login',))
+
+def meal_detail(request, group_pk=None, meal_pk=None):
+    #turn this into a function of some sort
+    group = get_object_or_404(models.Group, pk=group_pk)
+    meal = get_object_or_404(models.Meal, pk=meal_pk)
+    ingredients = models.Ingredient.objects.filter(meal_id=meal_pk)
+    #list = get_object_or_404(List, group_id=group_pk)
+    members = models.User.objects.filter(groups=group)
+    user = request.user
+    profile = user.userprofile
+
+    if user.is_authenticated() and user in members:
+        return render(request, 'families/meal_detail.html', locals())
     elif request.user.is_authenticated():
         return HttpResponseRedirect(reverse('home',))
     else:
@@ -78,3 +98,22 @@ class CreateGroup(CreateView):
         familygroup.group = Group.objects.get(name= group.name)
         familygroup.save()
         return HttpResponseRedirect(reverse('families:detail', args=(group.pk,)))
+
+class CreateMeal(CreateView):
+    model = Meal
+    fields =('name', 'serving_size', 'instructions',)
+    template_name = 'families/create_meal.html'
+
+    def form_valid(self, form):
+        #associate meal with current group
+        group = Group.objects.get(pk=self.kwargs['group_pk'])
+        form.instance.group_id = group.pk
+        form.save()
+
+        return HttpResponseRedirect(reverse('families:meal_list', args=(self.kwargs['group_pk'],)))
+
+
+class CreateIngredient(CreateView):
+    model = Ingredient
+    fields = ('name', 'amount', 'unit',)
+    template_name = 'families/meal_detail.html'
