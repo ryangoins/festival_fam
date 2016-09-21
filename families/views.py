@@ -2,6 +2,7 @@ from django.views.generic.edit import CreateView
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
+from datetime import date, timedelta as td
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils import timezone
@@ -9,6 +10,7 @@ from django.contrib.auth.decorators import user_passes_test
 
 from . import models
 from todo.models import List
+from festivals.models import Event
 from families.models import FamilyGroup, Meal, Ingredient
 from accounts.models import UserProfile
 from django.contrib.auth.models import Group
@@ -85,6 +87,7 @@ def meal_detail(request, group_pk=None, meal_pk=None):
                                 'Please login')
         return HttpResponseRedirect(reverse('accounts:login',))
 
+
 class CreateGroup(CreateView):
     form_class = AddGroupMultiForm
     template_name = 'families/create_group.html'
@@ -101,13 +104,32 @@ class CreateGroup(CreateView):
 
 class CreateMeal(CreateView):
     model = Meal
-    fields =('name', 'serving_size', 'instructions',)
+    fields =('name', 'serving_size','time', 'day', 'instructions',)
     template_name = 'families/create_meal.html'
+
+    def get_form(self, form_class):
+        #Need to create a list of the days
+        family = FamilyGroup.objects.get(group_id=self.kwargs['group_pk'])
+        festival = Event.objects.get(pk=family.event_id)
+
+        first_day = festival.start_date
+        last_day = festival.end_date
+        festival_days = ()
+        delta = first_day - last_day
+
+        for day in range(delta.days + 1):
+            festival_days.append((day.strftime("%A"), day),)
+
+        #Need to add that list as an option to the form
+        form = super(CreateMeal, self).get_form(form_class)
+        form.fields["day"] = forms.ChoiceField(choices=festival_days)
+        #return form
 
     def form_valid(self, form):
         #associate meal with current group
         group = Group.objects.get(pk=self.kwargs['group_pk'])
         form.instance.group_id = group.pk
+        form.instance.created_by = request.user
         form.save()
 
         return HttpResponseRedirect(reverse('families:meal_list', args=(self.kwargs['group_pk'],)))

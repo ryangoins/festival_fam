@@ -169,11 +169,12 @@ def view_list(request, group_pk=None, list_id=0, list_slug=None, view_completed=
 
 
 @user_passes_test(check_user_allowed)
-def view_task(request, task_id):
+def view_task(request, group_pk, task_id, list_id=0, list_slug=None):
     """
     View task details. Allow task details to be edited.
     """
     task = get_object_or_404(Item, pk=task_id)
+    task_list = get_object_or_404(List, the_items_list=task_id)
     comment_list = Comment.objects.filter(task=task_id)
 
     # Ensure user has permission to view item.

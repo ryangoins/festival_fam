@@ -30,13 +30,8 @@
 
     <hr>
     <div class="row primary-content">
-        
-        <div class="col-md-10">
-            {% block primary_content %}
-            {% endblock %}
-        </div>
-        <div class="col-md-2">
-
+        <div class ="col-md-3">
+        <!--------
             <div class="panel panel-default">
                 <div class="panel-body">
                     <img class = "top-avatar float-left" src="{{ user.userprofile.profile_pic.url }}">
@@ -44,9 +39,11 @@
                 </div>
             </div>
 
+        ------>
+
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <p><strong>The Fam</strong></p>
+                    <p><strong>The Fam:</strong></p>
 
                     {% for member in members %}
                         <span><img class="medium-avatar" src="{{ member.userprofile.profile_pic.url}}"></span>
@@ -55,20 +52,28 @@
             </div>
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <h5>About:</h5>
-                    <p>{{ group.description }}</p>
+                    <p><strong>About:</strong><p>
+                    <p>{{ group.familygroup.description }}</p>
                 </div>
             </div>
             <div class="panel panel-default">
                 <div class="panel-body">
+                    <p><strong>{{ group.familygroup.event.name }} Details:</strong>
                     <h4>{{ group.familygroup.event.start_date|date:"M d" }} - {{ group.familygroup.event.end_date|date:"M d" }}</h4>
                     <p>{{ group.familygroup.event.location }}</p>
 
-                    <!--<p>{{ group.familygroup.event.description }}</p>-->
-
-                    <a href="{{ group.familygroup.event.registration_site }}">Buy Tickets</a>
+                    <p><a href="{{ group.familygroup.event.registration_site }}">Buy Tickets</a> | <a href="">Parking Info</a>  | <a href="{{ group.familygroup.event.faq_site }}">F.A.Q</a></p>
                 </div>
             </div>
+        </div>
+
+        <div class="col-md-7">
+            {% block primary_content %}
+            {% endblock %}
+        </div>
+        <div class="col-md-2">
+
+
         </div>
     </div>
 </div>

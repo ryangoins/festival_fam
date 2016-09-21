@@ -17,7 +17,7 @@ class Meal(models.Model):
     name = models.CharField(blank=True, default='', max_length=255)
     time_choices = (('Breakfast', 'breakfast'),('Lunch', 'lunch'), ('Dinner', 'dinner'))
     time = models.CharField(blank=True, max_length=255, default='', choices=time_choices,)
-    day = models.CharField(blank=True, max_length=255, default='')
+    day = models.CharField(blank=True, max_length=255, default='',)
     group = models.ForeignKey(Group, related_name="meal_group", null=True)
     serving_size = models.IntegerField(blank=True, default='')
     instructions = models.TextField(blank=True, default='')
@@ -33,3 +33,17 @@ class Ingredient(models.Model):
     amount = models.IntegerField(blank=True, default='')
     unit_choices = (('g', 'Grams'), ('oz', 'Ounces'))
     unit = models.CharField(default='', blank=True, max_length=10, choices=unit_choices,)
+
+
+class Vehicle(models.Model):
+    driver = models.OneToOneField(User, default='', related_name="vehicle_driver")
+    group = models.OneToOneField(Group, default='', related_name="vehicle_group")
+    passengers = models.ForeignKey(User, default='', related_name="vehicle_passengers")
+    vehicle_make = models.CharField(default='', max_length=255)
+    vehicle_model = models.CharField(default='', max_length=255)
+    departure_location_name = models.CharField(blank=True, default='', max_length=255)
+    departure_street = models.CharField(blank=True, default='', max_length=255)
+    departure_city = models.CharField(blank=True, default='', max_length=255)
+    departure_state = models.CharField(blank=True, default='', max_length=2)
+    departure_zip = models.IntegerField(blank=True, default='')
+    parking_pass = models.BooleanField(default=False)

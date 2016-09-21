@@ -58,7 +58,8 @@ class Item(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('todo-task_detail', kwargs={'task_id': self.id, })
+        return reverse('families:todo-task_detail', kwargs={'task_id': self.id, })
+
 
     # Auto-set the item creation / completed date
     def save(self):
