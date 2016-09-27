@@ -33,6 +33,8 @@ class List(models.Model):
 
         # Prevents (at the database level) creation of two lists with the same name in the same group
         unique_together = ("group", "slug")
+    def get_absolute_url(self):
+        return reverse('families:todo:todo-incomplete_tasks', kwargs={'list_id': self.id, 'list_slug': self.slug})
 
 
 @python_2_unicode_compatible
@@ -58,7 +60,7 @@ class Item(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('families:todo:todo-task_detail', kwargs={'task_id': self.id, })
+        return reverse('families:todo:todo-task_detail', kwargs={'group_pk': self.list.group_id, 'task_id': self.id, })
 
 
     # Auto-set the item creation / completed date

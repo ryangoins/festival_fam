@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User, Group
+from django.core.urlresolvers import reverse
 from festivals.models import Event
 #This model represents a group of users that we call a "festival fam".
 
@@ -12,6 +13,9 @@ class FamilyGroup(models.Model):
 
     class Meta:
         verbose_name_plural = "groups"
+
+    def get_absolute_url(self):
+        return reverse('families:detail', kwargs={'group_pk': self.group_id})
 
 class Meal(models.Model):
     name = models.CharField(blank=True, default='', max_length=255)

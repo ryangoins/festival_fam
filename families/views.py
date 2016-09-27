@@ -22,6 +22,7 @@ def group_detail(request, group_pk=None):
 
     #turn this into a function of some sort
     group = get_object_or_404(models.Group, pk=group_pk)
+    familygroup = get_object_or_404(models.FamilyGroup, group_id=group_pk)
     #list = get_object_or_404(List, group_id=group_pk)
     members = models.User.objects.filter(groups=group)
     user = request.user
