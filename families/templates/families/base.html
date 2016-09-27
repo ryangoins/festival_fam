@@ -22,7 +22,9 @@
             <div class="container-fluid">
                 <ul class="nav navbar-nav">
                     {% block nav %}
+
                     {% endblock nav %}
+                    <img class = "top-avatar float-right" src="{{ request.user.userprofile.profile_pic.url }}">
                 </ul>
             </div>
         </div>
