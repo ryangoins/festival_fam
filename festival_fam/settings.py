@@ -58,7 +58,7 @@ INSTALLED_APPS += (
     'widget_tweaks',
 )
 
-FLUENT_COMMENTS_EXCLUDE_FIELDS = ('name', 'email', 'url', 'title', 'honeypot')
+FLUENT_COMMENTS_EXCLUDE_FIELDS = ('name', 'email', 'title', 'honeypot')
 COMMENTS_APP = 'fluent_comments'
 
 #SOCIAL AUTH SETTINGS

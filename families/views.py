@@ -104,36 +104,25 @@ class CreateGroup(CreateView):
         return HttpResponseRedirect(reverse('families:detail', args=(group.pk,)))
 
 class CreateMeal(CreateView):
-    model = Meal
-    fields =('name', 'serving_size','time', 'day', 'instructions',)
+    form_class = CreateMealForm
     template_name = 'families/create_meal.html'
 
     def get_form(self, form_class):
         #Need to create a list of the days
         family = FamilyGroup.objects.get(group_id=self.kwargs['group_pk'])
         festival = Event.objects.get(pk=family.event_id)
-
         first_day = festival.start_date
         last_day = festival.end_date
-        festival_days = ()
         delta = first_day - last_day
+        festival_days = []
 
         for day in range(delta.days + 1):
-            festival_days.append((day.strftime("%A"), day),)
-
+            festival_days.append(day.strftime("%A"))
+            return festival_days
         #Need to add that list as an option to the form
         form = super(CreateMeal, self).get_form(form_class)
-        form.fields["day"] = forms.ChoiceField(choices=festival_days)
-        #return form
-
-    def form_valid(self, form):
-        #associate meal with current group
-        group = Group.objects.get(pk=self.kwargs['group_pk'])
-        form.instance.group_id = group.pk
-        form.instance.created_by = request.user
-        form.save()
-
-        return HttpResponseRedirect(reverse('families:meal_list', args=(self.kwargs['group_pk'],)))
+        form.fields["day"] = form.ChoiceField(choices=festival_days)
+        return form
 
 
 class CreateIngredient(CreateView):
