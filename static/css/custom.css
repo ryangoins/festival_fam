@@ -99,3 +99,10 @@ textarea.form-control {
     background-color: #f4f4f4;
 
 }
+
+.media-widget {
+    width: 90%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}

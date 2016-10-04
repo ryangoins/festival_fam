@@ -23,7 +23,11 @@
               {% if not comment.is_public %}<span class="comment-moderated-flag">({% trans "moderated" %})</span>{% endif %}
 
               <div class="row">
-                  {% if comment.url %}<iframe width="100%" height="150" scrolling="no" frameborder="yes" src="https://w.soundcloud.com/player/?url={{ comment.url }}&amp;color=ff5500&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false"></iframe>{% endif %}
+                  <div class="media-widget">
+                      {% if comment.url %}
+                        <iframe id="sc-widget" src="https://w.soundcloud.com/player/?url={{ comment.url }}" width="100%" height="160" scrolling="no" frameborder="no"></iframe>
+                      {% endif %}
+                  </div>
                   <div class="col-sm-1">
                       <img class="medium-avatar" src="{{ comment.user.userprofile.profile_pic.url }}"><br/>
 
