@@ -125,8 +125,8 @@
         	            <td>{% if task.assigned_to %}{{ task.assigned_to }}{% else %}Anyone{% endif %}</td>
         	            <td style="text-align:center;">{% if task.note %}&asymp;{% endif %} </td>
         	            <td style="text-align:center;">{% if task.comment_set.all.count != 0 %}{{ task.comment_set.all.count }}{% endif %}</td>
-        	            {% if list_slug == "mine" %}
-                            <td><a href="{% url 'todo:todo-incomplete_tasks' task.list.id task.list.slug %}">{{ task.list }}</a></td>
+                        {% if list_slug == "mine" %}
+                            <td><a href="{% url 'families:todo:todo-incomplete_tasks' group.id task.list.id task.list.slug %}">{{ task.list }}</a></td>
                         {% endif %}
         	            <td><input type="checkbox" name="del_task" value="{{ task.id }}" id="del_task_{{ task.id }}">   </td>
                     </tr>
@@ -134,7 +134,7 @@
         	</table>
 
             <p><input type="submit" name="mark_tasks_done" value="Update"  class="btn btn-default"></p>
-            <p><a  class="todo" href="{% url 'families:todo:todo-completed_tasks' group_pk list.id list_slug %}">View completed tasks</a></p>
+            <p><a  class="todo" href="{% url 'families:todo:todo-completed_tasks' group.pk list_id list_slug %}">View completed tasks</a></p>
 
         {% else %}
 
