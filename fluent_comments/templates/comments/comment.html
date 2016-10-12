@@ -24,21 +24,6 @@
 
               <div class="row">
                   <div class ="col-sm-12">
-                      {% if "soundcloud" in comment.url %}
-                              <div class="row">
-                                  <div class="col-sm-12 media-widget">
-                                        <iframe id="sc-widget" src="https://w.soundcloud.com/player/?url={{ comment.url }}" width="100%" height="160" scrolling="no" frameborder="no"></iframe>
-                                  </div>
-                              </div>
-                          {% elif "spotify" in comment.url %}
-                              <div class="row">
-                                  <div class="col-sm-12">
-                                      <div class='media-widget'>
-                                         <iframe src="https://embed.spotify.com/?uri={{ comment.url }}&theme=white" width="100%" height="80" frameborder='0' allowtransparency='true'></iframe>
-                                      </div>
-                                  </div>
-                              </div>
-                      {% endif %}
                       <div class="row">
                           <div class="col-sm-1">
                               <img class="medium-avatar" src="{{ comment.user.userprofile.profile_pic.url }}"><br/>
@@ -55,12 +40,31 @@
 
                                           <div class="comment-text">{{ comment.comment|linebreaks|urlize }}</div>
                                       </div>
-                                      <div class="row">
-                                          {% if USE_THREADEDCOMMENTS and not preview %}<a href="#c{{ comment.id }}" data-comment-id="{{ comment.id }}" class="comment-reply-link">{% trans "reply" %}</a>{% endif %}
-                                      </div>
+
                                   </div>
                                   <!--<span class="pull-right">{% blocktrans with submit_date=comment.submit_date %}{{ submit_date }}{% endblocktrans %}</span>-->
                               </div>
+                      </div>
+                      {% if "soundcloud" in comment.url %}
+                              <div class="row">
+                                  <div class="col-sm-12 media-widget">
+                                        <iframe id="sc-widget" src="https://w.soundcloud.com/player/?url={{ comment.url }}" width="100%" height="160" scrolling="no" frameborder="no"></iframe>
+                                  </div>
+                              </div>
+                          {% elif "spotify" in comment.url %}
+                              <div class="row">
+                                  <div class="col-sm-12">
+                                      <div class='media-widget'>
+                                         <iframe src="https://embed.spotify.com/?uri={{ comment.url }}&theme=white" width="100%" height="80" frameborder='0' allowtransparency='true'></iframe>
+                                      </div>
+                                  </div>
+                              </div>
+
+                      {% endif %}
+                      <div class="row">
+                          <div class="col-sm-12">
+                          {% if USE_THREADEDCOMMENTS and not preview %}<a href="#c{{ comment.id }}" data-comment-id="{{ comment.id }}" class="comment-reply-link">{% trans "reply" %}</a>{% endif %}
+                      </div>
                       </div>
                   </div>
               </div>

@@ -70,7 +70,8 @@
         	       </tr>
         	       <tr>
         	           <td><label for="id_title">Item:</label> {{ form.title }}</td>
-        	           <td><label for="id_due_date">Price: $</label> {{ form.price }}</td>
+        	           <td><label for="id_price">Price: $</label> {{ form.price }}</td>
+                       <td><label for="id_quantity">Quantity</label> {{ form.quantity }}</td>
         	           <td><label for="id_assigned">Assign to:</label> {{ form.assigned_to }}</td>
         	           <td><label for="id_notify">Notify*:</label> <input type="checkbox" checked="checked" name="notify" value="1" id="notify"></td>
          	       </tr>
@@ -105,6 +106,7 @@
                     <th>Owner</th>
 
                     <th>Price</th>
+                    <th>Quantity</th>
                     <th>Comments</th>
                     {% if list_slug == "mine" %}
                         <th>List</th>
@@ -124,6 +126,7 @@
         	            <td>{{ task.created_by }}</td>
 
         	            <td style="text-align:center;">{% if task.price %}${{ task.price }}{% endif %} </td>
+                        <td style="text-align:center;">{{ task.quantity }} </td>
         	            <td style="text-align:center;">{% if task.comment_set.all.count != 0 %}{{ task.comment_set.all.count }}{% endif %}</td>
                         {% if list_slug == "mine" %}
                             <td><a href="{% url 'families:todo:todo-incomplete_tasks' group.id task.list.id task.list.slug %}">{{ task.list }}</a></td>

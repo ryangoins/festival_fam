@@ -15,6 +15,7 @@ from families.models import FamilyGroup, Meal, Ingredient
 from accounts.models import UserProfile
 from django.contrib.auth.models import Group
 from families.forms import AddGroupMultiForm, CreateMealForm
+
 # Create your views here.
 
 @login_required

@@ -37,3 +37,6 @@ class CreateIngredientForm(forms.ModelForm):
     class Meta:
         model = Ingredient
         fields = ('name', 'amount', 'unit')
+
+
+###### VEHICLE FORMS #######

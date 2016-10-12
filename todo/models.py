@@ -51,6 +51,7 @@ class Item(models.Model):
     price = models.DecimalField(blank=True, null=True, max_digits=6, decimal_places=2)
     purchase_url = models.URLField(blank=True, null=True)
     priority = models.PositiveIntegerField()
+    quantity = models.IntegerField(default=1)
 
     # Has due date for an instance of this object passed?
     def overdue_status(self):
