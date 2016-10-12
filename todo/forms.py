@@ -37,11 +37,21 @@ class AddItemForm(ModelForm):
         widget=forms.widgets.TextInput(attrs={'size': 35})
     )
 
+    price = forms.DecimalField(
+        required=False,
+        widget=forms.widgets.NumberInput()
+    )
+
+    purchase_url = forms.URLField(
+        required = False,
+        widget=forms.widgets.URLInput()
+    )
+
     note = forms.CharField(widget=forms.Textarea(), required=False)
 
     class Meta:
         model = Item
-        exclude = ['note']
+        exclude = ['note', 'due_date']
 
 
 class EditItemForm(ModelForm):

@@ -24,12 +24,20 @@
 
               <div class="row">
                   <div class ="col-sm-12">
-                      {% if comment.url %}
-                      <div class="row">
-                          <div class="col-sm-12 media-widget">
-                                <iframe id="sc-widget" src="https://w.soundcloud.com/player/?url={{ comment.url }}" width="100%" height="160" scrolling="no" frameborder="no"></iframe>
-                          </div>
-                      </div>
+                      {% if "soundcloud" in comment.url %}
+                              <div class="row">
+                                  <div class="col-sm-12 media-widget">
+                                        <iframe id="sc-widget" src="https://w.soundcloud.com/player/?url={{ comment.url }}" width="100%" height="160" scrolling="no" frameborder="no"></iframe>
+                                  </div>
+                              </div>
+                          {% elif "spotify" in comment.url %}
+                              <div class="row">
+                                  <div class="col-sm-12">
+                                      <div class='embed-container'>
+                                         <iframe src='https://embed.spotify.com/?uri={{ comment.url }}' frameborder='0' allowtransparency='true'></iframe>
+                                      </div>
+                                  </div>
+                              </div>
                       {% endif %}
                       <div class="row">
                           <div class="col-sm-1">

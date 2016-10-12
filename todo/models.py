@@ -48,6 +48,8 @@ class Item(models.Model):
     created_by = models.ForeignKey(User, related_name='todo_created_by')
     assigned_to = models.ForeignKey(User, blank=True, null=True, related_name='todo_assigned_to')
     note = models.TextField(blank=True, null=True)
+    price = models.DecimalField(blank=True, null=True, max_digits=6, decimal_places=2)
+    purchase_url = models.URLField(blank=True, null=True)
     priority = models.PositiveIntegerField()
 
     # Has due date for an instance of this object passed?
