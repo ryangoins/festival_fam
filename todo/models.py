@@ -33,12 +33,14 @@ class List(models.Model):
 
         # Prevents (at the database level) creation of two lists with the same name in the same group
         unique_together = ("group", "slug")
+    def get_absolute_url(self):
+        return reverse('families:todo:todo-incomplete_tasks', kwargs={'list_id': self.id, 'list_slug': self.slug})
 
 
 @python_2_unicode_compatible
 class Item(models.Model):
     title = models.CharField(max_length=140)
-    list = models.ForeignKey(List)
+    list = models.ForeignKey(List, related_name='the_items_list')
     created_date = models.DateField(auto_now=True)
     due_date = models.DateField(blank=True, null=True, )
     completed = models.BooleanField(default=None)
@@ -46,7 +48,10 @@ class Item(models.Model):
     created_by = models.ForeignKey(User, related_name='todo_created_by')
     assigned_to = models.ForeignKey(User, blank=True, null=True, related_name='todo_assigned_to')
     note = models.TextField(blank=True, null=True)
+    price = models.DecimalField(blank=True, null=True, max_digits=6, decimal_places=2)
+    purchase_url = models.URLField(blank=True, null=True)
     priority = models.PositiveIntegerField()
+    quantity = models.IntegerField(default=1)
 
     # Has due date for an instance of this object passed?
     def overdue_status(self):
@@ -58,7 +63,8 @@ class Item(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('todo-task_detail', kwargs={'task_id': self.id, })
+        return reverse('families:todo:todo-task_detail', kwargs={'group_pk': self.list.group_id, 'task_id': self.id, })
+
 
     # Auto-set the item creation / completed date
     def save(self):

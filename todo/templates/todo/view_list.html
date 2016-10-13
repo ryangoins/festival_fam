@@ -1,166 +1,187 @@
-{% extends "todo/base.html" %}
+{% extends 'families/base.html' %}
+
+{% load staticfiles %}
+
+{% block nav %}
+
+    <li><a href="{% url 'families:detail' group_pk %}">Discussion</a></li>
+    <li><a href="#">The Plan</a></li>
+    <li><a href="{% url 'families:meal_list' group_pk %}">Meals</a></li>
+    <li class="active"><a href="{% url 'families:todo:todo-lists' group_pk %}">Group Gear</a></li>
+    <li><a href="#">Personal Gear</a></li>
+    <li><a href="#">Festival Info</a></li>
+    <li><a href="#">Stay Safe</a></li>
+
+{% endblock nav %}
 
 {% block title %}Todo List: {{ list.name }}{% endblock %}
 
-{% block content %}
-    <script type="text/javascript">
-        function order_tasks(data) {
-            // The JQuery plugin tableDnD provides a serialize() function which provides the re-ordered
-            // data in a list. We pass that list as an object called "data" to a Django view
-            // to save the re-ordered data into the database.
+{% block primary_content %}
 
-            $.post("{% url 'todo-reorder_tasks' %}", data, "json");
-            return false;
-        };
+<script type="text/javascript">
+    function order_tasks(data) {
+         //The JQuery plugin tableDnD provides a serialize() function which provides the re-ordered
+        // data in a list. We pass that list as an object called "data" to a Django view
+        // to save the re-ordered data into the database.
 
-        $(document).ready(function() {
-            // Initialise the task table for drag/drop re-ordering
-            $("#tasktable").tableDnD();
+        $.post("{% url 'families:todo:todo-reorder_tasks' group_pk=group_pk %}", data, "json");
+        return false;
+    };
 
-            $('#tasktable').tableDnD({
-                onDrop: function(table, row) {
-                    order_tasks($.tableDnD.serialize());
-                }
-            });
+    $(document).ready(function() {
+        // Initialise the task table for drag/drop re-ordering
+        $("#tasktable").tableDnD();
 
-            // Initially hide the Add Task form
-            $('#AddTask').hide();
-
-            // toggle slide to show the Add Task form when link clicked
-            $('#slideToggle').click(function(){
-                $(this).siblings('#AddTask').slideToggle();
-            });
+        $('#tasktable').tableDnD({
+            onDrop: function(table, row) {
+                order_tasks($.tableDnD.serialize());
+            }
         });
-    </script>
 
-    {% if list_slug == "mine" %}
-        <h1>Tasks assigned to {{ request.user }}</h1>
-    {% elif auth_ok %}
-       <h1>Tasks filed under "{{ list.name }}"</h1>
-       <p>This list belongs to group {{ list.group }}</p>
-    {% endif %}
+        // Initially hide the Add Task form
+        $('#AddTask').hide();
 
-    {% if auth_ok %}
-        <form action="" method="POST">
-            {% csrf_token %}
+         //toggle slide to show the Add Task form when link clicked
+        $('#slideToggle').click(function(){
+            $(this).siblings('#AddTask').slideToggle();
+        });
+    });
+</script>
 
-            {# Only show task adder if viewing a proper list #}
-            {% if list_slug != "mine" %}
-                <h2 style="margin-bottom:0px;" id="slideToggle" >&rarr; Click to add task &larr;</h2>
+{% if list_slug == "mine" %}
+    <h1>Shit You Need To Bring</h1>
+{% elif auth_ok %}
+   <h1>{{ list.name }}</h1>
+{% endif %}
 
-                <div id="AddTask">
-            	    <table class="nocolor" border="0" cellspacing="5" cellpadding="5">
-            	       <tr>
-            	           <td>{{ form.title.errors }}</td>
-            	           <td>{{ form.due_date.errors }}</td>
-            	       </tr>
-            	       <tr>
-            	           <td><label for="id_title">Task:</label> {{ form.title }}</td>
-            	           <td><label for="id_due_date">Due date:</label> {{ form.due_date }}</td>
-            	           <td><label for="id_assigned">Assign to:</label> {{ form.assigned_to }}</td>
-            	           <td><label for="id_notify">Notify*:</label> <input type="checkbox" checked="checked" name="notify" value="1" id="notify"></td>
-             	       </tr>
-            	       <tr>
-            	           <td><label for="id_note">Note:</label>
-                                {{ form.note }}
-            	               <p class="minor">*Email notifications will only be sent if task is assigned to someone besides yourself.</p>
-            	           </td>
-             	       </tr>
-            	    </table>
+{% if auth_ok %}
+    <form action="" method="POST">
+        {% csrf_token %}
 
-                    <input type="hidden" name="priority" value="999" id="id_priority">
-                    <input type="hidden" name="created_by" value="{{ request.user.id }}" id="id_created_by">
-                    <input type="hidden" name="list" value="{{ listid }}" id="id_list">
-                    <input type="hidden" name="created_date" value="{{ created_date }}" id="id_created_date">
-            	    <p><input type="submit" name="add_task" value="Add task" class="todo-button"></p>
-                </div>
-            {% endif %}
+        {# Only show task adder if viewing a proper list #}
+        {% if list_slug != "mine" %}
+             <h2 style="margin-bottom:0px;" id="slideToggle" >&rarr; Click to add task &larr;</h2>
 
-            {% if not view_completed %}
+             <div id="AddTask">
+        	    <table class="nocolor" border="0" cellspacing="5" cellpadding="5">
+        	       <tr>
+        	           <td>{{ form.title.errors }}</td>
+        	           <td>{{ form.due_date.errors }}</td>
+        	       </tr>
+        	       <tr>
+        	           <td><label for="id_title">Item:</label> {{ form.title }}</td>
+        	           <td><label for="id_price">Price: $</label> {{ form.price }}</td>
+                       <td><label for="id_quantity">Quantity</label> {{ form.quantity }}</td>
+        	           <td><label for="id_assigned">Assign to:</label> {{ form.assigned_to }}</td>
+        	           <td><label for="id_notify">Notify*:</label> <input type="checkbox" checked="checked" name="notify" value="1" id="notify"></td>
+         	       </tr>
+                   <!-- remove note field
+        	       <tr>
+        	           <td><label for="id_note">Note:</label>
+                            {{ form.note }}
+        	               <p class="minor">*Email notifications will only be sent if task is assigned to someone besides yourself.</p>
+        	           </td>
+                   -->
+         	       </tr>
+        	    </table>
 
-            	<h3>Incomplete tasks :: Drag rows to set priorities</h3>
+                <input type="hidden" name="priority" value="999" id="id_priority">
+                <input type="hidden" name="created_by" value="{{ request.user.id }}" id="id_created_by">
+                <input type="hidden" name="list" value="{{ list.id }}" id="id_list">
+                <input type="hidden" name="created_date" value="{{ created_date }}" id="id_created_date">
+        	    <p><input type="submit" name="add_task" value="Add Item" class="btn btn-default"></p>
+            </div>
+        {% endif %}
 
-            	<table border="0" id="tasktable">
-                    <tr>
-                        <th>Done</th>
-                        <th>Task</th>
-                        <th>Created</th>
-                        <th>Due on</th>
-                        <th>Owner</th>
-                        <th>Assigned</th>
-                        <th>Note</th>
-                        <th>Comm</th>
+        {% if not view_completed %}
+
+
+
+        	<table border="0" id="tasktable" class="table table-striped">
+                <tr>
+                    <th>Done</th>
+                    <th>Item</th>
+
+                    <th>Due on</th>
+                    <th>Owner</th>
+
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Comments</th>
+                    {% if list_slug == "mine" %}
+                        <th>List</th>
+                    {% endif %}
+                    <th>Del</th>
+                </tr>
+        		{% for task in task_list %}
+        	        <tr id="{{ task.id }}">
+        	            <td><input type="checkbox" name="mark_done" value="{{ task.id }}" id="mark_done_{{ task.id }}">   </td>
+        	            <td><a href="{% url 'families:todo:todo-task_detail' group_pk task.id %}">{{ task.title|truncatewords:20 }}</a></td>
+
+        	            <td>
+        	            {% if task.overdue_status %}<span class="overdue">{% endif %}
+        	                {{ task.due_date|date:"m/d/Y" }}
+        	            {% if task.overdue_status %}</span>{% endif %}
+        	            </td>
+        	            <td>{{ task.created_by }}</td>
+
+        	            <td style="text-align:center;">{% if task.price %}${{ task.price }}{% endif %} </td>
+                        <td style="text-align:center;">{{ task.quantity }} </td>
+        	            <td style="text-align:center;">{% if task.comment_set.all.count != 0 %}{{ task.comment_set.all.count }}{% endif %}</td>
                         {% if list_slug == "mine" %}
-                            <th>List</th>
+                            <td><a href="{% url 'families:todo:todo-incomplete_tasks' group.id task.list.id task.list.slug %}">{{ task.list }}</a></td>
                         {% endif %}
-                        <th>Del</th>
+        	            <td><input type="checkbox" name="del_task" value="{{ task.id }}" id="del_task_{{ task.id }}">   </td>
                     </tr>
-            		{% for task in task_list %}
-            	        <tr id="{{ task.id }}">
-            	            <td><input type="checkbox" name="mark_done" value="{{ task.id }}" id="mark_done_{{ task.id }}">   </td>
-            	            <td><a href="{% url 'todo-task_detail' task.id %}">{{ task.title|truncatewords:20 }}</a></td>
-            	            <td>{{ task.created_date|date:"m/d/Y" }}</td>
-            	            <td>
-            	            {% if task.overdue_status %}<span class="overdue">{% endif %}
-            	                {{ task.due_date|date:"m/d/Y" }}
-            	            {% if task.overdue_status %}</span>{% endif %}
-            	            </td>
-            	            <td>{{ task.created_by }}</td>
-            	            <td>{% if task.assigned_to %}{{ task.assigned_to }}{% else %}Anyone{% endif %}</td>
-            	            <td style="text-align:center;">{% if task.note %}&asymp;{% endif %} </td>
-            	            <td style="text-align:center;">{% if task.comment_set.all.count != 0 %}{{ task.comment_set.all.count }}{% endif %}</td>
-            	            {% if list_slug == "mine" %}
-                                <td><a href="{% url 'todo-incomplete_tasks' task.list.id task.list.slug %}">{{ task.list }}</a></td>
-                            {% endif %}
-            	            <td><input type="checkbox" name="del_task" value="{{ task.id }}" id="del_task_{{ task.id }}">   </td>
-                        </tr>
-            	    {% endfor %}
-            	</table>
+        	    {% endfor %}
+        	</table>
 
-                <p><input type="submit" name="mark_tasks_done" value="Continue..."  class="todo-button"></p>
-                <p><a  class="todo" href="{% url 'todo-completed_tasks' list.id list_slug %}">View completed tasks</a></p>
+            <p><input type="submit" name="mark_tasks_done" value="Update"  class="btn btn-default"></p>
+            <p><a  class="todo" href="{% url 'families:todo:todo-completed_tasks' group.pk list_id list_slug %}">View completed tasks</a></p>
 
-            {% else %}
+        {% else %}
 
-            	<h3>Completed tasks</h3>
+        	<h3>Completed tasks</h3>
 
-            	<table border="0"  id="tasktable">
-                    <tr>
-                        <th>Undo</th>
-                        <th>Task</th>
-                        <th>Created</th>
-                        <th>Completed on</th>
-                        <th>Note</th>
-                        <th>Comm</th>
-                        {% if list_slug == "mine" %}
-                            <th>List</th>
-                        {% endif %}
-                        <th>Del</th>
+        	<table border="0"  id="tasktable">
+                <tr>
+                    <th>Undo</th>
+                    <th>Task</th>
+                    <th>Created</th>
+                    <th>Completed on</th>
+                    <th>Note</th>
+                    <th>Comm</th>
+                    {% if list_slug == "mine" %}
+                        <th>List</th>
+                    {% endif %}
+                    <th>Del</th>
+                </tr>
+
+        		{% for task in completed_list %}
+        	        <tr>
+        	            <td><input type="checkbox" name="undo_completed_task" value="{{ task.id }}" id="id_undo_completed_task{{ task.id }}">   </td>
+        	            <td><a href="{% url 'todo:todo-task_detail' task.id %}">{{ task.title|truncatewords:20 }}</a></td>
+        	            <td>{{ task.created_date|date:"m/d/Y" }}</td>
+        	            <td>{{ task.completed_date|date:"m/d/Y" }}</td>
+        	            <td style="text-align:center;">{% if task.note %}&asymp;{% endif %} </td>
+        	            <td style="text-align:center;">{% if task.comment_set.all.count != 0 %}{{ task.comment_set.all.count }}{% endif %}
+        	            <td><input type="checkbox" name="del_tasks" value="{{ task.id }}" id="del_task_{{ task.id }}">   </td>
                     </tr>
+        	    {% endfor %}
 
-            		{% for task in completed_list %}
-            	        <tr>
-            	            <td><input type="checkbox" name="undo_completed_task" value="{{ task.id }}" id="id_undo_completed_task{{ task.id }}">   </td>
-            	            <td><a href="{% url 'todo-task_detail' task.id %}">{{ task.title|truncatewords:20 }}</a></td>
-            	            <td>{{ task.created_date|date:"m/d/Y" }}</td>
-            	            <td>{{ task.completed_date|date:"m/d/Y" }}</td>
-            	            <td style="text-align:center;">{% if task.note %}&asymp;{% endif %} </td>
-            	            <td style="text-align:center;">{% if task.comment_set.all.count != 0 %}{{ task.comment_set.all.count }}{% endif %}
-            	            <td><input type="checkbox" name="del_tasks" value="{{ task.id }}" id="del_task_{{ task.id }}">   </td>
-                        </tr>
-            	    {% endfor %}
+        	</table>
+        	<p><input type="submit" name="deldonetasks" value="Continue..."  class="todo-button"></p>
+        	</form>
+            <p><a class="todo" href="{% url 'todo:todo-incomplete_tasks' list.id list_slug %}">View incomplete tasks</a></p>
+        {% endif %}
 
-            	</table>
-            	<p><input type="submit" name="deldonetasks" value="Continue..."  class="todo-button"></p>
-            	</form>
-                <p><a class="todo" href="{% url 'todo-incomplete_tasks' list.id list_slug %}">View incomplete tasks</a></p>
-            {% endif %}
-
-    	{% if user.is_staff %}
-        	{% if list_slug != "mine" %}
-        	   <p><a class="todo" href="{% url 'todo-del_list' list.id list_slug %}">Delete this list</a></p>
-        	{% endif %}
+	{% if user.is_staff %}
+    	{% if list_slug != "mine" %}
+    	   <p><a class="todo" href="{% url 'families:todo:todo-del_list' group_pk list.id list_slug %}">Delete this list</a></p>
     	{% endif %}
+	{% endif %}
 
-    {% endif %}
-{% endblock %}
+{% endif %}
+
+
+{% endblock primary_content %}

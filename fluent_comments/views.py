@@ -99,7 +99,7 @@ def post_comment_ajax(request, using=None):
         request = request
     )
 
-    return _ajax_result(request, form, "post", comment, object_id=object_pk)
+    return _ajax_result(request, form, "post", comment, object_id=object_pk, )
 
 
 def _ajax_result(request, form, action, comment=None, object_id=None):

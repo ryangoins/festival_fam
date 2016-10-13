@@ -1,7 +1,7 @@
 import datetime
 
 from django.contrib.auth.decorators import user_passes_test, login_required
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
@@ -18,7 +18,7 @@ from todo import settings
 from todo.forms import AddListForm, AddItemForm, EditItemForm, AddExternalItemForm, SearchForm
 from todo.models import Item, List, Comment
 from todo.utils import mark_done, undo_completed_task, del_tasks, send_notify_mail
-
+from . import models
 # Need for links in email templates
 current_site = Site.objects.get_current()
 
@@ -34,22 +34,26 @@ def check_user_allowed(user):
 
 
 @user_passes_test(check_user_allowed)
-def list_lists(request):
+def list_lists(request, group_pk=None):
     """
     Homepage view - list of lists a user can view, and ability to add a list.
     """
     thedate = datetime.datetime.now()
     searchform = SearchForm(auto_id=False)
+    group = get_object_or_404(models.Group, pk=group_pk)
+    members = models.User.objects.filter(groups=group)
+    user = request.user
+    profile = user.userprofile
 
     # Make sure user belongs to at least one group.
     if request.user.groups.all().count() == 0:
         messages.error(request, "You do not yet belong to any groups. Ask your administrator to add you to one.")
 
-    # Superusers see all lists
-    if request.user.is_superuser:
-        list_list = List.objects.all().order_by('group', 'name')
-    else:
-        list_list = List.objects.filter(group__in=request.user.groups.all()).order_by('group', 'name')
+    # Superusers see all lists (TURN THIS BACK ON BEFORE GOING LIVE)
+    #if request.user.is_superuser:
+    #    list_list = List.objects.all().order_by('group', 'name')
+    #else:
+    list_list = List.objects.filter(group__in=group_pk)#request.user.groups.groupall()).order_by('group', 'name')
 
     list_count = list_list.count()
 
@@ -81,12 +85,15 @@ def del_list(request, list_id, list_slug):
     return render(request, 'todo/del_list.html', locals())
 
 
-@user_passes_test(check_user_allowed)
-def view_list(request, list_id=0, list_slug=None, view_completed=False):
+#@user_passes_test(check_user_allowed)
+def view_list(request, group_pk=None, list_id=0, list_slug=None, view_completed=False):
     """
     Display and manage items in a list.
     """
-
+    #this list is repeated a lot. lets re-factor somehow
+    group = get_object_or_404(models.Group, pk=group_pk)
+    members = models.User.objects.filter(groups=group)
+    profile = request.user.userprofile
     # Make sure the accessing user has permission to view this list.
     # Always authorize the "mine" view. Admins can view/edit all lists.
     if list_slug == "mine" or list_slug == "recent-add" or list_slug == "recent-complete":
@@ -129,12 +136,19 @@ def view_list(request, list_id=0, list_slug=None, view_completed=False):
         completed_list = Item.objects.filter(list=list.id, completed=1)
 
     if request.POST.getlist('add_task'):
+        print('got request')
+
         form = AddItemForm(list, request.POST, initial={
             'assigned_to': request.user.id,
             'priority': 999,
         })
+        print('set form variable')
+        print(form.errors)
+        print(form.is_valid)
 
         if form.is_valid():
+            form.save()
+            print('saved')
             new_task = form.save()
 
             # Send email alert only if Notify checkbox is checked AND assignee is not same as the submitter
@@ -155,11 +169,12 @@ def view_list(request, list_id=0, list_slug=None, view_completed=False):
 
 
 @user_passes_test(check_user_allowed)
-def view_task(request, task_id):
+def view_task(request, group_pk, task_id, list_id=0, list_slug=None):
     """
     View task details. Allow task details to be edited.
     """
     task = get_object_or_404(Item, pk=task_id)
+    task_list = get_object_or_404(List, the_items_list=task_id)
     comment_list = Comment.objects.filter(task=task_id)
 
     # Ensure user has permission to view item.
@@ -222,7 +237,7 @@ def view_task(request, task_id):
 
 @csrf_exempt
 @user_passes_test(check_user_allowed)
-def reorder_tasks(request):
+def reorder_tasks(request, group_pk=None):
     """
     Handle task re-ordering (priorities) from JQuery drag/drop in view_list.html
     """
