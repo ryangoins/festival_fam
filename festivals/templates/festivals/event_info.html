@@ -19,6 +19,14 @@
 <div class="row">
     <div class="col-md-12">
         <h3>Getting to {{ event.name }}</h3>
+        <p>The campground opens at <strong>{{ event.start_date|time:"P" }}</strong> on {{ event.start_date|date:"l" }} {{ event.start_date|date }}.
+        <p>To get to GA campinng, navigate to the address below. </p>
+        <iframe
+          width="600"
+          height="250"
+          frameborder="0" style="border:0"
+          src="https://www.google.com/maps/embed/v1/search?key=AIzaSyDvmsQbbmcAto4VsCsGaojYVblBn176ojg&q={{ event.event_address.street_number}}+{{event.event_address.street }},{{ event.event_address.state}}" allowfullscreen>
+        </iframe>
         <hr>
     </div>
 </div>

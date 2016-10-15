@@ -49,7 +49,7 @@ class Restrictions(models.Model):
 
 class Address(models.Model):
     event =  models.OneToOneField(Event, related_name="event_address")
-    number = models.IntegerField(null=True)
+    street_number = models.IntegerField(null=True)
     street = models.CharField(max_length=255, default='')
     state = USStateField(default='')
     zipcode = USZipCodeField(default='')
