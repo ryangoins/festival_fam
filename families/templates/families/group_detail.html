@@ -10,7 +10,7 @@
     <li><a href="{% url 'families:meal_list' group_pk %}">Meals</a></li>
     <li><a href="{% url 'families:todo:todo-lists' group_pk %}">Group Gear</a></li>
     <li><a href="{% url 'families:todo:todo-mine' group_pk %}">My List</a></li>
-    <li><a href="#">Festival Info</a></li>
+    <li><a href="{% url 'families:festivals:event_info' group_pk=group_pk event_slug=event.slug %}">Festival Info</a></li>
     <li><a href="#">Stay Safe</a></li>
 
 {% endblock nav %}

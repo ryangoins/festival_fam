@@ -1,6 +1,6 @@
 from django.db import models
 from localflavor.us.us_states import US_STATES
-from localflavor.us.models import USStateField, USZipCodeField
+from localflavor.us.models import USStateField, USZipCodeField, PhoneNumberField
 
 #This model is for an individual festival. It will have a one-to-many relationship with Families
 #It will act as the sole truth for all info on that festival, any Family will inherit the information from it
@@ -30,7 +30,8 @@ class Event(models.Model):
     registration_site = models.URLField(default='', blank=True)
     parking_pass = models.URLField(default='', blank=True)
     venue_map = models.URLField(default='', blank=True)
-    #email
+    #contact info
+    phone = PhoneNumberField(default='')
     email = models.EmailField(max_length=254, default='')
 
     def __str__(self):
@@ -51,5 +52,6 @@ class Address(models.Model):
     event =  models.OneToOneField(Event, related_name="event_address")
     street_number = models.IntegerField(null=True)
     street = models.CharField(max_length=255, default='')
+    city = models.CharField(max_length=255, default='')
     state = USStateField(default='')
     zipcode = USZipCodeField(default='')
