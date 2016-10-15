@@ -69,12 +69,14 @@
                     <p><strong>Email: </strong>{{ group.familygroup.event.email }}</p>
                     <!-- <p><strong>Phone: </strong></p> -->
 
-                    <a href="{{ group.familygroup.event.snapchat }}"<i class="fa fa-2x fa-snapchat-square" aria-hidden="true"></i></a>
-                    <a href="{{ group.familygroup.event.instagram }}"<i class="fa fa-2x fa-instagram" aria-hidden="true"></i></a>
-                    <a href="{{ group.familygroup.event.facebook }}"<i class="fa fa-2x fa-facebook" aria-hidden="true"></i></a>
-                    <a href="{{ group.familygroup.event.youtube }}"<i class="fa fa-2x fa-youtube" aria-hidden="true"></i></a>
-                    <a href="{{ group.familygroup.event.twitter }}"<i class="fa fa-2x fa-twitter" aria-hidden="true"></i></a>
-                    <br>
+                    <div class="social_links">
+                        <a href="{{ group.familygroup.event.snapchat }}"<i id="snapchat" class="fa fa-2x fa-snapchat-square " aria-hidden="true"></i></a>
+                        <a href="{{ group.familygroup.event.instagram }}"<i class="fa fa-2x fa-instagram instagram" aria-hidden="true"></i></a>
+                        <a href="{{ group.familygroup.event.facebook }}"<i class="fa fa-2x fa-facebook facebook" aria-hidden="true"></i></a>
+                        <a href="{{ group.familygroup.event.youtube }}"<i class="fa fa-2x fa-youtube youtube" aria-hidden="true"></i></a>
+                        <a href="{{ group.familygroup.event.twitter }}"<i class="fa fa-2x fa-twitter twitter" aria-hidden="true"></i></a>
+                    </div>
+
                     <p><strong>Download the App</strong></p>
                     <a href="{{ group.familygroup.event.ios_app }}"><img src='/static/media/icons/appstore.svg'></a>
                     <a href="{{ group.familygroup.event.android_app }}"><img width="135px;" src="/static/media/icons/googleplay.png"></a>
