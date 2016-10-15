@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'families',
     'festivals',
     'todo',
+    'localflavor',
 
 ]
 

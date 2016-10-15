@@ -43,3 +43,7 @@ class Restrictions(models.Model):
     wine = models.BooleanField(default='')
     liquor = models.BooleanField(default='')
     alcohol_policy = models.TextField(default='', blank=True)
+
+class Address(models.Model):
+    event =  models.OneToOneField(Event, related_name="event_address")
+    
