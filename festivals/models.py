@@ -5,6 +5,7 @@ from django.db import models
 
 class Event(models.Model):
     name = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=60, editable=False)
     description = models.TextField(default='', blank=True)
     cover_photo = models.ImageField(default='', blank=True, upload_to='media/')
     start_date = models.DateTimeField()
@@ -28,11 +29,17 @@ class Event(models.Model):
     venue_map = models.URLField(default='', blank=True)
     #email
     email = models.EmailField(max_length=254, default='')
-    #common questionable items
-    totems = models.BooleanField(default='')
-    hydration_pack = models.BooleanField(default='')
-    camping_stove = models.BooleanField(default='')
-    alcohol_policy = models.TextField(default='', blank=True)
 
     def __str__(self):
         return self.name
+
+class Restrictions(models.Model):
+    #common questionable items
+    event =  models.OneToOneField(Event, related_name="event_restrictions")
+    totems = models.BooleanField(default='')
+    hydration_pack = models.BooleanField(default='')
+    camping_stove = models.BooleanField(default='')
+    beer = models.BooleanField(default='')
+    wine = models.BooleanField(default='')
+    liqour = models.BooleanField(default='')
+    alcohol_policy = models.TextField(default='', blank=True)

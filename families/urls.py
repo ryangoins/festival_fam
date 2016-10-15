@@ -14,7 +14,7 @@ urlpatterns = [
     url(r'^user/(?P<username>[\w.@+-]+)/$', views.group_list, name='group_list'),
     url(r'^create/$', CreateGroup.as_view(), name='create_group'),
     #url(r'(?P<pk>\d+)/todo/(?P<list_id>\d{1,4})/(?P<list_slug>[\w-]+)/$', views.view_list, name='list_view'),
-    url(r'(?P<group_pk>\d+)/todo/', include('todo.urls', namespace='todo')
-    ),
+    url(r'(?P<group_pk>\d+)/todo/', include('todo.urls', namespace='todo')),
+    url(r'(?P<group_pk>\d+)/festival-info/', include('festivals.urls', namespace='festivals')),
 
 ]
