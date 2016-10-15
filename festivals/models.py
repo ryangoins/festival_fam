@@ -1,4 +1,6 @@
 from django.db import models
+from localflavor.us.us_states import US_STATES
+from localflavor.us.models import USStateField, USZipCodeField
 
 #This model is for an individual festival. It will have a one-to-many relationship with Families
 #It will act as the sole truth for all info on that festival, any Family will inherit the information from it
@@ -6,6 +8,7 @@ from django.db import models
 class Event(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=60, editable=False)
+    location = models.CharField(max_length=255)
     description = models.TextField(default='', blank=True)
     cover_photo = models.ImageField(default='', blank=True, upload_to='media/')
     start_date = models.DateTimeField()
@@ -46,4 +49,7 @@ class Restrictions(models.Model):
 
 class Address(models.Model):
     event =  models.OneToOneField(Event, related_name="event_address")
-    
+    number = models.IntegerField(null=True)
+    street = models.CharField(max_length=255, default='')
+    state = USStateField(default='')
+    zipcode = USZipCodeField(default='')
