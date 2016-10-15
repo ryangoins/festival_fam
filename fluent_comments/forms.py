@@ -29,6 +29,8 @@ class FluentCommentForm(base_class):
     def __init__(self, *args, **kwargs):
         super(FluentCommentForm, self).__init__(*args, **kwargs)
         self.fields['comment'].widget.attrs['placeholder'] = "Add a comment"
+        self.fields['url'].widget.attrs['placeholder'] = "Enter soundcloud url"
+        self.fields['url'].widget.attrs['id'] = "hide_url"
         # Remove fields from the form.
         # This has to be done in the constructor, because the ThreadedCommentForm
         # inserts the title field in the __init__, instead of the static form definition.
