@@ -25,6 +25,7 @@ def group_detail(request, group_pk=None):
     group = get_object_or_404(models.Group, pk=group_pk)
     familygroup = get_object_or_404(models.FamilyGroup, group_id=group_pk)
     #list = get_object_or_404(List, group_id=group_pk)
+    event = familygroup.event
     members = models.User.objects.filter(groups=group)
     user = request.user
     profile = user.userprofile

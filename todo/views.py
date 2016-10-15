@@ -18,6 +18,8 @@ from todo import settings
 from todo.forms import AddListForm, AddItemForm, EditItemForm, AddExternalItemForm, SearchForm
 from todo.models import Item, List, Comment
 from todo.utils import mark_done, undo_completed_task, del_tasks, send_notify_mail
+from families.models import FamilyGroup
+from festivals.models import Event
 from . import models
 # Need for links in email templates
 current_site = Site.objects.get_current()
@@ -41,6 +43,9 @@ def list_lists(request, group_pk=None):
     thedate = datetime.datetime.now()
     searchform = SearchForm(auto_id=False)
     group = get_object_or_404(models.Group, pk=group_pk)
+    familygroup = get_object_or_404(FamilyGroup, group_id=group_pk)
+    #list = get_object_or_404(List, group_id=group_pk)
+    event = familygroup.event
     members = models.User.objects.filter(groups=group)
     user = request.user
     profile = user.userprofile
@@ -92,6 +97,9 @@ def view_list(request, group_pk=None, list_id=0, list_slug=None, view_completed=
     """
     #this list is repeated a lot. lets re-factor somehow
     group = get_object_or_404(models.Group, pk=group_pk)
+    familygroup = get_object_or_404(FamilyGroup, group_id=group_pk)
+    #list = get_object_or_404(List, group_id=group_pk)
+    event = familygroup.event
     members = models.User.objects.filter(groups=group)
     profile = request.user.userprofile
     # Make sure the accessing user has permission to view this list.

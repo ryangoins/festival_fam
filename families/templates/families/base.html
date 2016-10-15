@@ -60,16 +60,26 @@
             </div>
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <p><strong>{{ group.familygroup.event.name }} Details:</strong>
-                    <h4>{{ group.familygroup.event.start_date|date:"M d" }} - {{ group.familygroup.event.end_date|date:"M d" }}</h4>
-                    <p>{{ group.familygroup.event.location }}</p>
+                    <h4>{{ group.familygroup.event.start_date|date:"M d" }} - {{ group.familygroup.event.end_date|date }}</h4>
+                    <p>{{ group.familygroup.event.event_address.city }}, {{ group.familygroup.event.event_address.state }} </p>
 
                     <p><a href="{{ group.familygroup.event.registration_site }}">Buy Tickets</a> | <a href="">Parking Info</a>  | <a href="{{ group.familygroup.event.faq_site }}">F.A.Q</a> |</p>
                     <p><a href="{{ event.venue_map }}">Map of The Venue</a></p>
-                    <p><strong>Contact Info</strong></p>
+
                     <p><strong>Email: </strong>{{ group.familygroup.event.email }}</p>
-                    <p><strong>Phone: </strong></p>
-                    <p><strong>Address: </strong></p>
+                    <!-- <p><strong>Phone: </strong></p> -->
+
+                    <div class="social_links">
+                        <a href="{{ group.familygroup.event.snapchat }}"<i id="snapchat" class="fa fa-2x fa-snapchat-square " aria-hidden="true"></i></a>
+                        <a href="{{ group.familygroup.event.instagram }}"<i class="fa fa-2x fa-instagram instagram" aria-hidden="true"></i></a>
+                        <a href="{{ group.familygroup.event.facebook }}"<i class="fa fa-2x fa-facebook facebook" aria-hidden="true"></i></a>
+                        <a href="{{ group.familygroup.event.youtube }}"<i class="fa fa-2x fa-youtube youtube" aria-hidden="true"></i></a>
+                        <a href="{{ group.familygroup.event.twitter }}"<i class="fa fa-2x fa-twitter twitter" aria-hidden="true"></i></a>
+                    </div>
+
+                    <p><strong>Download the App</strong></p>
+                    <a href="{{ group.familygroup.event.ios_app }}"><img src='/static/media/icons/appstore.svg'></a>
+                    <a href="{{ group.familygroup.event.android_app }}"><img width="135px;" src="/static/media/icons/googleplay.png"></a>
                 </div>
             </div>
         </div>
