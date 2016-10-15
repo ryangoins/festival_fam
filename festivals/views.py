@@ -20,6 +20,7 @@ def event_info(request, group_pk, event_slug):
     #turn this into a function of some sort
     group = get_object_or_404(Group, pk=group_pk)
     familygroup = get_object_or_404(FamilyGroup, group_id=group_pk)
+    event = get_object_or_404(Event, slug=event_slug)
     #list = get_object_or_404(List, group_id=group_pk)
     members = User.objects.filter(groups=group)
     user = request.user

@@ -16,6 +16,51 @@
 
 {% block primary_content %}
 
+<div class="row">
+    <div class="col-md-12">
+        <h3>Getting to {{ event.name }}</h3>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h4>Contact Info</h4>
+                    <p><strong>Email: </strong>{{ event.email }}</p>
+                    <p><strong>Phone: </strong></p>
+                    <p><strong>Address: </strong></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <p><a href="{{ event.registration_site }}">Buy Tickets!</a></p>
+                    <p><a href="{{ event.parking_pass }}">Buy Parking Pass</a></p>
+                    <p><a href="{{ event.venue_map }}">Map of The Venue</a></p>
+                    <p><a href="{{ event.faq_site }}">{{ event.name }} F.A.Q.</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h3>What can I bring?</h3>
+                <div class="col-md-6">
+                    <p><strong>Totems:</strong>{% if event.event_restrictions.totems %} Yes {% else %} No {% endif %}</p>
+                    <p><strong>Hydration Pack:</strong>{% if event.event_restrictions.hydration_pack %} Yes {% else %} No {% endif %}</p>
+                    <p><strong>Camping Stove:</strong>{% if event.event_restrictions.camping_stove %} Yes {% else %} No {% endif %}</p>
+                    <p>For information on other items, see the <a href="{{ event.faq_site }}">{{ event.name }} F.A.Q.</a>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Beer:</strong>{% if event.event_restrictions.beer %} Yes {% else %} No {% endif %}</p>
+                    <p><strong>Wine:</strong>{% if event.event_restrictions.wine %} Yes {% else %} No {% endif %}</p>
+                    <p><strong>Liquor:</strong>{% if event.event_restrictions.liqour %} Yes {% else %} No {% endif %}</p>
+                    <p>{{ event.event_restrictions.alcohol_policy }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock primary_content %}

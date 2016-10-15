@@ -41,5 +41,5 @@ class Restrictions(models.Model):
     camping_stove = models.BooleanField(default='')
     beer = models.BooleanField(default='')
     wine = models.BooleanField(default='')
-    liqour = models.BooleanField(default='')
+    liquor = models.BooleanField(default='')
     alcohol_policy = models.TextField(default='', blank=True)

@@ -1,6 +1,14 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Event
+from .models import Event, Restrictions
 
-admin.site.register(Event)
+
+class EventRestrictionsInLine(admin.StackedInline):
+    model = Restrictions
+    can_delete = False
+
+class EventAdmin(admin.ModelAdmin):
+    inlines = [EventRestrictionsInLine]
+
+admin.site.register(Event, EventAdmin,)
