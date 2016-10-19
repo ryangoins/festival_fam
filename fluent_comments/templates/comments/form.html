@@ -3,11 +3,11 @@
 {% if not form.target_object|comments_are_open %}
     <p>{% trans "Comments are closed." %}</p>
 {% else %}
-    <p><strong>Add song:</strong></p>
+    <p>Add song:</p>
     <script type="text/javascript">
         $(document).ready(function() {
 
-            // changes color of logo
+            
             $("#slideToggle").hover(function () {
                 $(this).css("color", "#ff7700");
             },
@@ -15,7 +15,6 @@
                 $(this).css("color", "inherit");
             });
 
-            // hides and shows url field
             $('#hide_url').hide();
 
             $('#slideToggle').click(function(){
