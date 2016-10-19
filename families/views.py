@@ -105,27 +105,44 @@ class CreateGroup(CreateView):
         familygroup.save()
         return HttpResponseRedirect(reverse('families:detail', args=(group.pk,)))
 
-class CreateMeal(CreateView):
-    form_class = CreateMealForm
-    template_name = 'families/create_meal.html'
+# class CreateMeal(CreateView):
+#     form_class = CreateMealForm
+#     template_name = 'families/create_meal.html'
+#
+#     def get_form(self, form_class):
+#         #Need to create a list of the days
+#         family = FamilyGroup.objects.get(group_id=self.kwargs['group_pk'])
+#         festival = Event.objects.get(pk=family.event_id)
+#         first_day = festival.start_date
+#         last_day = festival.end_date
+#         delta = first_day - last_day
+#         festival_days = []
+#
+#         for day in range(delta.days + 1):
+#             festival_days.append(day.strftime("%A"))
+#             return festival_days
+#         #Need to add that list as an option to the form
+#         form = super(CreateMeal, self).get_form(form_class)
+#         form.fields["day"] = form.ChoiceField(choices=festival_days)
+#         return form
 
-    def get_form(self, form_class):
-        #Need to create a list of the days
-        family = FamilyGroup.objects.get(group_id=self.kwargs['group_pk'])
-        festival = Event.objects.get(pk=family.event_id)
-        first_day = festival.start_date
-        last_day = festival.end_date
-        delta = first_day - last_day
-        festival_days = []
+def create_meal(request , group_pk):
+        # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = CreateMealForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            new_meal = form.save(commit=False)
+            new_meal.group = Group.objects.get(pk=group_pk)
+            new_meal.save()
+            return HttpResponseRedirect(reverse('home'))
 
-        for day in range(delta.days + 1):
-            festival_days.append(day.strftime("%A"))
-            return festival_days
-        #Need to add that list as an option to the form
-        form = super(CreateMeal, self).get_form(form_class)
-        form.fields["day"] = form.ChoiceField(choices=festival_days)
-        return form
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = CreateMealForm()
 
+    return render(request, 'families/create_meal.html', {'form': form})
 
 class CreateIngredient(CreateView):
     model = Ingredient

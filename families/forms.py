@@ -26,13 +26,13 @@ class AddGroupMultiForm(MultiModelForm):
         ('familygroup', FamilyGroupForm),
     ))
 
-class CreateMealForm(forms.ModelForm):
+class CreateMealForm(ModelForm):
 
     class Meta:
         model = Meal
-        exclude =('created_at', 'created_by', 'group',)
+        fields = ('name', 'serving_size', 'time', 'instructions' )
 
-class CreateIngredientForm(forms.ModelForm):
+class CreateIngredientForm(ModelForm):
 
     class Meta:
         model = Ingredient
