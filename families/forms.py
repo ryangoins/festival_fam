@@ -30,7 +30,16 @@ class CreateMealForm(ModelForm):
 
     class Meta:
         model = Meal
-        fields = ('name', 'serving_size', 'time', 'instructions' )
+        fields = ('name', 'serving_size', 'time', 'day_choices', 'instructions' )
+
+    def __init__(self,*args,**kwargs):
+        days = kwargs.pop('days')
+        super(CreateMealForm,self).__init__(*args,**kwargs)
+        self.fields['day_choices'] = forms.ChoiceField(choices=days)
+
+    # height = forms.CharField()
+    # form = CreateMealForm(request.POST, initial={'day': day_choices},)
+
 
 class CreateIngredientForm(ModelForm):
 

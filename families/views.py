@@ -130,7 +130,7 @@ def create_meal(request , group_pk):
         # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = CreateMealForm(request.POST)
+        days = (('Monday', 'Monday'),('Tuesday', 'Tuesday'), ('Dinner', 'dinner'))
         # check whether it's valid:
         if form.is_valid():
             new_meal = form.save(commit=False)
@@ -140,7 +140,7 @@ def create_meal(request , group_pk):
 
     # if a GET (or any other method) we'll create a blank form
     else:
-        form = CreateMealForm()
+        form = CreateMealForm(days=(('Monday', 'Monday'),('Tuesday', 'Tuesday'), ('Dinner', 'dinner')))
 
     return render(request, 'families/create_meal.html', {'form': form})
 

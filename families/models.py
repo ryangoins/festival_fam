@@ -22,7 +22,7 @@ class Meal(models.Model):
     time_choices = (('Breakfast', 'breakfast'),('Lunch', 'lunch'), ('Dinner', 'dinner'))
     time = models.CharField(blank=True, max_length=255, default='', choices=time_choices,)
     days = ()
-    day_choices = models.CharField(default='', blank=True, max_length=255, choices=days)
+    day_choices = models.CharField(default='', blank=True, max_length=255)
     group = models.ForeignKey(Group, related_name="meal_group", null=True)
     serving_size = models.IntegerField(blank=True, default='')
     instructions = models.TextField(blank=True, default='')
