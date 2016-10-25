@@ -141,24 +141,23 @@ def create_meal(request , group_pk):
 
     festival_days_tuple = tuple((x, x) for x in festival_days)
 
-    # for day in range(delta.days):
-    #     festival_days.append(day)
-    #     festival_days_tuples = tuple((x, x) for x in festival_days)
 
-        # if this is a POST request we need to process the form data
+    # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
+        form = CreateMealForm(request.POST, days=festival_days_tuple)
         # check whether it's valid:
         if form.is_valid():
             new_meal = form.save(commit=False)
             new_meal.group = Group.objects.get(pk=group_pk)
+            new_meal.created_at = datetime.now()
+            new_meal.created_by = request.user
             new_meal.save()
-            return HttpResponseRedirect(reverse('home'))
+            return HttpResponseRedirect(reverse('families:meal_list', args=(group_pk,)))
 
     # if a GET (or any other method) we'll create a blank form
     else:
         form = CreateMealForm(days=festival_days_tuple)
-
 
     return render(request, 'families/create_meal.html', {'form': form}, )
 

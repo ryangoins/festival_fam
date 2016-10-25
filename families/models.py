@@ -19,15 +19,14 @@ class FamilyGroup(models.Model):
 
 class Meal(models.Model):
     name = models.CharField(blank=True, default='', max_length=255)
-    time_choices = (('Breakfast', 'breakfast'),('Lunch', 'lunch'), ('Dinner', 'dinner'))
+    time_choices = (('Breakfast', 'Breakfast'),('Lunch', 'Lunch'), ('Dinner', 'Dinner'))
     time = models.CharField(blank=True, max_length=255, default='', choices=time_choices,)
-    days = ()
-    day_choices = models.CharField(default='', blank=True, max_length=255)
+    day = models.CharField(default='', blank=True, max_length=255, choices=(),)
     group = models.ForeignKey(Group, related_name="meal_group", null=True)
     serving_size = models.IntegerField(blank=True, default='')
     instructions = models.TextField(blank=True, default='')
     created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.CharField(max_length=255, default='')
+    created_by = models.ForeignKey(User, related_name="meal_created_by")
 
     def __str__(self):
         return self.name

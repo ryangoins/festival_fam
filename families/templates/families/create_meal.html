@@ -1,7 +1,5 @@
 {% extends "base.html" %}
 {% block content %}
-
-    {{ festival_days_tuple }}
     <form class="form-horizontal" action="" method="post">
         {% csrf_token %}
         {{ form.as_p }}
