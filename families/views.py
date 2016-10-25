@@ -1,8 +1,9 @@
+import calendar
 from django.views.generic.edit import CreateView
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
-from datetime import date, timedelta as td
+from datetime import date, datetime, timedelta
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils import timezone
@@ -127,10 +128,26 @@ class CreateGroup(CreateView):
 #         return form
 
 def create_meal(request , group_pk):
+
+    family = FamilyGroup.objects.get(group_id=group_pk)
+    festival = Event.objects.get(pk=family.event_id)
+    first_day = festival.start_date
+    last_day = festival.end_date
+    festival_days = []
+
+    while first_day <= last_day:
+        festival_days.append(first_day.strftime("%A"))
+        first_day += timedelta(days=1)
+
+    festival_days_tuple = tuple((x, x) for x in festival_days)
+
+    # for day in range(delta.days):
+    #     festival_days.append(day)
+    #     festival_days_tuples = tuple((x, x) for x in festival_days)
+
         # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        days = (('Monday', 'Monday'),('Tuesday', 'Tuesday'), ('Dinner', 'dinner'))
         # check whether it's valid:
         if form.is_valid():
             new_meal = form.save(commit=False)
@@ -140,9 +157,10 @@ def create_meal(request , group_pk):
 
     # if a GET (or any other method) we'll create a blank form
     else:
-        form = CreateMealForm(days=(('Monday', 'Monday'),('Tuesday', 'Tuesday'), ('Dinner', 'dinner')))
+        form = CreateMealForm(days=festival_days_tuple)
 
-    return render(request, 'families/create_meal.html', {'form': form})
+
+    return render(request, 'families/create_meal.html', {'form': form}, )
 
 class CreateIngredient(CreateView):
     model = Ingredient
