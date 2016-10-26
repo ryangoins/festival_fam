@@ -18,6 +18,7 @@
 
 {% block title %} Meals {% endblock %}
 
+    {{ festival_days }}
    <h1>Gettin' that Grub</h1>
    <h2>Meals</h2>
    <ul>
@@ -26,8 +27,8 @@
        {% endfor %}
    </ul>
 
-   <div class="table-responsive">
-       <table class="table">
+   <div>
+       <table class="table table-bordered">
            <thead>
                <tr>
                    <th>Day</th>
@@ -37,18 +38,30 @@
                </tr>
            </thead>
            <tbody>
-               <tr>
-                   <th scope="row">Wednesday</th>
-                   <td>Granola Bars</td>
-                   <td>Sammies</td>
-                   <td>Pasta</td>
-               </tr>
-               <tr>
-                   <th scope="row">Thursday</th>
-                   <td>Yogurt & Fruit</td>
-                   <td>Buy Lunch</td>
-                   <td>Tacos</td>
-               </tr>
+               {% for day in festival_days %}
+                   <tr>
+                       <th scope="row">{{ day }}</th>
+                       {% for meal in meals %}
+                           {% if meal.day = day %}
+                               <td>
+                               {% if meal.time = "Breakfast" %}
+                                   {{ meal.name }}
+                               {% endif %}
+                               </td>
+                               <td>
+                                   {% if meal.time = "Lunch" %}
+                                       {{ meal.name }}
+                                   {% endif %}
+                               </td>
+                               <td>
+                                   {% if meal.time = "Dinner" %}
+                                       {{ meal.name }}
+                                   {% endif %}
+                               </td>
+                           {% endif %}
+                       {% endfor %}
+                   </tr>
+               {% endfor %}
            </tbody>
        </table>
    </div>

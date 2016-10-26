@@ -60,11 +60,23 @@ def meal_list(request, group_pk=None):
     meals = models.Meal.objects.filter(group_id=group_pk)
     #list = get_object_or_404(List, group_id=group_pk)
     members = models.User.objects.filter(groups=group)
+
     user = request.user
     profile = user.userprofile
 
+    family = FamilyGroup.objects.get(group_id=group_pk)
+    festival = Event.objects.get(pk=family.event_id)
+    first_day = festival.start_date
+    last_day = festival.end_date
+    festival_days = []
+
+    while first_day <= last_day:
+
+        festival_days.append(first_day.strftime("%A"))
+        first_day += timedelta(days=1)
+
     if user.is_authenticated() and user in members:
-        return render(request, 'families/meal_list.html', locals())
+        return render(request, 'families/meal_list.html', {"festival_days": festival_days, "group_pk": group.pk, "meals": meals, "group": group, "members": members})
     elif request.user.is_authenticated():
         return HttpResponseRedirect(reverse('home',))
     else:
@@ -105,27 +117,6 @@ class CreateGroup(CreateView):
         familygroup.group = Group.objects.get(name= group.name)
         familygroup.save()
         return HttpResponseRedirect(reverse('families:detail', args=(group.pk,)))
-
-# class CreateMeal(CreateView):
-#     form_class = CreateMealForm
-#     template_name = 'families/create_meal.html'
-#
-#     def get_form(self, form_class):
-#         #Need to create a list of the days
-#         family = FamilyGroup.objects.get(group_id=self.kwargs['group_pk'])
-#         festival = Event.objects.get(pk=family.event_id)
-#         first_day = festival.start_date
-#         last_day = festival.end_date
-#         delta = first_day - last_day
-#         festival_days = []
-#
-#         for day in range(delta.days + 1):
-#             festival_days.append(day.strftime("%A"))
-#             return festival_days
-#         #Need to add that list as an option to the form
-#         form = super(CreateMeal, self).get_form(form_class)
-#         form.fields["day"] = form.ChoiceField(choices=festival_days)
-#         return form
 
 def create_meal(request , group_pk):
 
