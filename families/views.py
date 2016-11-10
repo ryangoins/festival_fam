@@ -8,7 +8,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils import timezone
 from django.contrib.auth.decorators import user_passes_test
-
+from django_tables2 import RequestConfig
+from families.tables import MealTable
 from . import models
 from todo.models import List
 from festivals.models import Event
@@ -57,7 +58,6 @@ def group_list(request, username):
 def meal_list(request, group_pk=None):
     #turn this into a function of some sort
     group = get_object_or_404(models.Group, pk=group_pk)
-    meals = models.Meal.objects.filter(group_id=group_pk)
     #list = get_object_or_404(List, group_id=group_pk)
     members = models.User.objects.filter(groups=group)
 
@@ -69,14 +69,44 @@ def meal_list(request, group_pk=None):
     first_day = festival.start_date
     last_day = festival.end_date
     festival_days = []
+    breakfast = []
+    lunch = []
+    dinner = []
+    all_meals = []
 
     while first_day <= last_day:
 
         festival_days.append(first_day.strftime("%A"))
         first_day += timedelta(days=1)
 
+    for day in festival_days:
+        meals = models.Meal.objects.filter(group_id=group_pk).filter(day=day)
+
+        for meal in meals:
+            if meal.time == "Breakfast":
+                breakfast.append(meal)
+            elif meal.time == "Lunch":
+                lunch.append(meal)
+            else:
+                dinner.append(meal)
+        days_meals =[]
+        days_meals.append(day)
+        days_meals.append(breakfast[0] if breakfast  else "")
+        days_meals.append(lunch[0] if lunch else "")
+        days_meals.append(dinner[0] if dinner else "")
+
+        # day_dict = {day: days_meals}
+        all_meals.append(days_meals)
+        final_meals = zip(*all_meals)
+
+
+
+    # table = MealTable(Meal.objects.all())
+
     if user.is_authenticated() and user in members:
-        return render(request, 'families/meal_list.html', {"festival_days": festival_days, "group_pk": group.pk, "meals": meals, "group": group, "members": members})
+        return render(request, 'families/meal_list.html', {"festival_days": festival_days, "all_meals": all_meals, "meals": meals,
+                                                            "breakfast": breakfast, "lunch": lunch, "dinner": dinner, "group_pk": group.pk,
+                                                             "group": group, "members": members, "final_meals": final_meals})
     elif request.user.is_authenticated():
         return HttpResponseRedirect(reverse('home',))
     else:
@@ -103,7 +133,6 @@ def meal_detail(request, group_pk=None, meal_pk=None):
                                 'Please login')
         return HttpResponseRedirect(reverse('accounts:login',))
 
-
 class CreateGroup(CreateView):
     form_class = AddGroupMultiForm
     template_name = 'families/create_group.html'
@@ -116,6 +145,7 @@ class CreateGroup(CreateView):
         familygroup = form['familygroup'].save(commit=False)
         familygroup.group = Group.objects.get(name= group.name)
         familygroup.save()
+        FamilyGroup.create_days()
         return HttpResponseRedirect(reverse('families:detail', args=(group.pk,)))
 
 def create_meal(request , group_pk):
