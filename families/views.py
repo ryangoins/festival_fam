@@ -81,20 +81,18 @@ def meal_list(request, group_pk=None):
 
     for day in festival_days:
         meals = models.Meal.objects.filter(group_id=group_pk).filter(day=day)
-
+        days_meals =[day,"","",""]
+        days_meals.append(day)
         for meal in meals:
             if meal.time == "Breakfast":
-                breakfast.append(meal)
+                days_meals[1] = meal
             elif meal.time == "Lunch":
-                lunch.append(meal)
-            else:
-                dinner.append(meal)
-        days_meals =[]
-        days_meals.append(day)
-        days_meals.append(breakfast[0] if breakfast  else "")
-        days_meals.append(lunch[0] if lunch else "")
-        days_meals.append(dinner[0] if dinner else "")
-
+                days_meals[2] = meal
+            elif meal.time == "Dinner":
+                days_meals[3] = meal
+            # days_meals.append(breakfast[0] if breakfast  else "")
+            # days_meals.append(lunch[0] if lunch else "")
+            # days_meals.append(dinner[0] if dinner else "")
         # day_dict = {day: days_meals}
         all_meals.append(days_meals)
         final_meals = zip(*all_meals)
