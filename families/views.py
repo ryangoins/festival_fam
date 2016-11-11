@@ -69,9 +69,6 @@ def meal_list(request, group_pk=None):
     first_day = festival.start_date
     last_day = festival.end_date
     festival_days = []
-    breakfast = []
-    lunch = []
-    dinner = []
     all_meals = []
 
     while first_day <= last_day:
@@ -90,21 +87,10 @@ def meal_list(request, group_pk=None):
                 days_meals[2] = meal
             elif meal.time == "Dinner":
                 days_meals[3] = meal
-            # days_meals.append(breakfast[0] if breakfast  else "")
-            # days_meals.append(lunch[0] if lunch else "")
-            # days_meals.append(dinner[0] if dinner else "")
-        # day_dict = {day: days_meals}
         all_meals.append(days_meals)
-        final_meals = zip(*all_meals)
-
-
-
-    # table = MealTable(Meal.objects.all())
 
     if user.is_authenticated() and user in members:
-        return render(request, 'families/meal_list.html', {"festival_days": festival_days, "all_meals": all_meals, "meals": meals,
-                                                            "breakfast": breakfast, "lunch": lunch, "dinner": dinner, "group_pk": group.pk,
-                                                             "group": group, "members": members, "final_meals": final_meals})
+        return render(request, 'families/meal_list.html', {"festival_days": festival_days, "all_meals": all_meals, "group": group, "members": members})
     elif request.user.is_authenticated():
         return HttpResponseRedirect(reverse('home',))
     else:
