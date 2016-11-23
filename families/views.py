@@ -103,7 +103,7 @@ def meal_detail(request, group_pk=None, meal_pk=None):
     #turn this into a function of some sort
     group = get_object_or_404(models.Group, pk=group_pk)
     meal = get_object_or_404(models.Meal, pk=meal_pk)
-    ingredients = models.Ingredient.objects.filter(meal_id=meal_pk)
+    Ingredients = models.Ingredient.objects.filter(meal_id=meal_pk)
     #list = get_object_or_404(List, group_id=group_pk)
     members = models.User.objects.filter(groups=group)
     user = request.user
@@ -141,11 +141,16 @@ def create_meal(request , group_pk):
     last_day = festival.end_date
     festival_days = []
 
+    #Determines what days the festival is active in order to create options for the meal form.
+    #This should probably be a new table associated with the festival itself, but working and launched
+    #is better than not working and not launched
+
     while first_day <= last_day:
         festival_days.append(first_day.strftime("%A"))
         first_day += timedelta(days=1)
 
     festival_days_tuple = tuple((x, x) for x in festival_days)
+
     CreateIngredientFormset = modelformset_factory(Ingredient, fields=('name', 'unit', 'amount'))
 
     # if this is a POST request we need to process the form data
@@ -161,6 +166,7 @@ def create_meal(request , group_pk):
             new_meal.created_by = request.user
             new_meal.save()
 
+            #iterate through each form, associate it with the current meal, save
             for ingredient_form in ingredient_forms:
                 new_ingredient = ingredient_form.save(commit=False)
                 new_ingredient.meal = new_meal
@@ -170,7 +176,9 @@ def create_meal(request , group_pk):
 
     # if a GET (or any other method) we'll create a blank form
     else:
+        #the days tuple here is passed to the form and loaded as the choices for the day field
         form = CreateMealForm(days=festival_days_tuple)
+        #the queryset parameter sets a blank form rather than loading the existing data
         ingredient_forms = CreateIngredientFormset(queryset=Ingredient.objects.none())
 
     return render(request, 'families/create_meal.html', {'form': form, 'group_pk': group_pk, 'ingredient_forms': ingredient_forms, } )
