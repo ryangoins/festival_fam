@@ -146,7 +146,7 @@ def create_meal(request , group_pk):
         first_day += timedelta(days=1)
 
     festival_days_tuple = tuple((x, x) for x in festival_days)
-    CreateIngredientFormset = modelformset_factory(Ingredient, extra=1, fields=('name', 'unit', 'amount'))
+    CreateIngredientFormset = modelformset_factory(Ingredient, fields=('name', 'unit', 'amount'))
 
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
@@ -171,7 +171,7 @@ def create_meal(request , group_pk):
     # if a GET (or any other method) we'll create a blank form
     else:
         form = CreateMealForm(days=festival_days_tuple)
-        ingredient_forms = CreateIngredientFormset()
+        ingredient_forms = CreateIngredientFormset(queryset=Ingredient.objects.none())
 
     return render(request, 'families/create_meal.html', {'form': form, 'group_pk': group_pk, 'ingredient_forms': ingredient_forms, } )
 
