@@ -1,5 +1,4 @@
 {% extends 'families/base.html' %}
-{% load render_table from django_tables2 %}
 
 {% load staticfiles %}
 
@@ -17,10 +16,7 @@
 
 {% block primary_content %}
 
-{% block title %} Meals {% endblock %}
-
    <h1>Gettin' that Grub</h1>
-   <h2>Meals</h2>
    <ul>
        {% for meal in meals %}
        <li><a href="{% url 'families:meal_detail' group.pk meal.pk %}">{{ meal }}</a></li>
@@ -63,5 +59,6 @@
            </tbody>
        </table>
    </div>
+   <h2>Food Tips</h2>
 
 {% endblock primary_content %}

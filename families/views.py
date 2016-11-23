@@ -16,7 +16,8 @@ from festivals.models import Event
 from families.models import FamilyGroup, Meal, Ingredient
 from accounts.models import UserProfile
 from django.contrib.auth.models import Group
-from families.forms import AddGroupMultiForm, CreateMealForm
+from families.forms import AddGroupMultiForm, CreateMealForm, CreateIngredientForm
+from django.forms import formset_factory, modelformset_factory
 
 # Create your views here.
 
@@ -145,26 +146,34 @@ def create_meal(request , group_pk):
         first_day += timedelta(days=1)
 
     festival_days_tuple = tuple((x, x) for x in festival_days)
-
+    CreateIngredientFormset = modelformset_factory(Ingredient, fields=('name', 'unit'))
 
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = CreateMealForm(request.POST, days=festival_days_tuple)
+        ingredient_forms = CreateIngredientFormset(request.POST)
         # check whether it's valid:
-        if form.is_valid():
+        if form.is_valid() and ingredient_forms.is_valid():
             new_meal = form.save(commit=False)
             new_meal.group = Group.objects.get(pk=group_pk)
             new_meal.created_at = datetime.now()
             new_meal.created_by = request.user
             new_meal.save()
+
+            for ingredient_form in ingredient_forms:
+                new_ingredient = form.save(commit=False)
+                new_ingredient.meal = new_meal.pk
+                new_ingredient.save
+
             return HttpResponseRedirect(reverse('families:meal_list', args=(group_pk,)))
 
     # if a GET (or any other method) we'll create a blank form
     else:
         form = CreateMealForm(days=festival_days_tuple)
+        ingredient_forms = CreateIngredientFormset()
 
-    return render(request, 'families/create_meal.html', {'form': form}, )
+    return render(request, 'families/create_meal.html', {'form': form, 'group_pk': group_pk, 'ingredient_forms': ingredient_forms, } )
 
 class CreateIngredient(CreateView):
     model = Ingredient

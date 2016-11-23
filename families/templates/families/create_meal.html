@@ -1,8 +1,44 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
 {% block content %}
+
     <form class="form-horizontal" action="" method="post">
         {% csrf_token %}
         {{ form.as_p }}
+
+        <h3>Ingredients</h3>
+        {% csrf_token %}
+        {{ item_forms.management_form }}
+        <div id="items-form-container">
+            {% for ingredient_form in ingredient_forms %}
+                <div id="item-{{ forloop.counter0 }}">
+                    {{ ingredient_form.id }}
+                    {{ ingredient_form.as_p }}
+                </div>
+            {% endfor %}
+            <script>
+            $(document).ready(function() {
+                $('.add-item').click(function(ev) {
+                    ev.preventDefault();
+                    var count = $('#items-form-container').children().length;
+                    var tmplMarkup = $('#item-template').html();
+                    var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+                    $('div#items-form-container').append(compiledTmpl);
+
+                    // update form count
+                    $('#id_item_items-TOTAL_FORMS').attr('value', count+1);
+
+                    // some animate to scroll to view our new form
+                    $('html, body').animate({
+                            scrollTop: $("#add-item-button").position().top-200
+                        }, 800);
+                });
+            });
+            </script>
+        </div>
         <button class="btn btn-primary btn-lg" type="submit">Add a Meal</button>
     </form>
+
 {% endblock content %}

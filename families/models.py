@@ -12,20 +12,6 @@ class FamilyGroup(models.Model):
     description = models.TextField(blank=True, default='')
     invite_reason = models.CharField(default='', blank=True, max_length=64)
 
-    # @classmethod
-    # def create_days(self):
-    #     festival_days=[]
-    #     first_day = self.Event.start_date
-    #     last_day = self.Event.end_date
-    #     while first_day <= last_day:
-    #         festival_days.append(first_day)
-    #         first_day += timedelta(days=1)
-    #     return festival_days
-    #
-    #     for day in festival_days:
-    #         FestivalDay.objects.create(date=day, weekday=day.strftime("%A"))
-    #     return self
-
     class Meta:
         verbose_name_plural = "groups"
 
