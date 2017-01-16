@@ -2,6 +2,7 @@
 
 {% load staticfiles %}
 {% load comments %}
+{% load crispy_forms_tags %}
 
 {% block nav %}
 
@@ -17,15 +18,29 @@
 
 {% block primary_content %}
 
-<form class="form-horizontal" action="" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <p><button class="btn btn-primary btn-lg" type="submit">Post</button></p>
+<form action="" method="post">
+    <div class="row">
+        <div class="col-sm-10">
+            <div class="comments">
+                {% csrf_token %}
+                {{ form|crispy }}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            <button class="btn btn-primary btn-sm" type="submit">Post</button>
+        </div>
+    </div>
+
 </form>
 
-
 {% for post in posts %}
-    <p>{{ post.post }}</p>
+    <p>
+    {{ post.post }}
+    {% render_comment_list for post %}
+    {% render_comment_form for post %}
+    </p>
 {% endfor %}
 
 

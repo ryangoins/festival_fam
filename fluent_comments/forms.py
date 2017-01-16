@@ -21,7 +21,7 @@ class FluentCommentForm(base_class):
     helper.form_class = 'js-comments-form form-horizontal'
     helper.form_tag = False
     helper.label_class = 'col-sm-0'
-    helper.field_class = 'col-sm-12'
+    helper.field_class = 'col-sm-10'
     helper.form_show_labels = False
 
 
@@ -29,8 +29,7 @@ class FluentCommentForm(base_class):
     def __init__(self, *args, **kwargs):
         super(FluentCommentForm, self).__init__(*args, **kwargs)
         self.fields['comment'].widget.attrs['placeholder'] = "Add a comment"
-        self.fields['url'].widget.attrs['placeholder'] = "Enter soundcloud url"
-        self.fields['url'].widget.attrs['id'] = "hide_url"
+
         # Remove fields from the form.
         # This has to be done in the constructor, because the ThreadedCommentForm
         # inserts the title field in the __init__, instead of the static form definition.

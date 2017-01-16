@@ -45,7 +45,7 @@ def group_detail(request, group_pk=None):
                 new_post = form.save(commit=False)
                 new_post.group = Group.objects.get(pk=group_pk)
                 new_post.created_at = datetime.now()
-                new_post.created_by = request.user
+                new_post.user = request.user
                 new_post.save()
 
                 return HttpResponseRedirect(reverse('families:detail', args=(group_pk,)))
@@ -55,7 +55,7 @@ def group_detail(request, group_pk=None):
             #the days tuple here is passed to the form and loaded as the choices for the day field
             form = CreatePostForm()
 
-        posts = models.Post.objects.filter(group_id=group_pk)
+        posts = models.Post.objects.filter(group_id=group_pk).order_by('-created_at')
 
         return render(request, 'families/group_detail.html', locals())
 

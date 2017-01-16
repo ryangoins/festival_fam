@@ -48,8 +48,13 @@ INSTALLED_APPS = [
     'todo',
     'localflavor',
     'django_tables2',
+    'stream_django',
 
 ]
+
+
+STREAM_API_KEY = 'f82yeptmattt'
+STREAM_API_SECRET = '65r4447fu8v5vjceka2azjapfuxcru86ywdn9xnfq2kqkjv8mvcd5k42mgjxtvwv'
 
 INSTALLED_APPS += (
     'fluent_comments',
@@ -60,7 +65,7 @@ INSTALLED_APPS += (
     'widget_tweaks',
 )
 
-FLUENT_COMMENTS_EXCLUDE_FIELDS = ('name', 'email', 'title', 'honeypot')
+FLUENT_COMMENTS_EXCLUDE_FIELDS = ('name', 'url', 'email', 'title', 'honeypot')
 COMMENTS_APP = 'fluent_comments'
 
 #SOCIAL AUTH SETTINGS
