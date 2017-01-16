@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import GroupAdmin
 from django.contrib.auth.models import Group
 # Register your models here.
-from .models import FamilyGroup, Meal
+from .models import FamilyGroup, Meal, FestivalDay
 from django_comments.models import Comment
 
 

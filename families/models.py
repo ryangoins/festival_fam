@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User, Group
 from django.core.urlresolvers import reverse
 from festivals.models import Event
+
 #This model represents a group of users that we call a "festival fam".
 
 class FamilyGroup(models.Model):
@@ -19,18 +20,25 @@ class FamilyGroup(models.Model):
 
 class Meal(models.Model):
     name = models.CharField(blank=True, default='', max_length=255)
-    time_choices = (('Breakfast', 'breakfast'),('Lunch', 'lunch'), ('Dinner', 'dinner'))
+    time_choices = (('Breakfast', 'Breakfast'),('Lunch', 'Lunch'), ('Dinner', 'Dinner'))
     time = models.CharField(blank=True, max_length=255, default='', choices=time_choices,)
-    days = ()
-    day_choices = models.CharField(default='', blank=True, max_length=255, choices=days)
+    day = models.CharField(default='', blank=True, max_length=255, choices=(),)
     group = models.ForeignKey(Group, related_name="meal_group", null=True)
     serving_size = models.IntegerField(blank=True, default='')
     instructions = models.TextField(blank=True, default='')
     created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.CharField(max_length=255, default='')
+    created_by = models.ForeignKey(User, related_name="meal_created_by")
 
     def __str__(self):
         return self.name
+
+class FestivalDay(models.Model):
+    familygroup = models.ForeignKey(FamilyGroup, related_name="Day")
+    weekday = models.CharField(blank=True, default='', max_length=255)
+    date = models.DateTimeField()
+    breakfast = models.OneToOneField(Meal, related_name="Breakfast")
+    lunch = models.OneToOneField(Meal, related_name="Lunch")
+    dinner = models.OneToOneField(Meal, related_name="Dinner")
 
 class Ingredient(models.Model):
     name = models.CharField(blank=True, default='', max_length=255)
@@ -38,6 +46,13 @@ class Ingredient(models.Model):
     amount = models.IntegerField(blank=True, default='')
     unit_choices = (('g', 'Grams'), ('oz', 'Ounces'))
     unit = models.CharField(default='', blank=True, max_length=10, choices=unit_choices,)
+
+class Post(models.Model):
+    post = models.TextField(blank=False, default='')
+    url = models.URLField()
+    group = models.ForeignKey(Group, related_name="post_group", null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(User, related_name="post_created_by")
 
 
 class Vehicle(models.Model):

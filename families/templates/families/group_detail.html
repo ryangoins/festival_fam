@@ -17,7 +17,16 @@
 
 {% block primary_content %}
 
-{% render_comment_form for familygroup %}
-{% render_comment_list for familygroup %}
+<form class="form-horizontal" action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p><button class="btn btn-primary btn-lg" type="submit">Post</button></p>
+</form>
+
+
+{% for post in posts %}
+    <p>{{ post.post }}</p>
+{% endfor %}
+
 
 {% endblock primary_content %}

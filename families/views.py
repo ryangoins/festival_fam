@@ -1,20 +1,23 @@
+import calendar
 from django.views.generic.edit import CreateView
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
-from datetime import date, timedelta as td
+from datetime import date, datetime, timedelta
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils import timezone
 from django.contrib.auth.decorators import user_passes_test
-
+from django_tables2 import RequestConfig
+from families.tables import MealTable
 from . import models
 from todo.models import List
 from festivals.models import Event
-from families.models import FamilyGroup, Meal, Ingredient
+from families.models import FamilyGroup, Meal, Ingredient, Post
 from accounts.models import UserProfile
 from django.contrib.auth.models import Group
-from families.forms import AddGroupMultiForm, CreateMealForm
+from families.forms import AddGroupMultiForm, CreateMealForm, CreateIngredientForm, CreatePostForm
+from django.forms import formset_factory, modelformset_factory
 
 # Create your views here.
 
@@ -32,7 +35,30 @@ def group_detail(request, group_pk=None):
 
     #if request.user.id in members.user.id:
     if user.is_authenticated() and user in members:
+
+        # if this is a POST request we need to process the form data
+        if request.method == 'POST':
+            # create a form instance and populate it with data from the request:
+            form = CreatePostForm(request.POST)
+            # check whether it's valid:
+            if form.is_valid():
+                new_post = form.save(commit=False)
+                new_post.group = Group.objects.get(pk=group_pk)
+                new_post.created_at = datetime.now()
+                new_post.created_by = request.user
+                new_post.save()
+
+                return HttpResponseRedirect(reverse('families:detail', args=(group_pk,)))
+
+        # if a GET (or any other method) we'll create a blank form
+        else:
+            #the days tuple here is passed to the form and loaded as the choices for the day field
+            form = CreatePostForm()
+
+        posts = models.Post.objects.filter(group_id=group_pk)
+
         return render(request, 'families/group_detail.html', locals())
+
     elif request.user.is_authenticated():
         return HttpResponseRedirect(reverse('home',))
     else:
@@ -56,14 +82,39 @@ def group_list(request, username):
 def meal_list(request, group_pk=None):
     #turn this into a function of some sort
     group = get_object_or_404(models.Group, pk=group_pk)
-    meals = models.Meal.objects.filter(group_id=group_pk)
     #list = get_object_or_404(List, group_id=group_pk)
     members = models.User.objects.filter(groups=group)
+
     user = request.user
     profile = user.userprofile
 
+    family = FamilyGroup.objects.get(group_id=group_pk)
+    festival = Event.objects.get(pk=family.event_id)
+    first_day = festival.start_date
+    last_day = festival.end_date
+    festival_days = []
+    all_meals = []
+
+    while first_day <= last_day:
+
+        festival_days.append(first_day.strftime("%A"))
+        first_day += timedelta(days=1)
+
+    for day in festival_days:
+        meals = models.Meal.objects.filter(group_id=group_pk).filter(day=day)
+        days_meals =[day,"","",""]
+        days_meals.append(day)
+        for meal in meals:
+            if meal.time == "Breakfast":
+                days_meals[1] = meal
+            elif meal.time == "Lunch":
+                days_meals[2] = meal
+            elif meal.time == "Dinner":
+                days_meals[3] = meal
+        all_meals.append(days_meals)
+
     if user.is_authenticated() and user in members:
-        return render(request, 'families/meal_list.html', locals())
+        return render(request, 'families/meal_list.html', {"festival_days": festival_days, "all_meals": all_meals, "group": group, "members": members})
     elif request.user.is_authenticated():
         return HttpResponseRedirect(reverse('home',))
     else:
@@ -75,7 +126,7 @@ def meal_detail(request, group_pk=None, meal_pk=None):
     #turn this into a function of some sort
     group = get_object_or_404(models.Group, pk=group_pk)
     meal = get_object_or_404(models.Meal, pk=meal_pk)
-    ingredients = models.Ingredient.objects.filter(meal_id=meal_pk)
+    Ingredients = models.Ingredient.objects.filter(meal_id=meal_pk)
     #list = get_object_or_404(List, group_id=group_pk)
     members = models.User.objects.filter(groups=group)
     user = request.user
@@ -90,7 +141,6 @@ def meal_detail(request, group_pk=None, meal_pk=None):
                                 'Please login')
         return HttpResponseRedirect(reverse('accounts:login',))
 
-
 class CreateGroup(CreateView):
     form_class = AddGroupMultiForm
     template_name = 'families/create_group.html'
@@ -103,46 +153,61 @@ class CreateGroup(CreateView):
         familygroup = form['familygroup'].save(commit=False)
         familygroup.group = Group.objects.get(name= group.name)
         familygroup.save()
+        FamilyGroup.create_days()
         return HttpResponseRedirect(reverse('families:detail', args=(group.pk,)))
 
-# class CreateMeal(CreateView):
-#     form_class = CreateMealForm
-#     template_name = 'families/create_meal.html'
-#
-#     def get_form(self, form_class):
-#         #Need to create a list of the days
-#         family = FamilyGroup.objects.get(group_id=self.kwargs['group_pk'])
-#         festival = Event.objects.get(pk=family.event_id)
-#         first_day = festival.start_date
-#         last_day = festival.end_date
-#         delta = first_day - last_day
-#         festival_days = []
-#
-#         for day in range(delta.days + 1):
-#             festival_days.append(day.strftime("%A"))
-#             return festival_days
-#         #Need to add that list as an option to the form
-#         form = super(CreateMeal, self).get_form(form_class)
-#         form.fields["day"] = form.ChoiceField(choices=festival_days)
-#         return form
-
 def create_meal(request , group_pk):
-        # if this is a POST request we need to process the form data
+
+
+    group = get_object_or_404(models.Group, pk=group_pk)
+    members = models.User.objects.filter(groups=group)
+    family = FamilyGroup.objects.get(group_id=group_pk)
+    festival = Event.objects.get(pk=family.event_id)
+    first_day = festival.start_date
+    last_day = festival.end_date
+    festival_days = []
+
+    #Determines what days the festival is active in order to create options for the meal form.
+    #This should probably be a new table associated with the festival itself, but working and launched
+    #is better than not working and not launched
+
+    while first_day <= last_day:
+        festival_days.append(first_day.strftime("%A"))
+        first_day += timedelta(days=1)
+
+    festival_days_tuple = tuple((x, x) for x in festival_days)
+
+    CreateIngredientFormset = modelformset_factory(Ingredient, fields=('name', 'unit', 'amount'))
+
+    # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = CreateMealForm(request.POST)
+        form = CreateMealForm(request.POST, days=festival_days_tuple)
+        ingredient_forms = CreateIngredientFormset(request.POST)
         # check whether it's valid:
-        if form.is_valid():
+        if form.is_valid() and ingredient_forms.is_valid():
             new_meal = form.save(commit=False)
             new_meal.group = Group.objects.get(pk=group_pk)
+            new_meal.created_at = datetime.now()
+            new_meal.created_by = request.user
             new_meal.save()
-            return HttpResponseRedirect(reverse('home'))
+
+            #iterate through each form, associate it with the current meal, save
+            for ingredient_form in ingredient_forms:
+                new_ingredient = ingredient_form.save(commit=False)
+                new_ingredient.meal = new_meal
+                new_ingredient.save()
+
+            return HttpResponseRedirect(reverse('families:meal_list', args=(group_pk,)))
 
     # if a GET (or any other method) we'll create a blank form
     else:
-        form = CreateMealForm()
+        #the days tuple here is passed to the form and loaded as the choices for the day field
+        form = CreateMealForm(days=festival_days_tuple)
+        #the queryset parameter sets a blank form rather than loading the existing data
+        ingredient_forms = CreateIngredientFormset(queryset=Ingredient.objects.none())
 
-    return render(request, 'families/create_meal.html', {'form': form})
+    return render(request, 'families/create_meal.html', {'form': form, 'group_pk': group_pk, 'group': group, 'ingredient_forms': ingredient_forms, 'members': members } )
 
 class CreateIngredient(CreateView):
     model = Ingredient

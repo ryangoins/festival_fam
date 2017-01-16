@@ -2,7 +2,7 @@ from django import forms
 from collections import OrderedDict
 from django.forms import ModelForm
 from betterforms.multiform import MultiModelForm
-from families.models import FamilyGroup, Ingredient, Meal
+from families.models import FamilyGroup, Ingredient, Meal, Post
 from django.contrib.auth.models import Group
 
 
@@ -30,13 +30,27 @@ class CreateMealForm(ModelForm):
 
     class Meta:
         model = Meal
-        fields = ('name', 'serving_size', 'time', 'instructions' )
+        fields = ('name', 'serving_size', 'time', 'day', 'instructions' )
+        labels = { "instructions": "Recipe", "name": "Meal Name"
+        }
+
+    def __init__(self,*args,**kwargs):
+        days = kwargs.pop('days')
+        super(CreateMealForm,self).__init__(*args,**kwargs)
+        self.fields['day'] = forms.ChoiceField(choices=days)
 
 class CreateIngredientForm(ModelForm):
 
     class Meta:
         model = Ingredient
-        fields = ('name', 'amount', 'unit')
+        fields = ('name', 'unit', 'amount',)
+        labels = { "name": "Ingredient Name"}
+
+class CreatePostForm(ModelForm):
+
+    class Meta:
+        model = Post
+        fields = ('post',)
 
 
 ###### VEHICLE FORMS #######
