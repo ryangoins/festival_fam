@@ -21,7 +21,7 @@ class FluentCommentForm(base_class):
     helper.form_class = 'js-comments-form form-horizontal'
     helper.form_tag = False
     helper.label_class = 'col-sm-2'
-    helper.field_class = 'col-sm-11'
+    helper.field_class = 'col-sm-12'
     helper.form_show_labels = False
 
 
@@ -29,6 +29,7 @@ class FluentCommentForm(base_class):
     def __init__(self, *args, **kwargs):
         super(FluentCommentForm, self).__init__(*args, **kwargs)
         self.fields['comment'].widget.attrs['placeholder'] = "Add a comment"
+        self.fields['comment'].widget.attrs['class'] = "fluent_comment_reply"
 
 
 
