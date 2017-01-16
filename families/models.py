@@ -48,7 +48,7 @@ class Ingredient(models.Model):
     unit = models.CharField(default='', blank=True, max_length=10, choices=unit_choices,)
 
 class Post(models.Model):
-    post = models.TextField(blank=True, default='')
+    post = models.TextField(blank=False, default='')
     url = models.URLField()
     group = models.ForeignKey(Group, related_name="post_group", null=True)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -44,16 +44,18 @@ def group_detail(request, group_pk=None):
             if form.is_valid():
                 new_post = form.save(commit=False)
                 new_post.group = Group.objects.get(pk=group_pk)
-                new_meal.created_at = datetime.now()
-                new_meal.created_by = request.user
+                new_post.created_at = datetime.now()
+                new_post.created_by = request.user
                 new_post.save()
 
-                return HttpResponseRedirect(reverse('families:group_detail', args=(group_pk,)))
+                return HttpResponseRedirect(reverse('families:detail', args=(group_pk,)))
 
         # if a GET (or any other method) we'll create a blank form
         else:
             #the days tuple here is passed to the form and loaded as the choices for the day field
             form = CreatePostForm()
+
+        posts = models.Post.objects.filter(group_id=group_pk)
 
         return render(request, 'families/group_detail.html', locals())
 
