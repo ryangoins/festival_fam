@@ -36,11 +36,17 @@
 </form>
 
 {% for post in posts %}
-    <p>
-    {{ post.post }}
-    {% render_comment_list for post %}
-    {% render_comment_form for post %}
-    </p>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    {{ post.post }}
+                </div>
+            </div>
+        {% render_comment_list for post %}
+        {% render_comment_form for post %}
+        </div>
+    </div>
 {% endfor %}
 
 
