@@ -49,7 +49,8 @@ class Ingredient(models.Model):
 
 class Post(models.Model):
     post = models.TextField(blank=True, default='')
-    url = models.URLField¶()
+    url = models.URLField()
+    group = models.ForeignKey(Group, related_name="post_group", null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, related_name="post_created_by")
 

@@ -17,6 +17,9 @@
 
 {% block primary_content %}
 
+{% csrf_token %}
+{{ form.as_p }}
+
 {% render_comment_form for familygroup %}
 {% render_comment_list for familygroup %}
 

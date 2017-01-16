@@ -13,10 +13,10 @@ from families.tables import MealTable
 from . import models
 from todo.models import List
 from festivals.models import Event
-from families.models import FamilyGroup, Meal, Ingredient
+from families.models import FamilyGroup, Meal, Ingredient, Post
 from accounts.models import UserProfile
 from django.contrib.auth.models import Group
-from families.forms import AddGroupMultiForm, CreateMealForm, CreateIngredientForm
+from families.forms import AddGroupMultiForm, CreateMealForm, CreateIngredientForm, CreatePostForm
 from django.forms import formset_factory, modelformset_factory
 
 # Create your views here.
@@ -35,7 +35,28 @@ def group_detail(request, group_pk=None):
 
     #if request.user.id in members.user.id:
     if user.is_authenticated() and user in members:
+
+        # if this is a POST request we need to process the form data
+        if request.method == 'POST':
+            # create a form instance and populate it with data from the request:
+            form = CreatePostForm(request.POST)
+            # check whether it's valid:
+            if form.is_valid():
+                new_post = form.save(commit=False)
+                new_post.group = Group.objects.get(pk=group_pk)
+                new_meal.created_at = datetime.now()
+                new_meal.created_by = request.user
+                new_post.save()
+
+                return HttpResponseRedirect(reverse('families:group_detail', args=(group_pk,)))
+
+        # if a GET (or any other method) we'll create a blank form
+        else:
+            #the days tuple here is passed to the form and loaded as the choices for the day field
+            form = CreatePostForm()
+
         return render(request, 'families/group_detail.html', locals())
+
     elif request.user.is_authenticated():
         return HttpResponseRedirect(reverse('home',))
     else:

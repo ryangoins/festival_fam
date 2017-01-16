@@ -2,7 +2,7 @@ from django import forms
 from collections import OrderedDict
 from django.forms import ModelForm
 from betterforms.multiform import MultiModelForm
-from families.models import FamilyGroup, Ingredient, Meal
+from families.models import FamilyGroup, Ingredient, Meal, Post
 from django.contrib.auth.models import Group
 
 
@@ -45,6 +45,12 @@ class CreateIngredientForm(ModelForm):
         model = Ingredient
         fields = ('name', 'unit', 'amount',)
         labels = { "name": "Ingredient Name"}
+
+class CreatePostForm(ModelForm):
+
+    class Meta:
+        model = Post
+        fields = ('post',)
 
 
 ###### VEHICLE FORMS #######
