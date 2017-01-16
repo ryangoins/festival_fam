@@ -135,6 +135,9 @@ class CreateGroup(CreateView):
 
 def create_meal(request , group_pk):
 
+
+    group = get_object_or_404(models.Group, pk=group_pk)
+    members = models.User.objects.filter(groups=group)
     family = FamilyGroup.objects.get(group_id=group_pk)
     festival = Event.objects.get(pk=family.event_id)
     first_day = festival.start_date
@@ -181,7 +184,7 @@ def create_meal(request , group_pk):
         #the queryset parameter sets a blank form rather than loading the existing data
         ingredient_forms = CreateIngredientFormset(queryset=Ingredient.objects.none())
 
-    return render(request, 'families/create_meal.html', {'form': form, 'group_pk': group_pk, 'ingredient_forms': ingredient_forms, } )
+    return render(request, 'families/create_meal.html', {'form': form, 'group_pk': group_pk, 'group': group, 'ingredient_forms': ingredient_forms, 'members': members } )
 
 class CreateIngredient(CreateView):
     model = Ingredient

@@ -31,6 +31,8 @@ class CreateMealForm(ModelForm):
     class Meta:
         model = Meal
         fields = ('name', 'serving_size', 'time', 'day', 'instructions' )
+        labels = { "instructions": "Recipe", "name": "Meal Name"
+        }
 
     def __init__(self,*args,**kwargs):
         days = kwargs.pop('days')
@@ -41,7 +43,8 @@ class CreateIngredientForm(ModelForm):
 
     class Meta:
         model = Ingredient
-        fields = ('name', 'amount', 'unit')
+        fields = ('name', 'unit', 'amount',)
+        labels = { "name": "Ingredient Name"}
 
 
 ###### VEHICLE FORMS #######
