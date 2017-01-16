@@ -38,26 +38,33 @@
 
 {% for post in posts %}
     <div class="panel panel-default">
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-1">
-                            <img class = "medium-avatar float-left" src="{{ post.user.userprofile.profile_pic.url }}">
-                        </div>
-                        <div class="col-md-11">
-                            {{ post.user.username }}<br/>
-                            {{ post.created_at|naturaltime }}
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                {{ post.post }}
-                            </div>
-                        </div>
-                    </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-1">
+                    <img class = "medium-avatar float-left" src="{{ post.user.userprofile.profile_pic.url }}">
                 </div>
+                <div class="col-md-11">
+                    {{ post.user.username }}<br/>
+                    {{ post.created_at|naturaltime }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 post-body">
+                    {{ post.post }}
+                </div>
+            </div>
+            
+            <div class="row threaded-comments">
+
+                <div class="col-md-12">
+                    {% render_comment_list for post %}
+                    {% render_comment_form for post %}
+                </div>
+            </div>
         </div>
-        {% render_comment_list for post %}
-        {% render_comment_form for post %}
-        
+    </div>
+
 {% endfor %}
 
 

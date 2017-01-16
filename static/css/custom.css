@@ -55,6 +55,11 @@ body {
     border-radius: 10%;
 }
 
+.small-avatar {
+    max-width: 30px;
+    border-radius: 10%;
+}
+
 .members-list span {
     float: left;
     padding: 1px;
@@ -82,7 +87,7 @@ textarea.form-control {
 
 .comment-wrapper {
     padding: 0px;
-    border: 1px solid lightgrey;
+    border: 0px solid lightgrey;
 
 
 }
@@ -92,12 +97,18 @@ textarea.form-control {
 }
 
 .comment-item {
-    padding: 5px;
+    padding-top: 10px;
+
 }
 
-.threaded-comment {
+.threaded-comments {
     background-color: #f4f4f4;
 
+
+}
+
+.post-body {
+    font-size: 25px;
 }
 
 .media-widget {
@@ -133,6 +144,6 @@ textarea.form-control {
 .embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; }
 .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
-/*.comment-body {
-    padding-left: 30px;
-}*/
+.comment-body {
+    padding-left: 15px;
+}

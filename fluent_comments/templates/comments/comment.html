@@ -26,24 +26,20 @@
                   <div class ="col-sm-12">
                       <div class="row">
                           <div class="col-sm-1">
-                              <img class="medium-avatar" src="{{ comment.user.userprofile.profile_pic.url }}"><br/>
+                              <img class="small-avatar" src="{{ comment.user.userprofile.profile_pic.url }}"><br/>
 
                           </div>
+                          <div class="col-sm-11">
+                              <div class="row comment-body">
+                                  <div class="row">
+                                      {% if comment.name %}<strong>{{ comment.name }}</strong> <div class="comment-text">{{ comment.comment|linebreaks|urlize }}</div> {% else %}{% trans "Anonymous" %}{% endif %}{% comment %}
 
-                              <div class="col-sm-11">
-                                  <div class="row comment-body">
-                                      <div class="row">
-                                          {% if comment.name %}<strong>{{ comment.name }}</strong>{% else %}{% trans "Anonymous" %}{% endif %}{% comment %}
-                                          {% endcomment %}
-                                      </div>
-                                      <div class="row">
-
-                                          <div class="comment-text">{{ comment.comment|linebreaks|urlize }}</div>
-                                      </div>
-
+                                      {% endcomment %}
                                   </div>
-                                  <!--<span class="pull-right">{% blocktrans with submit_date=comment.submit_date %}{{ submit_date }}{% endblocktrans %}</span>-->
+
                               </div>
+                              <!--<span class="pull-right">{% blocktrans with submit_date=comment.submit_date %}{{ submit_date }}{% endblocktrans %}</span>-->
+                          </div>
                       </div>
                       {% if "soundcloud" in comment.url %}
                               <div class="row">
