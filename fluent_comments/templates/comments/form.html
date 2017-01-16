@@ -4,24 +4,23 @@
     <p>{% trans "Comments are closed." %}</p>
 {% else %}
     <div class="row">
-        <div class="col-md-11">
-            <form id="comment-form-{{ form.target_object.pk }}" data-object-id="{{ form.target_object.pk }}" action="{% comment_form_target %}" method="post" class="{{ form.helper.form_class|default:'js-comments-form comments-form form-horizontal' }}"
-                  data-ajax-action="{% url 'comments-post-comment-ajax' %}">
-              {% if next %}<div><input type="hidden" name="next" value="{{ next }}" /></div>{% endif %}
+        <form id="comment-form-{{ form.target_object.pk }}" data-object-id="{{ form.target_object.pk }}" action="{% comment_form_target %}" method="post" class="{{ form.helper.form_class|default:'js-comments-form comments-form form-horizontal' }}"
+              data-ajax-action="{% url 'comments-post-comment-ajax' %}">
+          <div class="col-md-11">
+              {% if next %}
+                <div>
+                    <input type="hidden" name="next" value="{{ next }}" />
+                </div>
+              {% endif %}
 
-                  {% crispy form %}
-              <!-- <div class="form-group">
-
-
-                  {% ajax_comment_tags for form.target_object %}
-
-              </div> -->
-
-        </div>
-        <div class="col-md-1">
-            <input type="submit" name="post" class="fluent-button btn btn-primary btn-sm" value="{% trans 'Post' %}" />
-        </div>
+              {% crispy form %}
+          </div>
+          <div class="col-md-1">
+              <div class="form-group">
+                  <input type="submit" name="post" class="fluent-button btn btn-primary btn-sm" value="{% trans 'Post' %}" />
+                <!-- {% ajax_comment_tags for form.target_object %} -->
+              </div>
+          </div>
+        </form>
     </div>
-
-    </form>
 {% endif %}

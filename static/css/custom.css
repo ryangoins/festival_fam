@@ -93,7 +93,7 @@ body {
 
 .post-body {
     font-size: 25px;
-    padding-bottom: 5px;
+    padding-bottom: 10px;
 }
 
 .post-text {
@@ -109,8 +109,8 @@ textarea.fluent_comment_reply {
 }
 
 input.fluent-button {
-    margin-left: -10px;
-    margin-bottom: -20px;
+    margin-left: -5px;
+    margin-bottom: -22px;
 }
 
 .media-widget {

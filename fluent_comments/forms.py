@@ -28,7 +28,7 @@ class FluentCommentForm(base_class):
 
     def __init__(self, *args, **kwargs):
         super(FluentCommentForm, self).__init__(*args, **kwargs)
-        self.fields['comment'].widget.attrs['placeholder'] = "Add a comment"
+        self.fields['comment'].widget.attrs['placeholder'] = "Add a reply"
         self.fields['comment'].widget.attrs['class'] = "fluent_comment_reply"
 
 
