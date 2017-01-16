@@ -16,6 +16,7 @@
 
 {% block primary_content %}
 
+    <a href="{% url 'families:create_meal' group.pk %}">Add Meal</a>
    <h1>Gettin' that Grub</h1>
    <ul>
        {% for meal in meals %}

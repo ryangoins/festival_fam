@@ -47,6 +47,12 @@ class Ingredient(models.Model):
     unit_choices = (('g', 'Grams'), ('oz', 'Ounces'))
     unit = models.CharField(default='', blank=True, max_length=10, choices=unit_choices,)
 
+class Post(models.Model):
+    post = models.TextField(blank=True, default='')
+    url = models.URLField¶()
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(User, related_name="post_created_by")
+
 
 class Vehicle(models.Model):
     driver = models.OneToOneField(User, default='', related_name="vehicle_driver")
