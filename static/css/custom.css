@@ -132,6 +132,11 @@ textarea.form-control {
 
 }
 
+.panel-body {
+    padding-bottom: 0px;
+
+}
+
 #snapchat a:hover {
     color: yellow;
 

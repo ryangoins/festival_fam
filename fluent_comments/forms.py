@@ -21,7 +21,7 @@ class FluentCommentForm(base_class):
     helper.form_class = 'js-comments-form form-horizontal'
     helper.form_tag = False
     helper.label_class = 'col-sm-2'
-    helper.field_class = 'col-sm-12'
+    helper.field_class = 'col-sm-11'
     helper.form_show_labels = False
 
 
