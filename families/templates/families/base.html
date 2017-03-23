@@ -6,18 +6,6 @@
 {% block content %}
 <div class="container-fluid">
     <div class="row">
-
-        <div class="col-md-12">
-            <img class="img-responsive" src="{{ group.familygroup.event.cover_photo.url }}">
-            <div class="event-title text-center">
-                <h1>{{ group.familygroup.event.name }} {{ group.familygroup.event.start_date|date:"Y" }} | The <em>{{ group.name }}</em> Fam </h1>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-
-    </div>
-    <div class="row">
         <div class="navbar navbar-default navbar-fixed-top">
             <div class="container-fluid">
                 <ul class="nav navbar-nav">
@@ -30,7 +18,6 @@
         </div>
     </div>
 
-    <hr>
     <div class="row primary-content">
         <div class ="col-md-3">
         <!--------
@@ -42,22 +29,6 @@
             </div>
 
         ------>
-
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <p><strong>The Fam:</strong></p>
-
-                    {% for member in members %}
-                        <span><img class="medium-avatar" src="{{ member.userprofile.profile_pic.url}}"></span>
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <p><strong>About:</strong><p>
-                    <p>{{ group.familygroup.description }}</p>
-                </div>
-            </div>
             <div class="panel panel-default">
                 <div class="panel-body">
                     <h4>{{ group.familygroup.event.start_date|date:"M d" }} - {{ group.familygroup.event.end_date|date }}</h4>
@@ -85,15 +56,33 @@
         </div>
 
         <div class="col-md-6">
+            <img class="img-responsive" src="{{ group.familygroup.event.cover_photo.url }}">
+            <div class="event-title text-center">
+                <h1>{{ group.familygroup.event.name }} {{ group.familygroup.event.start_date|date:"Y" }} <br/> The <em>{{ group.name }}</em> Fam </h1>
+            </div>
             {% block primary_content %}
             {% endblock %}
         </div>
         <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <p><strong>The Fam:</strong></p>
 
+                    {% for member in members %}
+                        <span><img class="medium-avatar" src="{{ member.userprofile.profile_pic.url}}"></span>
+                    {% endfor %}
+
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <p><strong>About:</strong><p>
+                    <p>{{ group.familygroup.description }}</p>
+                </div>
+            </div>
             <h2>Countdown</h2>
             <hr>
             <h3>{{ event.start_date|timeuntil }} </h3> <h4>and you're back with the fam!</h4>
-
 
         </div>
     </div>
