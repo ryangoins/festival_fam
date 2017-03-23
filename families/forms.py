@@ -51,6 +51,15 @@ class CreatePostForm(ModelForm):
     class Meta:
         model = Post
         fields = ('post',)
+        labels = { "post": "" }
+
+
+
+    def __init__(self,*args,**kwargs):
+        super(CreatePostForm, self).__init__(*args, **kwargs)
+        self.fields['post'].widget.attrs={
+            'class': 'post-text',
+            'placeholder': 'What would you like to share with your fam?'}
 
 
 ###### VEHICLE FORMS #######

@@ -24,7 +24,7 @@
                     {% block nav %}
 
                     {% endblock nav %}
-                    <img class = "top-avatar float-right" src="{{ request.user.userprofile.profile_pic.url }}">
+                    <img class = "top-avatar pull-right" src="{{ request.user.userprofile.profile_pic.url }}">
                 </ul>
             </div>
         </div>
@@ -84,11 +84,15 @@
             </div>
         </div>
 
-        <div class="col-md-7">
+        <div class="col-md-6">
             {% block primary_content %}
             {% endblock %}
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
+
+            <h2>Countdown</h2>
+            <hr>
+            <h3>{{ event.start_date|timeuntil }} </h3> <h4>and you're back with the fam!</h4>
 
 
         </div>

@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User, Group
 from django.core.urlresolvers import reverse
 from festivals.models import Event
+from stream_django.activity import Activity
 
 #This model represents a group of users that we call a "festival fam".
 
@@ -47,12 +48,12 @@ class Ingredient(models.Model):
     unit_choices = (('g', 'Grams'), ('oz', 'Ounces'))
     unit = models.CharField(default='', blank=True, max_length=10, choices=unit_choices,)
 
-class Post(models.Model):
+class Post(models.Model, Activity):
     post = models.TextField(blank=False, default='')
     url = models.URLField()
     group = models.ForeignKey(Group, related_name="post_group", null=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(User, related_name="post_created_by")
+    user = models.ForeignKey(User, related_name="post_created_by")
 
 
 class Vehicle(models.Model):

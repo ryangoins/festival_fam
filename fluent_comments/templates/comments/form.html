@@ -3,39 +3,24 @@
 {% if not form.target_object|comments_are_open %}
     <p>{% trans "Comments are closed." %}</p>
 {% else %}
-    <p>Add song:</p>
-    <script type="text/javascript">
-        $(document).ready(function() {
+    <div class="row">
+        <form id="comment-form-{{ form.target_object.pk }}" data-object-id="{{ form.target_object.pk }}" action="{% comment_form_target %}" method="post" class="{{ form.helper.form_class|default:'js-comments-form comments-form form-horizontal' }}"
+              data-ajax-action="{% url 'comments-post-comment-ajax' %}">
+          <div class="col-md-11">
+              {% if next %}
+                <div>
+                    <input type="hidden" name="next" value="{{ next }}" />
+                </div>
+              {% endif %}
 
-            
-            $("#slideToggle").hover(function () {
-                $(this).css("color", "#ff7700");
-            },
-            function () {
-                $(this).css("color", "inherit");
-            });
-
-            $('#hide_url').hide();
-
-            $('#slideToggle').click(function(){
-                $('#hide_url').slideToggle();
-            });
-
-
-        });
-    </script>
-    <p><i id="slideToggle" class="fa fa-2x fa-soundcloud" aria-hidden="true"></i></p>
-    <form id="comment-form-{{ form.target_object.pk }}" data-object-id="{{ form.target_object.pk }}" action="{% comment_form_target %}" method="post" class="{{ form.helper.form_class|default:'js-comments-form comments-form form-horizontal' }}"
-          data-ajax-action="{% url 'comments-post-comment-ajax' %}">
-      {% if next %}<div><input type="hidden" name="next" value="{{ next }}" /></div>{% endif %}
-
-          {% crispy form %}
-
-      <div class="form-group">
-        <div class="col-sm-offset-1 col-sm-11">
-          <input type="submit" name="post" class="btn btn-primary pull-right" value="{% trans 'Post' %}" />
-          {% ajax_comment_tags for form.target_object %}
-        </div>
-      </div>
-    </form>
+              {% crispy form %}
+          </div>
+          <div class="col-md-1">
+              <div class="form-group">
+                  <input type="submit" name="post" class="fluent-button btn btn-primary btn-sm" value="{% trans 'Reply' %}" />
+                <!-- {% ajax_comment_tags for form.target_object %} -->
+              </div>
+          </div>
+        </form>
+    </div>
 {% endif %}
