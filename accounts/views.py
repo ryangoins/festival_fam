@@ -1,4 +1,4 @@
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
@@ -17,3 +17,8 @@ class AddUser(CreateView):
         profile.user = User.objects.get(username= user.username)
         profile.save()
         return HttpResponseRedirect(reverse('home'))
+
+class UpdateProfile(UpdateView):
+    model = UserProfile
+    fields = ['user']
+    template_name = 'accounts/addUser.html'
