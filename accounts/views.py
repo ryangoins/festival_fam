@@ -20,5 +20,5 @@ class AddUser(CreateView):
 
 class UpdateProfile(UpdateView):
     model = UserProfile
-    fields = ['user']
-    template_name = 'accounts/addUser.html'
+    fields = ['profile_pic','user', 'bio', 'twitter', 'facebook', 'snapchat']
+    template_name = 'accounts/update_profile.html'
