@@ -7,7 +7,11 @@
         <div class="col-md-6">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    {{ object.bio }}
+                    <p>{{ object.user.first_name }} {{ object.user.last_name }}</p>
+                    <h4>Bio</h4>
+                    <p>{{ object.bio }}</p>
+                    <h3>Social Media</h3>
+                    {{ object.twitter }}
                 </div>
             </div>
         </div>
