@@ -1,11 +1,13 @@
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.detail import DetailView
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import views
+from families.models import FamilyGroup
 from .models import *
+from django.contrib.auth.models import Group
 from .forms import *
 
 class AddUser(CreateView):
@@ -29,7 +31,8 @@ class ProfileDetail(DetailView):
     template_name = 'accounts/profile.html'
 
     def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
+    # Call the base implementation first to get a context
         context = super(ProfileDetail, self).get_context_data(**kwargs)
-        
+        self.user = get_object_or_404(User, username=self.kwargs['username'])
+        context['group_list'] = Group.objects.filter(user=self.user)
         return context
