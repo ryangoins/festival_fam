@@ -23,16 +23,15 @@ class AddUser(CreateView):
 
 class UpdateProfile(UpdateView):
     model = UserProfile
-    fields = ['profile_pic','user', 'bio', 'twitter', 'facebook', 'snapchat']
+    fields = ['profile_pic', 'bio', 'twitter', 'facebook', 'snapchat']
     template_name = 'accounts/update_profile.html'
 
 class ProfileDetail(DetailView):
-    model = UserProfile
+    model = User
     template_name = 'accounts/profile.html'
 
     def get_context_data(self, **kwargs):
     # Call the base implementation first to get a context
         context = super(ProfileDetail, self).get_context_data(**kwargs)
-        self.user = get_object_or_404(User, username=self.kwargs['username'])
-        context['group_list'] = Group.objects.filter(user=self.user)
+        context['group_list'] = Group.objects.filter(user=self.kwargs['pk'])
         return context

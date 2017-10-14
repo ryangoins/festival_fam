@@ -7,17 +7,17 @@
         <div class="col-md-6">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <p>{{ object.user.first_name }} {{ object.user.last_name }}</p>
+                    <p>{{ object.first_name }} {{ object.last_name }}</p>
                     <h4>Bio</h4>
-                    <p>{{ object.bio }}</p>
+                    <p>{{ object.userprofile.bio }}</p>
                     <h3>Social Media</h3>
-                    {{ object.twitter }}
+                    {{ object.userprofile.twitter }}
                 </div>
             </div>
             <div class="panel panel-default">
                 <div class="panel-body">
                     {% for group in group_list %}
-                        {{ group.familygroup.event.name }}
+                        <h2>{{ group.familygroup.group }}</h2> - <em>{{ group.familygroup.event.name }} {{group.familygroup.event.start_date|date:"o" }}</h3>
                     {% endfor %}
                 </div>
             </div>
