@@ -54,36 +54,37 @@
                 </div>
             </div>
         </div>
-
-        <div class="col-md-6">
-            <img class="img-responsive" src="{{ group.familygroup.event.cover_photo.url }}">
+        <div class="col-md-9">
+            <img class="img-responsive event_image" src="{{ group.familygroup.event.cover_photo.url }}">
             <div class="event-title text-center">
-                <h1>{{ group.familygroup.event.name }} {{ group.familygroup.event.start_date|date:"Y" }} <br/> The <em>{{ group.name }}</em> Fam </h1>
+                <h1>{{ group.familygroup.event.name }} {{ group.familygroup.event.start_date|date:"Y" }} The <em>{{ group.name }}</em> Fam </h1>
             </div>
-            {% block primary_content %}
-            {% endblock %}
-        </div>
-        <div class="col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <p><strong>The Fam:</strong></p>
+            <div class="col-md-8 primary_content">
+                {% block primary_content %}
+                {% endblock %}
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <p><strong>The Fam:</strong></p>
 
-                    {% for member in members %}
-                        <span><img class="medium-avatar" src="{{ member.userprofile.profile_pic.url}}"></span>
-                    {% endfor %}
+                        {% for member in members %}
+                            <span><img class="medium-avatar" src="{{ member.userprofile.profile_pic.url}}"></span>
+                        {% endfor %}
 
+                    </div>
                 </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <p><strong>About:</strong><p>
-                    <p>{{ group.familygroup.description }}</p>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <p><strong>About:</strong><p>
+                        <p>{{ group.familygroup.description }}</p>
+                    </div>
                 </div>
-            </div>
-            <h2>Countdown</h2>
-            <hr>
-            <h3>{{ event.start_date|timeuntil }} </h3> <h4>and you're back with the fam!</h4>
+                <h2>Countdown</h2>
+                <hr>
+                <h3>{{ event.start_date|timeuntil }} </h3> <h4>and you're back with the fam!</h4>
 
+            </div>
         </div>
     </div>
 </div>
