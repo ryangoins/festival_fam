@@ -7,7 +7,7 @@
 <li><a href="{% url 'families:detail' group_pk %}">Discussion</a></li>
 <li><a href="{% url 'families:todo:todo-lists' group_pk %}">Group Gear</a></li>
 <li><a href="{% url 'families:meal_list' group_pk %}">Meal Planning</a></li>
-<li class="active"><a href="{% url 'families:todo:todo-mine' group_pk %}">My Gear</a></li>
+<li><a href="{% url 'families:todo:todo-mine' group_pk %}">My Gear</a></li>
 <li><a href="{% url 'families:festivals:event_info' group_pk=group_pk event_slug=event.slug %}">Festival Info</a></li>
 
 {% endblock nav %}
@@ -39,7 +39,7 @@
         // Initially hide the Add Task form
         $('#AddTask').hide();
 
-         //toggle slide to show the Add Task form when link clicked
+        //  toggle slide to show the Add Task form when link clicked
         $('#slideToggle').click(function(){
             $(this).siblings('#AddTask').slideToggle();
         });
@@ -58,10 +58,9 @@
 
         {# Only show task adder if viewing a proper list #}
         {% if list_slug != "mine" %}
-             <h2 style="margin-bottom:0px;" id="slideToggle" >&rarr; Click to add task &larr;</h2>
-
+        <h2 style="btn" id="slideToggle" >&rarr; Add New Item&larr;</h2>
              <div id="AddTask">
-        	    <table class="nocolor" border="0" cellspacing="5" cellpadding="5">
+        	    <!-- <table class="table">
         	       <tr>
         	           <td>{{ form.title.errors }}</td>
         	           <td>{{ form.due_date.errors }}</td>
@@ -71,7 +70,6 @@
         	           <td><label for="id_price">Price: $</label> {{ form.price }}</td>
                        <td><label for="id_quantity">Quantity</label> {{ form.quantity }}</td>
         	           <td><label for="id_assigned">Assign to:</label> {{ form.assigned_to }}</td>
-        	           <td><label for="id_notify">Notify*:</label> <input type="checkbox" checked="checked" name="notify" value="1" id="notify"></td>
          	       </tr>
                    <!-- remove note field
         	       <tr>
@@ -82,6 +80,11 @@
                    -->
          	       </tr>
         	    </table>
+
+                <label for="id_title">Item:</label> {{ form.title }}
+                <label for="id_price">Price: $</label> {{ form.price }}
+                <label for="id_quantity">Quantity</label> {{ form.quantity }}
+                <label for="id_assigned">Assign to:</label> {{ form.assigned_to }}
 
                 <input type="hidden" name="priority" value="999" id="id_priority">
                 <input type="hidden" name="created_by" value="{{ request.user.id }}" id="id_created_by">

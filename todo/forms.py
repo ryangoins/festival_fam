@@ -34,7 +34,7 @@ class AddItemForm(ModelForm):
     )
 
     title = forms.CharField(
-        widget=forms.widgets.TextInput(attrs={'size': 35})
+        widget=forms.widgets.TextInput(attrs={'size': 100})
     )
 
     price = forms.DecimalField(
