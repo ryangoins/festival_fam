@@ -8,18 +8,18 @@
     <div class="row">
         <div class="navbar navbar-default navbar-fixed-top">
             <div class="container-fluid">
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav navbar-default">
                     {% block nav %}
 
                     {% endblock nav %}
-                    <img class = "top-avatar pull-right" src="{{ request.user.userprofile.profile_pic.url }}">
                 </ul>
+                <img class = "top-avatar pull-right" src="{{ request.user.userprofile.profile_pic.url }}">
             </div>
         </div>
     </div>
 
     <div class="row primary-content">
-        <div class ="col-md-3">
+        <div class ="col-md-3" >
         <!--------
             <div class="panel panel-default">
                 <div class="panel-body">
@@ -29,42 +29,63 @@
             </div>
 
         ------>
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <h4>{{ group.familygroup.event.start_date|date:"M d" }} - {{ group.familygroup.event.end_date|date }}</h4>
-                    <p>{{ group.familygroup.event.event_address.city }}, {{ group.familygroup.event.event_address.state }} </p>
+            <div>
+                <div class="panel">
+                    <!-- <div class="panel-body"> -->
+                        <h4>{{ group.familygroup.event.start_date|date:"M d" }} - {{ group.familygroup.event.end_date|date }}</h4>
+                        <p>{{ group.familygroup.event.event_address.city }}, {{ group.familygroup.event.event_address.state }} </p>
 
-                    <p><a href="{{ group.familygroup.event.registration_site }}">Buy Tickets</a> | <a href="">Parking Info</a>  | <a href="{{ group.familygroup.event.faq_site }}">F.A.Q</a> |</p>
-                    <p><a href="{{ event.venue_map }}">Map of The Venue</a></p>
+                        <p><a href="{{ group.familygroup.event.registration_site }}">Buy Tickets</a> | <a href="">Parking Info</a>  | <a href="{{ group.familygroup.event.faq_site }}">F.A.Q</a> |</p>
+                        <p><a href="{{ event.venue_map }}">Map of The Venue</a></p>
 
-                    <p><strong>Email: </strong>{{ group.familygroup.event.email }}</p>
-                    <!-- <p><strong>Phone: </strong></p> -->
+                        <p><strong>Email: </strong>{{ group.familygroup.event.email }}</p>
+                        <!-- <p><strong>Phone: </strong></p> -->
 
-                    <div class="social_links">
-                        <a href="{{ group.familygroup.event.snapchat }}"<i id="snapchat" class="fa fa-2x fa-snapchat-square " aria-hidden="true"></i></a>
-                        <a href="{{ group.familygroup.event.instagram }}"<i class="fa fa-2x fa-instagram instagram" aria-hidden="true"></i></a>
-                        <a href="{{ group.familygroup.event.facebook }}"<i class="fa fa-2x fa-facebook facebook" aria-hidden="true"></i></a>
-                        <a href="{{ group.familygroup.event.youtube }}"<i class="fa fa-2x fa-youtube youtube" aria-hidden="true"></i></a>
-                        <a href="{{ group.familygroup.event.twitter }}"<i class="fa fa-2x fa-twitter twitter" aria-hidden="true"></i></a>
+                        <div class="social_links">
+                            <a href="{{ group.familygroup.event.snapchat }}"<i id="snapchat" class="fa fa-2x fa-snapchat-square " aria-hidden="true"></i></a>
+                            <a href="{{ group.familygroup.event.instagram }}"<i class="fa fa-2x fa-instagram instagram" aria-hidden="true"></i></a>
+                            <a href="{{ group.familygroup.event.facebook }}"<i class="fa fa-2x fa-facebook facebook" aria-hidden="true"></i></a>
+                            <a href="{{ group.familygroup.event.youtube }}"<i class="fa fa-2x fa-youtube youtube" aria-hidden="true"></i></a>
+                            <a href="{{ group.familygroup.event.twitter }}"<i class="fa fa-2x fa-twitter twitter" aria-hidden="true"></i></a>
+                        </div>
+
+                        <p><strong>Download the App</strong></p>
+                        <a href="{{ group.familygroup.event.ios_app }}"><img src='/static/media/icons/appstore.svg'></a>
+                        <a href="{{ group.familygroup.event.android_app }}"><img width="135px;" src="/static/media/icons/googleplay.png"></a>
+                    <!-- </div> -->
+                </div>
+                <div>
+                    <h3>What can I bring?</h3>
+
+                    <div>
+                        <p><strong>Totems:</strong>{% if event.event_restrictions.totems %} Yes {% else %} No {% endif %}</p>
+                        <p><strong>Hydration Pack:</strong>{% if event.event_restrictions.hydration_pack %} Yes {% else %} No {% endif %}</p>
+                        <p><strong>Camping Stove:</strong>{% if event.event_restrictions.camping_stove %} Yes {% else %} No {% endif %}</p>
+
+                        <p>For information on other items, <br/>see the <a href="{{ event.faq_site }}">{{ event.name }} F.A.Q.</a>
                     </div>
-
-                    <p><strong>Download the App</strong></p>
-                    <a href="{{ group.familygroup.event.ios_app }}"><img src='/static/media/icons/appstore.svg'></a>
-                    <a href="{{ group.familygroup.event.android_app }}"><img width="135px;" src="/static/media/icons/googleplay.png"></a>
+                    <div>
+                        <p><strong>Beer:</strong>{% if event.event_restrictions.beer %} Yes {% else %} No {% endif %}</p>
+                        <p><strong>Wine:</strong>{% if event.event_restrictions.wine %} Yes {% else %} No {% endif %}</p>
+                        <p><strong>Liquor:</strong>{% if event.event_restrictions.liqour %} Yes {% else %} No {% endif %}</p>
+                        <hr>
+                        <p>{{ event.event_restrictions.alcohol_policy }}</p>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-9 border-left border-bottom">
             <img class="img-responsive event_image" src="{{ group.familygroup.event.cover_photo.url }}">
             <div class="event-title text-center">
                 <h1>{{ group.familygroup.event.name }} {{ group.familygroup.event.start_date|date:"Y" }} The <em>{{ group.name }}</em> Fam </h1>
             </div>
+            <hr>
             <div class="col-md-8 primary_content">
                 {% block primary_content %}
                 {% endblock %}
             </div>
             <div class="col-md-4">
-                <div class="panel panel-default">
+                <div class="panel">
                     <div class="panel-body">
                         <p><strong>The Fam:</strong></p>
 
@@ -83,7 +104,6 @@
                 <h2>Countdown</h2>
                 <hr>
                 <h3>{{ event.start_date|timeuntil }} </h3> <h4>and you're back with the fam!</h4>
-
             </div>
         </div>
     </div>

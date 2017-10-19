@@ -21,6 +21,34 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="comments">
+                <!-- <p><strong>Share Song:</strong></p>
+                    <script type="text/javascript">
+                        $(document).ready(function() {
+                            // changes color of logo
+                            $("#slideSCToggle").hover(function () {
+                                $(this).css("color", "#ff7700");
+                            },
+                            function () {
+                                $(this).css("color", "inherit");
+                            });
+                            $("#slideSPToggle").hover(function () {
+                                $(this).css("color", "#1ED760");
+                            },
+                            function () {
+                                $(this).css("color", "inherit");
+                            });
+                            // hides and shows url field
+                            $('#postUrl').hide();
+
+                            $('#slideSCToggle').click(function(){
+                                $('#postUrl').slideToggle();
+                            });
+                            $('#slideSPToggle').click(function(){
+                                $('#postUrl').slideToggle();
+                            });
+                        });
+                    </script>
+                    <p><i id="slideSCToggle" class="fa fa-2x fa-soundcloud" aria-hidden="true"></i>  <i id="slideSPToggle" class="fa fa-2x fa-spotify" aria-hidden="true"></i></p> -->
                 {% csrf_token %}
                 {{ form|crispy }}
             </div>
@@ -43,7 +71,7 @@
                     <img class = "medium-avatar float-left" src="{{ post.user.userprofile.profile_pic.url }}">
                 </div>
                 <div class="col-md-11">
-                    {{ post.user.username }}<br/>
+                    {{ post.user.first_name }} {{ post.user.last_name }} <br/>
                     {{ post.created_at|naturaltime }}
                 </div>
             </div>
@@ -51,6 +79,27 @@
             <div class="row">
                 <div class="col-md-12 post-body">
                     {{ post.post|urlize }}
+                    {% if post.get_link %}
+                        <a href="https://{{ post.get_link }}" data-iframely-url></a>
+                    {% endif %}
+                    <!-- {% if post.url %}
+                        {% if "soundcloud" in post.url %}
+                                  <div class="row">
+                                      <div class="col-sm-12 media-widget">
+                                            <iframe id="sc-widget" src="https://w.soundcloud.com/player/?url={{ post.url }}" width="100%" height="160" scrolling="no" frameborder="no"></iframe>
+                                      </div>
+                                  </div>
+                              {% elif "spotify" in post.url %}
+                                  <div class="row">
+                                      <div class="col-sm-12">
+                                          <div class='embed-container'>
+                                             <iframe src='https://embed.spotify.com/?uri={{ post.url }}&theme=white' width="300" height="80" frameborder='0' allowtransparency='true'></iframe>
+                                          </div>
+                                      </div>
+                                  </div>
+                          {% endif %}
+                      {% endif %} -->
+
                 </div>
             </div>
 

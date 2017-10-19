@@ -185,7 +185,8 @@ def create_meal(request , group_pk):
         form = CreateMealForm(request.POST, days=festival_days_tuple)
         ingredient_forms = CreateIngredientFormset(request.POST)
         # check whether it's valid:
-        if form.is_valid() and ingredient_forms.is_valid():
+        #add ingredient_forms.is_valid() to the if statement to get ingredients back
+        if form.is_valid():
             new_meal = form.save(commit=False)
             new_meal.group = Group.objects.get(pk=group_pk)
             new_meal.created_at = datetime.now()
@@ -193,10 +194,10 @@ def create_meal(request , group_pk):
             new_meal.save()
 
             #iterate through each form, associate it with the current meal, save
-            for ingredient_form in ingredient_forms:
-                new_ingredient = ingredient_form.save(commit=False)
-                new_ingredient.meal = new_meal
-                new_ingredient.save()
+            # for ingredient_form in ingredient_forms:
+            #     new_ingredient = ingredient_form.save(commit=False)
+            #     new_ingredient.meal = new_meal
+            #     new_ingredient.save()
 
             return HttpResponseRedirect(reverse('families:meal_list', args=(group_pk,)))
 

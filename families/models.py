@@ -29,6 +29,7 @@ class Meal(models.Model):
     instructions = models.TextField(blank=True, default='')
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, related_name="meal_created_by")
+    recipe_url = models.URLField()
 
     def __str__(self):
         return self.name
@@ -54,6 +55,14 @@ class Post(models.Model, Activity):
     group = models.ForeignKey(Group, related_name="post_group", null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, related_name="post_created_by")
+
+    #searches post for url 
+    def get_link(self):
+        if self.post and 'https://' in self.post:
+            return self.post.split('https://', 1)[1]
+        elif self.post and 'http://' in self.post:
+            return self.post.split('http://', 1)[1]
+        return None
 
 
 class Vehicle(models.Model):
