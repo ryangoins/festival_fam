@@ -14,7 +14,7 @@
 
 {% block primary_content %}
 
-   <h1>Todo Lists</h1>
+   <h1>Lists</h1>
     {% for list in list_list %}
         <h3><a href="{% url 'families:todo:todo-incomplete_tasks' group_pk=group.id list_id=list.id list_slug=list.slug %}">{{ list.name }}</a></h3>
 
