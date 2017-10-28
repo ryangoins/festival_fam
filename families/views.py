@@ -3,7 +3,7 @@ import hashlib
 from django.views.generic.edit import CreateView
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core.mail import EmailMessage
+from django.core.mail import send_mail, EmailMessage
 from django.core.urlresolvers import reverse
 from datetime import date, datetime, timedelta
 from django.http import HttpResponseRedirect
@@ -20,6 +20,7 @@ from accounts.models import UserProfile
 from django.contrib.auth.models import Group
 from families.forms import AddGroupMultiForm, CreateMealForm, CreateIngredientForm, CreatePostForm, CreateInviteForm
 from django.forms import formset_factory, modelformset_factory
+from django.template.loader import render_to_string
 
 # Create your views here.
 
@@ -61,7 +62,7 @@ def group_detail(request, group_pk=None):
 
                 email = EmailMessage(
                     'You were invited to a festival fam',
-                    'Joine the festival fam',
+                    'Join the new_invite.group festival fam <a href="https://localhost:8000/signup?token=new_invite.token">https://localhost:8000/signup?token=new_invite.token</a>',
                     'ryan.c.goins@gmail.com',
                     [new_invite.email],
                     headers = {'Reply-To': 'ryan.c.goins@gmail.com' }
@@ -87,7 +88,6 @@ def group_detail(request, group_pk=None):
         messages.add_message(request, messages.ERROR,
                                 'Please login')
         return HttpResponseRedirect(reverse('accounts:login',))
-
 
 def group_list(request, username):
     #for some reason if I change the username variable this doesn't work. can't figure it out.

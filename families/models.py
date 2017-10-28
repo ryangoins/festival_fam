@@ -28,7 +28,7 @@ class FamilyGroup(models.Model):
 #     date_left =
 
 class Invitations(models.Model):
-    email = models.CharField(blank=True, default='', max_length=255)
+    email = models.EmailField(blank=True, default='', max_length=255)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     created_at = models.DateTimeField()
     token = models.CharField(blank=True, default='', max_length=255)
