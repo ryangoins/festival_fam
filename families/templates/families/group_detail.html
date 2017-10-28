@@ -21,34 +21,6 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="comments">
-                <!-- <p><strong>Share Song:</strong></p>
-                    <script type="text/javascript">
-                        $(document).ready(function() {
-                            // changes color of logo
-                            $("#slideSCToggle").hover(function () {
-                                $(this).css("color", "#ff7700");
-                            },
-                            function () {
-                                $(this).css("color", "inherit");
-                            });
-                            $("#slideSPToggle").hover(function () {
-                                $(this).css("color", "#1ED760");
-                            },
-                            function () {
-                                $(this).css("color", "inherit");
-                            });
-                            // hides and shows url field
-                            $('#postUrl').hide();
-
-                            $('#slideSCToggle').click(function(){
-                                $('#postUrl').slideToggle();
-                            });
-                            $('#slideSPToggle').click(function(){
-                                $('#postUrl').slideToggle();
-                            });
-                        });
-                    </script>
-                    <p><i id="slideSCToggle" class="fa fa-2x fa-soundcloud" aria-hidden="true"></i>  <i id="slideSPToggle" class="fa fa-2x fa-spotify" aria-hidden="true"></i></p> -->
                 {% csrf_token %}
                 {{ form|crispy }}
             </div>

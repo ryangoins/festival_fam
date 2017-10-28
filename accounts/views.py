@@ -11,11 +11,24 @@ from .models import *
 from django.contrib.auth.models import Group
 from .forms import *
 
-def accept_group_invite(request, token):
+def invite_user(request):
 
-    invitation = get_object_or_404(models.invitation, token=token)
+    token = request.GET.get('token')
+    invitation = Invitations.objects.get(token=token)
+    group = invitation.group
+    familygroup = get_object_or_404(FamilyGroup, group_id=group.id)
+    event = familygroup.event
 
-    return render(request, '/accounts/signup.html', locals())
+    if User.objects.filter(email=invitation.email).exists():
+        user = get_object_or_404(User,email=invitation.email)
+        group.user_set.add(user)
+
+        return HttpResponseRedirect(reverse('families:detail', args=(group.pk,)))
+
+    else:
+
+        return render(request, 'accounts/signup.html')
+
 
 class AddUser(CreateView):
     form_class = AddUserMultiForm

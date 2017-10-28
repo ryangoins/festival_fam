@@ -112,7 +112,11 @@
                         <p><strong>The Fam:</strong></p>
 
                         {% for member in members %}
-                            <span><img class="medium-avatar" src="{{ member.userprofile.profile_pic.url}}"></span>
+                            {% if member.userprofile.profile_pic %}
+                                <span><img class="medium-avatar" src="{{ member.userprofile.profile_pic.url}}"></span>
+                            {% else %}
+                                <span><img class="medium-avatar" src="https://pbs.twimg.com/profile_images/1369149006/ronProfile_400x400.jpg"></span>
+                            {% endif %}
                         {% endfor %}
 
                     </div>
