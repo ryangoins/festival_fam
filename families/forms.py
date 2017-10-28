@@ -2,7 +2,7 @@ from django import forms
 from collections import OrderedDict
 from django.forms import ModelForm
 from betterforms.multiform import MultiModelForm
-from families.models import FamilyGroup, Ingredient, Meal, Post
+from families.models import FamilyGroup, Ingredient, Meal, Post, Invitations
 from django.contrib.auth.models import Group
 
 
@@ -19,6 +19,12 @@ class FamilyGroupForm(forms.ModelForm):
     class Meta:
         model = FamilyGroup
         exclude = ('created_at','date_joined', 'invite_reason', 'group',)
+
+class CreateInviteForm(forms.ModelForm):
+
+    class Meta:
+        model = Invitations
+        fields = ('email',)
 
 class AddGroupMultiForm(MultiModelForm):
     form_classes = OrderedDict((

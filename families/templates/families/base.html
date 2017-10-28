@@ -116,6 +116,13 @@
                         {% endfor %}
 
                     </div>
+                    <div>
+                        <form action="" method="post" prefix="invite">
+                        {% csrf_token %}
+                        {{ invite_form }}
+                        <button class="btn btn-primary btn-sm" type="submit">Invite</button>
+                        </form>
+                    </div>
                 </div>
                 <div class="panel panel-default">
                     <div class="panel-body">

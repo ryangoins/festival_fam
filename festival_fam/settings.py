@@ -31,6 +31,12 @@ ALLOWED_HOSTS = []
 
 LOGIN_REDIRECT_URL = '/' # It means home view
 
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'ryan.c.goins@gmail.com'
+EMAIL_HOST_PASSWORD = 'lyxznyxugvevvnnn'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_PORT = 587
 # Application definition
 
 INSTALLED_APPS = [

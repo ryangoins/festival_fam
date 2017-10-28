@@ -19,6 +19,21 @@ class FamilyGroup(models.Model):
     def get_absolute_url(self):
         return reverse('families:detail', kwargs={'group_pk': self.group_id})
 
+# class Membership(models.Model):
+#     user =
+#     group =
+#     membership_status =
+#     invitation_date =
+#     date_joined =
+#     date_left =
+
+class Invitations(models.Model):
+    email = models.CharField(blank=True, default='', max_length=255)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    created_at = models.DateTimeField()
+    token = models.CharField(blank=True, default='', max_length=255)
+    # expires_at = models.DateTimeField(blank=True, default='')
+
 class Meal(models.Model):
     name = models.CharField(blank=True, default='', max_length=255)
     time_choices = (('Breakfast', 'Breakfast'),('Lunch', 'Lunch'), ('Dinner', 'Dinner'))
@@ -56,7 +71,7 @@ class Post(models.Model, Activity):
     created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, related_name="post_created_by")
 
-    #searches post for url 
+    #searches post for url
     def get_link(self):
         if self.post and 'https://' in self.post:
             return self.post.split('https://', 1)[1]

@@ -1,7 +1,9 @@
 import calendar
+import hashlib
 from django.views.generic.edit import CreateView
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
 from datetime import date, datetime, timedelta
 from django.http import HttpResponseRedirect
@@ -13,10 +15,10 @@ from families.tables import MealTable
 from . import models
 from todo.models import List
 from festivals.models import Event
-from families.models import FamilyGroup, Meal, Ingredient, Post
+from families.models import FamilyGroup, Meal, Ingredient, Post, Invitations
 from accounts.models import UserProfile
 from django.contrib.auth.models import Group
-from families.forms import AddGroupMultiForm, CreateMealForm, CreateIngredientForm, CreatePostForm
+from families.forms import AddGroupMultiForm, CreateMealForm, CreateIngredientForm, CreatePostForm, CreateInviteForm
 from django.forms import formset_factory, modelformset_factory
 
 # Create your views here.
@@ -39,7 +41,8 @@ def group_detail(request, group_pk=None):
         # if this is a POST request we need to process the form data
         if request.method == 'POST':
             # create a form instance and populate it with data from the request:
-            form = CreatePostForm(request.POST)
+            form = CreatePostForm(request.POST, prefix='post')
+            invite_form = CreateInviteForm(request.POST, prefix='invite')
             # check whether it's valid:
             if form.is_valid():
                 new_post = form.save(commit=False)
@@ -48,12 +51,31 @@ def group_detail(request, group_pk=None):
                 new_post.user = request.user
                 new_post.save()
 
+            elif invite_form.is_valid():
+                new_invite = invite_form.save(commit=False)
+                new_invite.invitationid = 1
+                new_invite.group = Group.objects.get(pk=group_pk)
+                new_invite.created_at = datetime.now()
+                new_invite.token = hashlib.sha1(b'new_invite.email').hexdigest()
+                new_invite.save()
+
+                email = EmailMessage(
+                    'You were invited to a festival fam',
+                    'Joine the festival fam',
+                    'ryan.c.goins@gmail.com',
+                    [new_invite.email],
+                    headers = {'Reply-To': 'ryan.c.goins@gmail.com' }
+                )
+
+                email.send()
+
                 return HttpResponseRedirect(reverse('families:detail', args=(group_pk,)))
 
         # if a GET (or any other method) we'll create a blank form
         else:
             #the days tuple here is passed to the form and loaded as the choices for the day field
-            form = CreatePostForm()
+            form = CreatePostForm(prefix='post')
+            invite_form = CreateInviteForm(prefix='invite')
 
         posts = models.Post.objects.filter(group_id=group_pk).order_by('-created_at')
 
