@@ -19,6 +19,28 @@
     </div>
 
     <div class="row primary-content">
+        <div class="row primary-content">
+            <div class="col-md-12">
+                <img class="img-responsive event_image" src="{{ group.familygroup.event.cover_photo.url }}">
+                <div class="event-title text-center">
+                    <h1>{{ group.familygroup.event.name }} {{ group.familygroup.event.start_date|date:"Y" }} The <em>{{ group.name }}</em> Fam </h1>
+                </div>
+                <hr>
+            </div>
+            <!-- <div class="col-md-3">
+                <div class="panel">
+                    <div class="panel-body">
+                        <p><strong>The Fam:</strong></p>
+
+                        {% for member in members %}
+                            <span><img class="medium-avatar" src="{{ member.userprofile.profile_pic.url}}"></span>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div> -->
+        </div>
+
         <div class ="col-md-3" >
         <!--------
             <div class="panel panel-default">
@@ -75,11 +97,11 @@
             </div>
         </div>
         <div class="col-md-9 border-left border-bottom">
-            <img class="img-responsive event_image" src="{{ group.familygroup.event.cover_photo.url }}">
+            <!-- <img class="img-responsive event_image" src="{{ group.familygroup.event.cover_photo.url }}">
             <div class="event-title text-center">
                 <h1>{{ group.familygroup.event.name }} {{ group.familygroup.event.start_date|date:"Y" }} The <em>{{ group.name }}</em> Fam </h1>
             </div>
-            <hr>
+            <hr> -->
             <div class="col-md-8 primary_content">
                 {% block primary_content %}
                 {% endblock %}
