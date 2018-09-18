@@ -25,8 +25,9 @@ class AddItemForm(ModelForm):
         # print dir(self.fields['list'])
         # print self.fields['list'].initial
         self.fields['assigned_to'].queryset = User.objects.filter(groups__in=[task_list.group])
+        self.fields['assigned_to'].widget.attrs={'class': 'form-control'}
         self.fields['assigned_to'].label_from_instance = \
-            lambda obj: "%s (%s)" % (obj.get_full_name(), obj.username)
+            lambda obj: "%s" % (obj.get_short_name())
 
     due_date = forms.DateField(
         required=False,
@@ -34,13 +35,19 @@ class AddItemForm(ModelForm):
     )
 
     title = forms.CharField(
-        widget=forms.widgets.TextInput(attrs={'size': 35})
+        widget=forms.widgets.TextInput(attrs={'size': 50, 'class': 'form-control'})
     )
 
     price = forms.DecimalField(
         required=False,
-        widget=forms.widgets.NumberInput()
+        widget=forms.widgets.NumberInput(attrs={'size': 100,'class': 'form-control'})
     )
+
+    quantity = forms.IntegerField(
+        required=True,
+        widget=forms.widgets.NumberInput(attrs={'size': 20,'class': 'form-control'})
+    )
+
 
     purchase_url = forms.URLField(
         required = False,

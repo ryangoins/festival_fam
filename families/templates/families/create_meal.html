@@ -5,12 +5,10 @@
 {% block nav %}
 
     <li><a href="{% url 'families:detail' group_pk %}">Discussion</a></li>
-    <li><a href="#">The Plan</a></li>
-    <li class="active"><a href="{% url 'families:meal_list' group_pk %}">Meals</a></li>
     <li><a href="{% url 'families:todo:todo-lists' group_pk %}">Group Gear</a></li>
-    <li><a href="#">Personal Gear</a></li>
-    <li><a href="#">Festival Info</a></li>
-    <li><a href="#">Stay Safe</a></li>
+    <li class="active"><a href="{% url 'families:meal_list' group_pk %}">Meals</a></li>
+    <li><a href="{% url 'families:todo:todo-mine' group_pk %}">My Gear</a></li>
+    <li><a href="{% url 'families:festivals:event_info' group.pk group.familygroup.event.slug %}">Festival Info</a></li>
 
 {% endblock nav %}
 
@@ -20,13 +18,13 @@
     <hr>
         <form class="form-horizontal" action="" method="post">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <h3>Meal Details</h3>
                     <hr>
                     {% csrf_token %}
                     {{ form.as_p }}
                 </div>
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
                     <h3>Ingredients</h3>
                     <hr>
                     {{ ingredient_forms.management_form }}
@@ -34,10 +32,10 @@
                     <div id="ingredient-form-container">
                             {{ ingredient_form.as_p }}
                             {{ ingredient_form.id }}
-                            <!-- { crispy ingredient_form } -->
+                            <!-- { crispy ingredient_form }
                     </div>
                     {% endfor %}
-                </div>
+                </div> -->
             </div>
             <div class="row"
                 <p><button class="btn btn-primary btn-lg" type="submit">Add a Meal</button></p>

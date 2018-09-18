@@ -19,6 +19,21 @@ class FamilyGroup(models.Model):
     def get_absolute_url(self):
         return reverse('families:detail', kwargs={'group_pk': self.group_id})
 
+# class Membership(models.Model):
+#     user =
+#     group =
+#     membership_status =
+#     invitation_date =
+#     date_joined =
+#     date_left =
+
+class Invitations(models.Model):
+    email = models.EmailField(blank=True, default='', max_length=255)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    created_at = models.DateTimeField()
+    token = models.CharField(blank=True, default='', max_length=255)
+    # expires_at = models.DateTimeField(blank=True, default='')
+
 class Meal(models.Model):
     name = models.CharField(blank=True, default='', max_length=255)
     time_choices = (('Breakfast', 'Breakfast'),('Lunch', 'Lunch'), ('Dinner', 'Dinner'))
@@ -29,6 +44,7 @@ class Meal(models.Model):
     instructions = models.TextField(blank=True, default='')
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, related_name="meal_created_by")
+    recipe_url = models.URLField()
 
     def __str__(self):
         return self.name
@@ -54,6 +70,14 @@ class Post(models.Model, Activity):
     group = models.ForeignKey(Group, related_name="post_group", null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, related_name="post_created_by")
+
+    #searches post for url
+    def get_link(self):
+        if self.post and 'https://' in self.post:
+            return self.post.split('https://', 1)[1]
+        elif self.post and 'http://' in self.post:
+            return self.post.split('http://', 1)[1]
+        return None
 
 
 class Vehicle(models.Model):

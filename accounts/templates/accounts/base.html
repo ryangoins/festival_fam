@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <ul class="nav navbar-nav">
+                    {% block nav %}
+
+                    {% endblock nav %}
+                    <img class = "top-avatar pull-right" src="{{ request.user.userprofile.profile_pic.url }}">
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% block primary_content %}
+    {% endblock %}
+</div>
+
+{% endblock content %}

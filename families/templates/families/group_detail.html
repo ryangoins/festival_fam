@@ -8,18 +8,16 @@
 {% block nav %}
 
     <li class="active"><a href="{% url 'families:detail' group_pk %}">Discussion</a></li>
-    <li><a href="#">The Plan</a></li>
-    <li><a href="{% url 'families:meal_list' group_pk %}">Meals</a></li>
     <li><a href="{% url 'families:todo:todo-lists' group_pk %}">Group Gear</a></li>
-    <li><a href="{% url 'families:todo:todo-mine' group_pk %}">My List</a></li>
+    <li><a href="{% url 'families:meal_list' group_pk %}">Meal Planning</a></li>
+    <li><a href="{% url 'families:todo:todo-mine' group_pk %}">My Gear</a></li>
     <li><a href="{% url 'families:festivals:event_info' group_pk=group_pk event_slug=event.slug %}">Festival Info</a></li>
-    <li><a href="#">Stay Safe</a></li>
 
 {% endblock nav %}
 
 {% block primary_content %}
 
-<form action="" method="post">
+<form action="" method="post" prefix"post">
     <div class="row">
         <div class="col-sm-12">
             <div class="comments">
@@ -45,7 +43,7 @@
                     <img class = "medium-avatar float-left" src="{{ post.user.userprofile.profile_pic.url }}">
                 </div>
                 <div class="col-md-11">
-                    {{ post.user.username }}<br/>
+                    {{ post.user.first_name }} {{ post.user.last_name }} <br/>
                     {{ post.created_at|naturaltime }}
                 </div>
             </div>
@@ -53,6 +51,27 @@
             <div class="row">
                 <div class="col-md-12 post-body">
                     {{ post.post|urlize }}
+                    {% if post.get_link %}
+                        <a href="https://{{ post.get_link }}" data-iframely-url></a>
+                    {% endif %}
+                    <!-- {% if post.url %}
+                        {% if "soundcloud" in post.url %}
+                                  <div class="row">
+                                      <div class="col-sm-12 media-widget">
+                                            <iframe id="sc-widget" src="https://w.soundcloud.com/player/?url={{ post.url }}" width="100%" height="160" scrolling="no" frameborder="no"></iframe>
+                                      </div>
+                                  </div>
+                              {% elif "spotify" in post.url %}
+                                  <div class="row">
+                                      <div class="col-sm-12">
+                                          <div class='embed-container'>
+                                             <iframe src='https://embed.spotify.com/?uri={{ post.url }}&theme=white' width="300" height="80" frameborder='0' allowtransparency='true'></iframe>
+                                          </div>
+                                      </div>
+                                  </div>
+                          {% endif %}
+                      {% endif %} -->
+
                 </div>
             </div>
 

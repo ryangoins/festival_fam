@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-{% block content %}
+{% block primary_content %}
     <form class="form-horizontal" action="" method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button class="btn btn-primary btn-lg" type="submit">Create Your Fam</button>
     </form>
-{% endblock content %}
+{% endblock primary_content %}

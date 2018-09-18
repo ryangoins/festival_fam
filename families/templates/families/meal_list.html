@@ -5,12 +5,10 @@
 {% block nav %}
 
     <li><a href="{% url 'families:detail' group.pk %}">Discussion</a></li>
-    <li><a href="#">The Plan</a></li>
-    <li class="active"><a href="{% url 'families:meal_list' group.pk %}">Meals</a></li>
     <li><a href="{% url 'families:todo:todo-lists' group.pk %}">Group Gear</a></li>
-    <li><a href="#">Personal Gear</a></li>
-    <li><a href="#">Festival Info</a></li>
-    <li><a href="#">Stay Safe</a></li>
+    <li class="active"><a href="{% url 'families:meal_list' group.pk %}">Meal Planning</a></li>
+    <li><a href="{% url 'families:todo:todo-mine' group.pk %}">My Gear</a></li>
+    <li><a href="{% url 'families:festivals:event_info' group.pk group.familygroup.event.slug %}">Festival Info</a></li>
 
 {% endblock nav %}
 

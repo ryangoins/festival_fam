@@ -5,22 +5,16 @@
 {% block nav %}
 
 <li><a href="{% url 'families:detail' group_pk %}">Discussion</a></li>
-<li><a href="#">The Plan</a></li>
-<li><a href="{% url 'families:meal_list' group_pk %}">Meals</a></li>
 <li class="active"><a href="{% url 'families:todo:todo-lists' group_pk %}">Group Gear</a></li>
-<li><a href="{% url 'families:todo:todo-mine' group_pk %}">My List</a></li>
+<li><a href="{% url 'families:meal_list' group_pk %}">Meal Planning</a></li>
+<li><a href="{% url 'families:todo:todo-mine' group_pk %}">My Gear</a></li>
 <li><a href="{% url 'families:festivals:event_info' group_pk=group_pk event_slug=event.slug %}">Festival Info</a></li>
-<li><a href="#">Stay Safe</a></li>
 
 {% endblock nav %}
 
 {% block primary_content %}
 
-{% block title %}{{ list_title }} Todo Lists{% endblock %}
-
-   <h1>Todo Lists</h1>
-
-   <p>{{ item_count }} items in {{ list_count }} lists</p>
+   <h1>Lists</h1>
     {% for list in list_list %}
         <h3><a href="{% url 'families:todo:todo-incomplete_tasks' group_pk=group.id list_id=list.id list_slug=list.slug %}">{{ list.name }}</a></h3>
 
